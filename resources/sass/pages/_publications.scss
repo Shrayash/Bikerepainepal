@@ -1,0 +1,304 @@
+.publications-page{
+    background-color: $whiteColor;
+    .container{
+        .publications-page-heading{
+            padding: 80px 0 15px;
+            display: flex;
+            align-items: flex-end;
+            img{
+                margin-right: 40px;
+            }
+            h1{
+                //display: inline-block;
+                line-height: 45px;
+                margin-bottom: 0;
+            }
+        }
+        .about-smf-pubications{
+            border: 1px solid #E3DBDB;
+            border-radius: 3px;
+            padding: 50px 50px 40px;
+            margin-bottom: 60px;
+            h5{
+                @include formatFont($primaryFont, 28px, 400, 36px, #0090A7CF);
+            }
+            p{
+                @include formatFont($primaryFont, 20px, 400, 28px, #242424BF);
+            }
+        }
+        .latest-publications{
+            margin-bottom: 100px;
+            h5{
+                @include formatFont($primaryFont, 28px, 400, 70px, #FFFFFFCF);
+                background-color: #0090A7CC;
+                padding-left: 40px;
+                border: 1px solid #0090A7CC;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                margin-bottom: 0;
+            }
+            .latest-publication-box{
+                box-shadow: 0px 1px 2px #00000029;
+                padding: 40px 40px 30px;
+                display: flex;
+                justify-content: space-between;
+                align-items: start;
+                .title-section{
+                    display: flex;
+                    justify-content: start;
+                    align-items: start;
+                    img{
+                        width: 63px;
+                        height: 68px;
+                        margin-right: 20px;
+                    }
+                    div.text{
+                        a{
+                            text-decoration: none;
+                            p{
+                                @include formatFont($primaryFont, 24px, 500, 32px, #0090A7CF);
+                                margin-bottom: 0;
+                            }
+                        }
+                        p.authors{
+                            span.designation{
+                                @include formatFont($primaryFont, 20px, 500, 28px, #242424BF);
+                            }
+                            span.name{
+                                @include formatFont($primaryFont, 20px, 400, 38px, #242424BF);
+                            }
+                        }
+                    }
+                }
+                .download-section{
+                    margin-top: 50px;
+                    a{
+                        text-decoration: none;
+                        .download-button{
+                            min-width: 143px;
+                            border: 2px solid #0090A7;
+                            border-radius: 9px;
+                            padding: 4px 15px 3px;
+                            transition: all 0.3s ease-out;
+                            &:hover{
+                                background-color: #8ae2f052;
+                            }
+                            span{
+                                @include formatFont($primaryFont, 18px, 400, 24px, #0090A7BF);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .bottom-box{
+            margin-bottom: 120px;
+            .popular-publications{
+                padding-right: 30px;
+                h5{
+                    @include formatFont($primaryFont, 28px, 400, 36px, #C84229);
+                }
+                ul{
+                    list-style: none;
+                    padding-left: 0;
+                    li{
+                        padding: 24px 0;
+                        border-bottom: 2px solid #8B8E8EF5;
+                        a{
+                            text-decoration: none;
+                            @include formatFont($primaryFont, 24px, 400, 32px, #8B8E8EF5);
+                        }
+                    }
+                }
+            }
+            .specialities-box{
+                box-shadow: 0px 3px 6px #00000029;
+                border: 1px solid #BECAC9D4;
+                border-radius: 28px;
+                padding: 20px 40px;
+                @media(max-width:1200px){
+                    margin-top: 40px;
+                }
+                h5{
+                    @include formatFont($primaryFont, 28px, 400, 36px, #C84229);
+                }
+                a{
+                    text-decoration: none;
+                    display: inline-block;
+                    @include formatFont($primaryFont, 20px, 500, 34px, #8B8E8EF5);
+                    padding-left: 10px;
+                    margin: 10px 0 15px;
+                    &:hover{
+                        color: #C84229;
+                    }
+                }
+                a.green{
+                    border-left: 7px solid #13B34E;
+                }
+                a.blue{
+                    border-left: 7px solid #5F3EE6;
+                }
+                a.yellow{
+                    border-left: 7px solid #F4FA34;
+                }
+                a.red{
+                    border-left: 7px solid #EA1818;
+                }
+                a.pink{
+                    border-left: 7px solid #CE1FE9;
+                }
+                a.grey{
+                    border-left: 7px solid #B3B6B4;
+                }
+            }
+        }
+    }
+}
+
+.publications-page-line{
+    height: 2px;
+    width: 100%;
+    background-color: #0090A7;
+}
+
+.publications-page-line.blue{
+    height: 2px;
+    background-color: #0090A7;
+    box-shadow: 0px 3px 6px #00000029;
+    margin-bottom: 60px;
+}
+.publications-page-line.red{
+    background-color: #C84229;
+}
+
+@media(max-width:1360px){
+    .publications-page{
+        .container{
+            .publications-page-heading{
+                padding: 60px 0 15px;
+            }
+            .about-smf-pubications{
+                padding: 40px 30px 30px;
+                margin-bottom: 50px;
+            }
+            .latest-publications{
+                margin-bottom: 70px;
+            }
+            .bottom-box{
+                margin-bottom: 70px;
+            }
+        }
+    }
+    .publications-page-line.blue{
+        margin-bottom: 45px;
+    }
+}
+@media(max-width:991px){
+    .publications-page{
+        .container{
+            .publications-page-heading{
+                padding: 50px 0 15px;
+                img{
+                    width: auto;
+                    height: 70px;
+                    margin-right: 20px;
+                }
+            }
+            .about-smf-pubications{
+                padding: 30px 20px 20px;
+                margin-bottom: 50px;
+                h5{
+                    font-size: 24px;
+                }
+                p{
+                    font-size: 18px;
+                }
+            }
+            .latest-publications{
+                margin-bottom: 50px;
+                h5{
+                    @include formatFont($primaryFont, 24px, 400, 50px, #FFFFFFCF);
+                }
+                .latest-publication-box{
+                    padding: 30px 30px 20px;
+                    flex-direction: column;
+                    .title-section{
+                        img{
+                            width: 50px;
+                            height: 55px;
+                            margin-right: 15px;
+                            @media(max-width:450px){
+                                display: none;
+                            }
+                        }
+                        div.text{
+                            a{
+                                p{
+                                    @include formatFont($primaryFont, 20px, 500, 28px, #0090A7CF);
+                                }
+                            }
+                            p.authors{
+                                span.designation{
+                                    font-size: 18px;
+                                }
+                                span.name{
+                                    font-size: 18px;
+                                }
+                            }
+                        }
+                    }
+                    .download-section{
+                        margin-top: 0px;
+                    }
+                }
+            }
+            .bottom-box{
+                margin-bottom: 60px;
+                .popular-publications{
+                    padding-right: 0px;
+                    h5{
+                        font-size: 24px;
+                    }
+                    ul{
+                        li{
+                            padding: 15px 0;
+                            border-bottom: 2px solid #8B8E8EF5;
+                            a{
+                                text-decoration: none;
+                                @include formatFont($primaryFont, 20px, 400, 28px, #8B8E8EF5);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .publications-page-line.blue{
+        margin-bottom: 45px;
+    }
+}
+@media(max-width:767px){
+    .publications-page{
+        .container{
+            .publications-page-heading{
+                padding: 40px 0 15px;
+                h1{
+                    line-height: 35px;
+                }
+            }
+            .about-smf-pubications{
+                padding: 20px 10px 10px;
+                margin-bottom: 50px;
+            }
+            .latest-publications{
+                margin-bottom: 40px;
+            }
+            .bottom-box{
+                margin-bottom: 50px;
+            }
+        }
+    }
+    .publications-page-line.blue{
+        margin-bottom: 40px;
+    }
+}

@@ -1,0 +1,78 @@
+.all-list-page{
+    h1{
+        padding: 90px 0 40px;
+        margin-bottom: 0;
+    }
+    h3{
+        margin: 90px 0 50px;
+    }
+    .main-list-boxes{
+        padding-bottom: 100px;
+        .all-alphabetical-box-wrapper{
+            margin-bottom: 50px;
+            .all-alphabetical-box{
+                height: 100%;
+            }
+        }
+    }
+}
+
+@media(max-width: 1601px){
+    .all-list-page{
+        h1{
+            padding: 70px 0 30px;
+        }
+        h3{
+            margin: 60px 0 40px;
+        }
+        .main-list-boxes{
+            padding-bottom: 80px;
+        }
+    }
+}
+@media(max-width: 1360px){
+    .all-list-page{
+        h1{
+            padding: 50px 0 30px;
+        }
+        h3{
+            margin: 60px 0 30px;
+        }
+        .main-list-boxes{
+            padding-bottom: 60px;
+        }
+    }
+}
+@media(max-width: 991px){
+    .all-list-page{
+        h1{
+            padding: 40px 0 25px;
+        }
+        h3{
+            margin: 40px 0 30px;
+        }
+        .main-list-boxes{
+            padding-bottom: 40px;
+            .all-alphabetical-box-wrapper{
+                margin-bottom: 30px;
+            }
+        }
+    }
+}
+@media(max-width: 767px){
+    .all-list-page{
+        h1{
+            padding: 30px 0 20px;
+            margin-bottom: 0;
+        }
+        h3{
+            margin: 40px 0 30px;
+        }
+        .main-list-boxes{
+            padding-bottom: 20px;
+            .all-alphabetical-box-wrapper{
+                margin-bottom: 30px;
+            }
+        }
+    }
+}

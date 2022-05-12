@@ -1,0 +1,148 @@
+.login-page{
+    .login-page-container{
+        .login-main-section{
+            padding: 50px 0;
+            .login-main-box{
+                h2{
+                    @include formatFont($primaryFont, 36px, 400, 48px,#0293AAE6 );
+                    margin-bottom: 20px;
+                }
+                form{
+                    .input-box{
+                        margin-bottom: 15px;
+                            .input-password-toggler{
+                                i{
+                                    color: #C0E1E6;
+                                  
+                                }
+                            }
+                         .input-password-toggler.show{
+                                i{
+                                    color: $blueSearchBoxColor;
+                                }
+
+                            }
+                    }
+                    .remember-password-box{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin: 15px 0 10px;
+                        .remember-me{
+                            .tick-box{
+                                margin-right: 5px;
+                            }
+                            label{
+                                margin-bottom: 0;
+                            }
+                        }
+                        .forget-password{
+                            a{
+                                text-decoration: none;
+                                @include formatFont($primaryFont, 20px, 500, 26px,#33BBD1 );
+                            }
+                        }
+                    }
+                }
+                .already{
+                    text-align: center;
+                    margin-bottom: 30px;
+                    @include formatFont($primaryFont, 20px, 400, 26px,#006B7CE6 );
+                    a{
+                        text-decoration: none;
+                        @include formatFont($primaryFont, 20px, 500, 26px,#33BBD1 );
+                    }
+                }
+                .or{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 30px;
+                    .or-line{
+                        width: 44%;
+                        height: 2px;
+                        background-color: #707070;
+                        //border: 1px solid #707070;
+                    }
+                    span{
+                        @include formatFont($primaryFont, 18px, 500, 24px, #0293AA );
+                    }
+                }
+            }
+        }
+    }
+}
+
+.form-paragraph{
+    @include formatFont($primaryFont, 20px, 400, 24px, #6A6161E0 );
+}
+
+.wrong-pw{
+    background-color: #FF4D62;
+    border-radius: 6px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    p{
+        @include formatFont($primaryFont, 17px, 400, 24px, #FFFFFFBA );
+        margin-bottom: 0;
+    }
+} 
+
+
+@media(max-width: 991px){
+    .login-page{
+        .login-page-container{
+            justify-content: center;
+            .login-image-box{
+                display: none;
+            }
+            .login-main-section{
+                width: 60%;
+                .login-main-box{
+                    width: 100%;
+                    h2{
+                        @include formatFont($primaryFont, 32px, 400, 40px,#0293AAE6 );
+                    }
+                }
+            }
+        }
+    }
+}
+@media(max-width: 767px){
+    .login-page{
+        .login-page-container{
+            .login-main-section{
+                padding: 30px 0 40px;
+                width: 90%;
+            }
+        }
+    }
+}
+
+@media(max-width: 400px){
+    .login-page{
+        .login-page-container{
+            .login-main-section{
+                .login-main-box{
+                    form{
+                        .remember-password-box{
+                            flex-direction: column;
+                            justify-content: start;
+                            align-items: flex-start;
+                            .forget-password{
+                                margin-top: 10px;
+                                a{
+                                    @include formatFont($primaryFont, 18px, 500, 26px,#33BBD1 );
+                                }
+                            }
+                        }
+                        .send-code-btn{
+                            padding-left: 20px;
+                            padding-right: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

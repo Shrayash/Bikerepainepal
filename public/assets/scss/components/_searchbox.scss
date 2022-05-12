@@ -1,0 +1,108 @@
+.searchbox{
+    border: 1.5px solid $blueSearchBoxColor;
+    border-radius: 26px;
+    background-color: $whiteColor;
+    display: inline-block;
+    input[type=text]{
+        @include formatFont($primaryFont, 20px, 400, 24px, $greyColorone);
+        border: none;
+        padding: 10px 10px 10px 24px;
+        border-radius: 26px;
+        outline: none;
+        @media (max-width: 400px) {
+         width: calc(100% - 71px);   
+        }
+        &::placeholder{
+            color: $greyFooterColor;
+        }
+    }
+    .search-icon-box{
+        background-color: $blueSearchBoxColor;
+        display: inline-block;
+        border-bottom-right-radius: 26px;
+        border-top-right-radius: 26px;
+        cursor: pointer;
+        padding: 11.5px 24px;
+        i{
+            color: $whiteColor;
+            font-size: 20px;
+        }
+    }
+}
+
+.header-search-bar-wrapper{
+    display: inline-block;
+    height: 100%;
+    @include flexCenter();
+    .header-search-bar{
+        display: inline-block;
+        @include flexCenter();
+        position: relative;
+        width: 30px;
+        height: 35px;
+        transition: all 0.5s ease-out;
+        border-radius: 26px;
+        border: 1px solid $whiteColor;
+        input[type=text]{
+            position: absolute;
+            top: 0px;
+            left: 0;
+            width: calc(100% - 30px);
+            @include formatFont($primaryFont, 18px, 400, 18px, $greyColorone);
+            border-top-left-radius: 26px;
+            border-bottom-left-radius:26px;
+            border: none;
+            padding: 5px 10px 5px 15px;
+            outline: none;
+            &::placeholder{
+                color: $greyFooterColor;
+            }
+        }
+        span.search-from-header-icon-toggler, button.search-from-header-icon-button{
+            display: inline-block;
+            position: absolute;
+            top: 0px;
+            right: 0;
+            height: 33.5px;
+            padding: 4px 5px 4px 10px;
+            background-color: $whiteColor;
+            border-top-right-radius: 26px;
+            border-bottom-right-radius:26px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.5s ease-out;
+            i{
+                color: $greyColorthree;
+            }
+        }
+        button.search-from-header-icon-button{
+            display: none;
+        }
+    }
+    .header-search-bar.active{
+        width: 230px;
+        border: 1px solid #707070;
+        button.search-from-header-icon-button, span.search-from-header-icon-toggler{
+            padding: 4px 20px 4px 15px;
+            background-color: $blueButtonColor;
+            i{
+                color: $whiteColor;
+            }
+        }
+    }
+    .search-border{
+        background-color: #707070;
+        width: 1px;
+        height: 100%;
+        margin-right: 20px;
+        //transition: all 0.5s ease-out;
+    }
+    .search-border.active{
+        transform: rotate(-90deg);
+        position: absolute;
+        margin-top: 50px;
+        margin-right: 0;
+        height: 230px;
+    }
+}
+
