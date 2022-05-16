@@ -17,7 +17,12 @@ class UserController extends Controller
      * Create a new controller instance.
      *
     //  * @return void
+
     //  */
+    public function AuthRouteAPI(Request $request){
+        return $request->user();
+     }
+  
     public function __construct()
     {
         $this->middleware('auth');

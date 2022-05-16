@@ -30,9 +30,9 @@ Route::get('/manageusers','UserController@create')->name('admin.manageusers');
 Route::post('/manageusers/store/{id}','UserController@store')->name('user.store');
 
 //.........................GENERAL SECTION..............................................//
-Route::get('error',function(){
-    return view('error');
-});
+// Route::get('error',function(){
+//     return view('error');
+// });
 Route::get('/', 'CategoryController@home')->name('index');
 Route::get('/categories/all','CategoryController@allname')->name('allname');
 Route::get('/categories','CategoryController@index')->name('category.menu');
@@ -89,9 +89,5 @@ Route::post('/doctor/social_media/store','SiteController@store')->name('doctor_m
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('facebook', function () {
-    return view('facebook');
-});
-Route::get('auth/facebook', 'Auth\FacebookController@redirectToFacebook');
-Route::get('auth/facebook/callback', 'Auth\FacebookController@handleFacebookCallback');
+
 
