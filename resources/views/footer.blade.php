@@ -1,7 +1,7 @@
 <footer class="footer">
     <div class="container">
         <p class="text-center">
-            Copyright Abhiyantrik Technology 2020. All Rights Reserved.
+            Copyright Bike Repairs Nepal. All Rights Reserved.
         </p>
     </div>
 </footer>

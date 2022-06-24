@@ -1,5 +1,5 @@
 
-                <div class="admin-page-right manage-site-page">
+               <div class="admin-page-right manage-site-page">
                     <h3>Site Settings</h3>
 
                     <div class="site-settings-section">

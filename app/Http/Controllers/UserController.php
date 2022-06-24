@@ -73,20 +73,20 @@ class UserController extends Controller
         $current_stat=(int)$user->status;
         if($userstat === $current_stat){
         }else{
-            Notification::send($user, new StatusChange($user));
+            
         }
         
         $model = DB::table('model_has_roles')->where('model_id', '=', $id)->get();
          if ($model === null) {
                 $user->assignRole($request->get('usertype'));
-                Notification::send($user, new RolesChange($user));
+                // Notification::send($user, new RolesChange($user));
             } else {
                 $previous_roles=$user->getRoleNames();
                 $previous_role=$previous_roles->get(0);
                 $current_role=$request->get('usertype');
                 if($previous_role===$current_role){}else{
                 $user->syncRoles($current_role);
-                    Notification::send($user, new RolesChange($user));    
+                    // Notification::send($user, new RolesChange($user));    
             }
         }
     

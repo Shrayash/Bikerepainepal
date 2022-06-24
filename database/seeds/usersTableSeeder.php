@@ -15,7 +15,7 @@ class usersTableSeeder extends Seeder
             [
                 'name'=>'SuperAdmin',
                 'status'=>1,
-                'email'=>'abhiyantriktech@gmail.com',
+                'email'=>'bikerepairnepal@gmail.com',
                 'verifyToken'=>NULL,
                 'password'=>Hash::make('test123!')
             ]
