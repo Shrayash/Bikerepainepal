@@ -23,10 +23,10 @@ Route::get('seed','SeedController@autoSeed');
 Route::get('verifyEmail', 'Auth\RegisterController@verify')->name('verifyEmail');
 Route::get('verify/{email}/{verifyToken}','Auth\RegisterController@emailsent')->name('sendEmail');
 
-Route::get('/manageusers','UserController@create')->name('admin.manageusers')->middleware('role:superadmin');
+// Route::get('/manageusers','UserController@create')->name('admin.manageusers')->middleware('role:superadmin');
 Route::post('/manageusers/store/{id}','UserController@store')->name('user.store')->middleware('role:superadmin');
 
-Route::get('/manageusers','UserController@create')->name('admin.manageusers');
+// Route::get('/manageusers','UserController@create')->name('admin.manageusers');
 Route::post('/manageusers/store/{id}','UserController@store')->name('user.store');
 
 //.........................GENERAL SECTION..............................................//
@@ -55,6 +55,15 @@ Route::get('/admin/index','VideoController@index')->name('admin.index')->middlew
 //user deletion
 Route::get('manageusers/delete/{id}', 'UserController@destroy')->name('user.delete')->middleware('role:superadmin');
 
+//customer CRUD
+Route::get('/customer/register_cust','CustomerController@create')->name('customer.register_cust')->middleware('role:superadmin');
+Route::post('/customer/store','CustomerController@store')->name('customer.store')->middleware('role:superadmin');
+Route::get('/customer/show/{id}','CustomerController@show')->name('customer.show')->middleware('role:superadmin');
+Route::get('/customer/edit/{id}','CustomerController@edit')->name('customer.edit')->middleware('role:superadmin');
+Route::post('/customer/update/{id}', 'CustomerController@update')->name('customer.update')->middleware('role:superadmin');
+
+//servicing CRUD
+Route::post('/customer/service/update/{id}','ServiceController@update')->name('service.start')->middleware('role:superadmin');
 
 //video CRUD
 Route::get('/video/create','VideoController@create')->name('video.create')->middleware('role:admin');

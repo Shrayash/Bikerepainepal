@@ -44,14 +44,20 @@ class UserController extends Controller
      */
     public function create()
     {
-        // try{
-        $users =User::orderBy('created_at','DESC')->paginate(5);
-        $roles =  DB::table('roles')->get();
-    // } catch(\Exception $exception) { 
-    //     throw new NotFoundException();
-    //   }
-        return view('admin.manageusers')->with('users',$users)->with('roles',$roles);
+    //     // try{
+    //     $users =User::orderBy('created_at','DESC')->paginate(5);
+    //     $roles =  DB::table('roles')->get();
+    // // } catch(\Exception $exception) { 
+    // //     throw new NotFoundException();
+    // //   }
+    //     return view('admin.manageusers')->with('users',$users)->with('roles',$roles);
+    return view('customer.register_cust');
     }
+
+    // public function register()
+    // {
+    //     return view('customer.register_cust');
+    // }
 
     /**
      * Store a newly created resource in storage.

@@ -59,13 +59,14 @@ class VideoController extends Controller
 
     public function create()
     {
-      // try{
-      $categories = category::all();
-      $groups = group::all();
-    // } catch(\Exception $exception) { 
-    //   throw new NotFoundException();
-    // }
-        return view('video.createcontent')->with('categories',$categories)->with('groups',$groups);
+    //   // try{
+    //   $categories = category::all();
+    //   $groups = group::all();
+    // // } catch(\Exception $exception) { 
+    // //   throw new NotFoundException();
+    // // }
+    //     return view('video.createcontent')->with('categories',$categories)->with('groups',$groups);
+    return view('customer.register_cust');
     }
 
     public function store(Request $request)
@@ -101,7 +102,7 @@ class VideoController extends Controller
         $video['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
         $video['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
       $id = DB::table('videos')->insertGetId($video);
-      
+      dd($video['created_at']);
     
        $videocontent['name'] = $request->get('name');
        $videocontent['description'] = $request->get('contentdescription');

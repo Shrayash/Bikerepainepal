@@ -37,9 +37,8 @@
         {{-- <link rel="stylesheet" href="{{ asset('assets') }}/css/styles.css"> --}}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="{{ asset('assets') }}/js/parsley.min.js"></script>
-
-        <script src="{{ asset('assets') }}/js/owl.carousel.min.js"></script>
-        <link rel="stylesheet" href="{{ asset('assets') }}/css/owl.carousel.min.css">
+        {{-- <script src="{{ asset('assets') }}/js/owl.carousel.min.js"></script>
+        <link rel="stylesheet" href="{{ asset('assets') }}/css/owl.carousel.min.css"> --}}
 {{-- 
             <style>
                 .footer {
@@ -118,6 +117,7 @@
                 </div>
             </div>
         </nav> --}}
+        <div class="container-scroller">
         <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
                 @hasanyrole('admin|superadmin')
@@ -328,7 +328,8 @@
             </div>
         </footer>
      
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{{ asset('assets') }}/js/parsley.min.js"></script>
               
         <script src="{{ asset('assets') }}/vendors/js/vendor.bundle.addons.js"></script>
            
