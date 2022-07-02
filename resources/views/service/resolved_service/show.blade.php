@@ -15,7 +15,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <h3 class="font-weight-semibold">Resolved Services</h3>
-                                <a href="dashboard.html"><button type="button" class="btn btn-primary btn-fw">Back to
+                                <a href="{{ route('admin.index') }}"><button type="button" class="btn btn-primary btn-fw">Back to
                                         Dashboard</button></a>
                             </div>
 
@@ -33,99 +33,23 @@
                                     <table class="table table-hover">
                                         <thead class="thead-dark">
                                             <tr>
+                                                <th>Invoice No</th>
                                                 <th>Name</th>
                                                 <th>Vehicle No.</th>
                                                 <th>Mobile No.</th>
-                                                <th>Total Amount</th>
-                                                <th>Delivery</th>
+                                                <th>Service Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($records as $rec )
                                             <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
+                                                <td>{{$rec->invoice_no}}</td>
+                                                <td>{{$rec->frst_name}}{{$rec->last_name}}</td>
+                                                <td>{{$rec->v_no}}</td>
+                                                <td>{{$rec->mobile_no}}</td>
+                                                <td>{{$rec->updated_at}}</td> 
                                             </tr>
-                                            <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Waiba Lung Sherpa</td>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>9841203456</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-
+                                            @endforeach
 
                                         </tbody>
                                     </table>

@@ -25,4 +25,9 @@ class customer_vehicles extends Model
     return $this->hasMany('App\service_activities','vehicle_id');
     }
 
+    public function v_record()
+    {
+    return $this->hasMany('App\service_record','vehicle_id');
+    }
+
 }

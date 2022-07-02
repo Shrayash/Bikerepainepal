@@ -93,7 +93,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <h3 class="font-weight-semibold">Register New Customer</h3>
-                                <a href="dashboard.html"><button type="button" class="btn btn-primary btn-fw">Back to
+                                <a href="{{ route('admin.index') }}"><button type="button" class="btn btn-primary btn-fw">Back to
                                         Dashboard</button></a>
                             </div>
                             <form method="POST" class="form-sample" action="{{ route('customer.store') }}"

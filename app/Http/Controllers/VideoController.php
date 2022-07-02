@@ -55,6 +55,7 @@ class VideoController extends Controller
       // ->paginate(5,['*'],'publications_user');
       // return view('video.managecontent')->with('users',$users)->with('videos',$videos)->with('publication',$publication)->with('video_user',$video_user)->with('publication_user',$publication_user);
       return view('admin.adminhome');
+     
     }
 
     public function create()

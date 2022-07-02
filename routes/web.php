@@ -63,33 +63,35 @@ Route::get('/customer/edit/{id}','CustomerController@edit')->name('customer.edit
 Route::post('/customer/update/{id}', 'CustomerController@update')->name('customer.update')->middleware('role:superadmin');
 
 //servicing CRUD
-Route::post('/customer/service/update/{id}','ServiceController@update')->name('service.start')->middleware('role:superadmin');
+Route::any('/customer/service/update/{id}','ServiceController@update')->name('service.start')->middleware('role:superadmin');
+Route::get('/customer/service/detail/{id}','ServiceController@edit')->name('service.edit')->middleware('role:superadmin');
+Route::post('/customer/service/resolve/{id}','ServiceController@resolve')->name('service.resolve')->middleware('role:superadmin');
 
 //video CRUD
 Route::get('/video/create','VideoController@create')->name('video.create')->middleware('role:admin');
-Route::post('/video/store','VideoController@store')->name('video.store')->middleware('role:admin');
-Route::get('video/edit/{id}', 'VideoController@edit')->name('video.edit')->middleware('role:admin');
-Route::post('video/update/{id}', 'VideoController@update')->name('video.update')->middleware('role:admin');
-Route::get('video/delete/{id}', 'VideoController@destroy')->name('video.delete')->middleware('role:admin');
-Route::get('video_content/delete/{id}', 'VideoController@destroy_content')->name('video_content.delete')->middleware('role:admin');
-Route::get('video/publish/{id}', 'PublishController@video')->name('video.publish')->middleware('role:superadmin');
-Route::post('video/publish/value/{id}', 'PublishController@store')->name('publish.store')->middleware('role:superadmin');
+// Route::post('/video/store','VideoController@store')->name('video.store')->middleware('role:admin');
+// Route::get('video/edit/{id}', 'VideoController@edit')->name('video.edit')->middleware('role:admin');
+// Route::post('video/update/{id}', 'VideoController@update')->name('video.update')->middleware('role:admin');
+// Route::get('video/delete/{id}', 'VideoController@destroy')->name('video.delete')->middleware('role:admin');
+// Route::get('video_content/delete/{id}', 'VideoController@destroy_content')->name('video_content.delete')->middleware('role:admin');
+// Route::get('video/publish/{id}', 'PublishController@video')->name('video.publish')->middleware('role:superadmin');
+// Route::post('video/publish/value/{id}', 'PublishController@store')->name('publish.store')->middleware('role:superadmin');
 
-//publication CRUD
-Route::get('/publication/create','PublicationController@create')->name('pub.create')->middleware('role:admin');
+// //publication CRUD
+// Route::get('/publication/create','PublicationController@create')->name('pub.create')->middleware('role:admin');
 // Route::get('/publication/show/{id}','PublicationController@show')->name('pub.show')->middleware('role:admin');
-Route::post('/publication/store','PublicationController@store')->name('pub.store')->middleware('role:admin');
-Route::get('/publication/edit/{id}', 'PublicationController@edit')->name('pub.edit')->middleware('role:admin');
-Route::post('/publication/update/{id}', 'PublicationController@update')->name('pub.update')->middleware('role:admin');
-Route::get('/publication/delete/{id}', 'PublicationController@destroy')->name('pub.delete')->middleware('role:admin');
-Route::get('publication/publish/{id}', 'PublishController@publication')->name('pub.publish')->middleware('role:superadmin');
-Route::post('publication/publish/value/{id}', 'PublishController@storepub')->name('publish.storepub')->middleware('role:superadmin');
+// Route::post('/publication/store','PublicationController@store')->name('pub.store')->middleware('role:admin');
+// Route::get('/publication/edit/{id}', 'PublicationController@edit')->name('pub.edit')->middleware('role:admin');
+// Route::post('/publication/update/{id}', 'PublicationController@update')->name('pub.update')->middleware('role:admin');
+// Route::get('/publication/delete/{id}', 'PublicationController@destroy')->name('pub.delete')->middleware('role:admin');
+// Route::get('publication/publish/{id}', 'PublishController@publication')->name('pub.publish')->middleware('role:superadmin');
+// Route::post('publication/publish/value/{id}', 'PublishController@storepub')->name('publish.storepub')->middleware('role:superadmin');
 
-//doctor bio CRUD
-Route::get('/doctor/bio','DoctorController@index')->name('doctor.bio')->middleware('role:admin|superadmin');
-Route::post('/doctor/bio/store','DoctorController@store')->name('bio.store')->middleware('role:admin|superadmin');
-Route::post('/doctor/bio/updateimg','DoctorController@storeimage')->name('bio.updateimage')->middleware('role:admin|superadmin');
-Route::post('/doctor/bio/upate','DoctorController@update')->name('bio.update')->middleware('role:admin|superadmin');
+// //doctor bio CRUD
+// Route::get('/doctor/bio','DoctorController@index')->name('doctor.bio')->middleware('role:admin|superadmin');
+// Route::post('/doctor/bio/store','DoctorController@store')->name('bio.store')->middleware('role:admin|superadmin');
+// Route::post('/doctor/bio/updateimg','DoctorController@storeimage')->name('bio.updateimage')->middleware('role:admin|superadmin');
+// Route::post('/doctor/bio/upate','DoctorController@update')->name('bio.update')->middleware('role:admin|superadmin');
 
 //doctor social media CRUD
 Route::get('/doctor/social_media','SiteController@index')->name('doctor_media')->middleware('role:admin|superadmin');

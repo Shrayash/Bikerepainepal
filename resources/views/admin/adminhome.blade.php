@@ -169,8 +169,9 @@
                           <h5 class="font-weight-semibold">Search Existing Customer</h5>
                          <div class="search-container">
                             <form action="detail_customer.html">
-                              <input type="text" placeholder="Search Mobile No." name="search">
+                              <input type="text" name="customer_search" id="customer_search"  placeholder="Search Mobile No." />
                               <a href="detail_customer.html"><button type="submit"> <i class="mdi mdi-magnify"></i></button></a>
+                              <ul class="list-group" id="result"></ul>
                             </form>
                         </div>
                         </div>
@@ -359,4 +360,66 @@
       
       <!-- page-body-wrapper ends -->
     </div>
+    <script>
+      $(document).ready(function(){
+      
+          var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+          console.log(CSRF_TOKEN);
+      
+       function video_search(customer_query = '')
+       {
+           
+        
+          $('#result').html('');
+              $.ajax({
+              url:"{{ route('video.search') }}",
+              method:'GET',
+              data:{customer_query:customer_query,_token:CSRF_TOKEN},
+              dataType:'json',
+              success:function(data,doc)
+              { 
+                  
+                  var result = data.data;
+                  var result_doc = data.doc;
+                  // console.log('Result', result[0].id);
+                  // console.log('Result1', result.length);
+                  if(result.length > 0)
+                  {
+                      $('#result').html('');
+                      for(var count = 0; count < result.length; count++)
+                      {
+                          var url = "{{route('video.show', '')}}"+"/"+result[count].id;
+                          $('#result').append('<a href="'+url+'"><li class="list-group-item link-class">'+result[count].video_lecture+'</li></a>'); 
+                      }
+                  }
+                  else if(result_doc.length > 0){
+                      $('#result').html('');
+                      for(var count = 0; count < result_doc.length; count++)
+                      {
+                          var urls = "{{route('bio.show', '')}}"+"/"+result_doc[count].id;
+                          $('#result').append('<a href="'+urls+'"><li class="list-group-item link-class">'+result_doc[count].name+'</li></a>'); 
+                      }
+                  }
+                  else{
+                      $('#result').html('');
+                      $('#result').append('<li class="list-group-item link-class">No Data to Display</li>'); 
+                  }
+              },
+              error:function(){
+                  console.log('error')}
+              
+              });
+              
+       }
+              
+      $(document).on('keyup', '#customer_search', function(){
+                  var query = $(this).val();
+                  
+                  if (query.length > 0 || event.keyCode !== 8 ){
+                      video_search(query);
+                  }
+                  
+              });
+              });
+      </script>
     

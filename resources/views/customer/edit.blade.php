@@ -30,7 +30,6 @@
                                 <a href="{{ route('admin.index') }}"><button type="button" class="btn btn-primary btn-fw">Back to
                                         Dashboard</button></a>
                             </div>
-                            {{-- {{ dd(error) }} --}}
                             <form method="POST" class="form-sample" action="{{ route('customer.update',$id) }}"
                                 id="content_form" data-parsley-validate="">
                                 @csrf
@@ -126,8 +125,8 @@
                                                                 <select class="form-control" name="v_status[]"
                                                                 id="status">
                                                                
-                                                                <option  {{ ($vehicle->v_status) == 'not in use' ? 'selected' : '' }}  value="not in use">Not in Use</option>
-                                                                <option {{ ($vehicle->v_status) == 'in use' ? 'selected' : '' }} value="in use">In Use</option>
+                                                                <option  {{ ($vehicle->v_status) == 'inactive' ? 'selected' : '' }}  value="inactive">Not in Use</option>
+                                                                <option {{ ($vehicle->v_status) == 'active' ? 'selected' : '' }} value="active">In Use</option>
                                                             </select>
                                                             </td>
                                                             <td>
@@ -188,7 +187,7 @@
                 html +=
                     '<td><input type="text" name="v_remarks[]" placeholder="Vehicle color/brand name" class="form-control" required /></td>';
                 html +=
-                    '<td><input class="settings-part" type="radio" name="v_status[]" id="1" value="1" checked="checked" required=""></td>';
+                    '<td><select class="form-control" name="v_status[]" id="status"><option  {{ ($vehicle->v_status) == 'inactive' ? 'selected' : '' }}  value="inactive">Not in Use</option><option {{ ($vehicle->v_status) == 'active' ? 'selected' : '' }} value="active">In Use</option></select></td>';
                 html +=
                     '<td><button type="button" name="remove" id="" class="btn btn-danger remove">Remove</button></td></tr>';
                 $('.body_table').append(html);

@@ -40,7 +40,7 @@
 
                                 <div class="d-flex justify-content-between">
                                     <h3 class="font-weight-semibold">Search Customer</h3>
-                                    <a href="dashboard.html"><button type="button" class="btn btn-primary btn-fw">Back to
+                                    <a href="{{ route('admin.index') }}"><button type="button" class="btn btn-primary btn-fw">Back to
                                             Dashboard</button></a>
                                 </div>
                                 <form class="forms-sample" action="detail_customer.html">
