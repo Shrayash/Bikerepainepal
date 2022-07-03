@@ -76,6 +76,13 @@
                                                 <th>Vehicle Remarks</th>
                                                 <th>Action</th>
                                             </tr>
+                                            <tr>
+                                                <th>Ba-023-Pa-2034</th>
+                                                {{-- <th>12000</th> --}}
+                                                <th>Self</th>
+                                                <th>Blue NS 200CC</th>
+                                                <th>Example</th>
+                                            </tr>
                                            
                                             @foreach ($customer_vehicle as $vehicle)
                                            

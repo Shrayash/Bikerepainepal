@@ -122,7 +122,7 @@
                                                                     class="form-control" required /></td>
                                                             <td>
                                                              
-                                                                <select class="form-control" name="v_status[]"
+                                                                <select class="form-control" name="v_status"
                                                                 id="status">
                                                                
                                                                 <option  {{ ($vehicle->v_status) == 'inactive' ? 'selected' : '' }}  value="inactive">Not in Use</option>

@@ -61,11 +61,22 @@ Route::post('/customer/store','CustomerController@store')->name('customer.store'
 Route::get('/customer/show/{id}','CustomerController@show')->name('customer.show')->middleware('role:superadmin');
 Route::get('/customer/edit/{id}','CustomerController@edit')->name('customer.edit')->middleware('role:superadmin');
 Route::post('/customer/update/{id}', 'CustomerController@update')->name('customer.update')->middleware('role:superadmin');
+Route::get('/customer/search','CustomerController@search')->name('customer.search')->middleware('role:superadmin');
+Route::get('/customer/check','CustomerController@check')->name('customer.check')->middleware('role:superadmin');
 
 //servicing CRUD
 Route::any('/customer/service/update/{id}','ServiceController@update')->name('service.start')->middleware('role:superadmin');
 Route::get('/customer/service/detail/{id}','ServiceController@edit')->name('service.edit')->middleware('role:superadmin');
 Route::post('/customer/service/resolve/{id}','ServiceController@resolve')->name('service.resolve')->middleware('role:superadmin');
+Route::get('/customer/service/ongoings/','ServiceController@ongoing')->name('service.ongoing')->middleware('role:superadmin');
+Route::get('/customer/service/resolved/','ServiceController@resolved')->name('service.resolved')->middleware('role:superadmin');
+
+//booking
+
+Route::get('/customer/book','ServiceController@book')->name('customer.book');
+Route::get('/customer/newbook','ServiceController@newbook')->name('customer.newbook');
+Route::get('/customer/oldmobile','ServiceController@oldmobile')->name('customer.oldmobile');
+Route::get('/customer/oldbook','ServiceController@oldbook')->name('customer.oldbook');
 
 //video CRUD
 Route::get('/video/create','VideoController@create')->name('video.create')->middleware('role:admin');

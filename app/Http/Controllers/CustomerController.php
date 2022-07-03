@@ -104,12 +104,18 @@ class CustomerController extends Controller
       
     }
 
+    public function check(Request $request)
+    {
+        return view('customer.search_cust');
+      
+    }
+
     public function update(Request $request, $id)
     {
    
     $customer=[];
     $customer_vehicle = [];
- 
+  
     $customer['frst_name'] = $request->get('frst_name');
     $customer['last_name'] = $request->get('last_name');
     $customer['mobile_no'] = $request->get('mobile_no');
@@ -124,10 +130,11 @@ class CustomerController extends Controller
     $customer_vehicle['delivery'] = $request->get('delivery');
     $customer_vehicle['v_remarks'] = $request->get('v_remarks');
     $customer_vehicle['v_status'] = $request->get('v_status');
-   
+    dd($customer_vehicle['v_status']);
    
       $maxcount=count( $customer_vehicle['v_no']);
       $customer_id = DB::table('customer_vehicles')->where('customer_id',$id)->select('id')->get();
+     
      for($count = 0; $count < $maxcount ; $count++)
      {
 
@@ -142,10 +149,88 @@ class CustomerController extends Controller
           'v_status' => $customer_vehicle['v_status'][$count]
           ]
       );
+      dd('hasdere');
          
       return response()->json([
         'success'  => 'Data Updated successfully.'
         ]);
     }
+  }
+
+  public function search(Request $request)
+  {
+  //   $customer_query = $request->get('customer_query');
+  //   dd( $customer_query);
+  //  if($request->ajax())
+  //  {
+  //   if($customer_query != '')
+  //   {
+  //     // $doc= User::where('status',1)->where('name', 'like', '%'.$search_query.'%')->get();
+  //     $data= customer::where('mobile_no', 'like', '%'.$customer_query.'%')->get();
+  //     dd($data);
+      
+  //   }
+  //   else
+  //   {
+  //     $data='Nothing to display';
+  //     // $doc ='Nothing to display';
+  //   }
+
+  //   // return response()->json(array('data'=>$data,'doc'=>$doc));
+  //   return response()->json(array('data'=>$data));
+  //  }else{
+  //   // $data='Nothing to display';
+  //   // return response()->json(array('data'=>$data));
+    
+  //   dd('here');
+  //  }
+  if($request->ajax())
+  {
+   $output = '';
+   $query = $request->get('query');
+   if($query != '')
+   {
+    $data = DB::table('customer')
+      ->where('mobile_no', 'like', '%'.$query.'%')
+      ->orWhere('frst_name', 'like', '%'.$query.'%')
+      ->get();
+      
+   }
+   else
+   {
+    $data = DB::table('customer')
+      ->orderBy('id', 'desc')
+      ->get();
+   }
+   $total_row = $data->count();
+   if($total_row > 0)
+   {
+    foreach($data as $row)
+    {
+     $output .= '
+     <tr>
+      <td>'.$row->frst_name.'</td>
+      <td>'.$row->last_name.'</td>
+      <td>'.$row->mobile_no.'</td>
+      <td>'.'<a href="/customer/show/'.$row->id.'"><button type="button" class="btn btn-success btn-fw">Manage Service</button</a></td>
+     </tr>
+     ';
+    }
+   }
+   else
+   {
+    $output = '
+    <tr>
+     <td align="center" colspan="5">No Data Found</td>
+    </tr>
+    ';
+   }
+   $data = array(
+    'table_data'  => $output,
+    'total_data'  => $total_row
+   );
+
+   echo json_encode($data);
+  }
   }
 }

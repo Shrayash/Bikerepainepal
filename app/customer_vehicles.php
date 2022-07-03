@@ -9,6 +9,7 @@ class customer_vehicles extends Model
 {
     // use HasFactory;
     protected $table='customer_vehicles';
+    public $fillable =['vehicle_id','work_status'];
     public $primaryKey = 'id';
     public $timestamps = true;
     // public function user()

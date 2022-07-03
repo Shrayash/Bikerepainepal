@@ -1,0 +1,7 @@
+ RewriteEngine On
+    RewriteBase /
+    RewriteRule ^$ public/index.php [L]
+    RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+
+bikerepa_service
+y,zG8JIAw0X*

@@ -15,20 +15,20 @@
       </li>
       <li class="nav-item nav-category">Admin Panel Menu</li>
       <li class="nav-item">
-        <a class="nav-link" href="dashboard.html">
+        <a class="nav-link" href="{{ route('admin.index') }}">
           <i class="menu-icon typcn typcn-document-text"></i>
           <span class="menu-title">Dashboard</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="register_customer.html">
+        <a class="nav-link" href="{{ route('customer.register_cust') }}">
           <i class="menu-icon typcn typcn-document-text"></i>
           <span class="menu-title">Register New</span>
         </a>
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="search_existing.html">
+        <a class="nav-link" href="{{ route('customer.check') }}">
           <i class="menu-icon typcn typcn-shopping-bag"></i>
           <span class="menu-title">Search Existing</span>
         </a>
@@ -42,10 +42,10 @@
         <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item">
-              <a class="nav-link" href="ongoing_service.html">Ongoing</a>
+              <a class="nav-link" href="{{ route('service.ongoing') }}">Ongoing</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="resolved_service.html">Resolved</a>
+              <a class="nav-link" href="{{ route('service.resolved') }}">Resolved</a>
             </li>
           
           </ul>

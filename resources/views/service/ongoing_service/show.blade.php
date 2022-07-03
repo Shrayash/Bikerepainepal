@@ -42,7 +42,7 @@
                                                 <td>{{$service->frst_name}}{{$service->last_name}}</td>
                                                 <td>{{$service->v_no}}</td>
                                                 <td>{{$service->mobile_no}}</td>
-                                                <td>{{$service->created_at}}</td>
+                                                <td>{{$service->updated_at}}</td>
                                                 <td><form method="POST" class="form-sample" action="{{ route('service.start',$service->vehicle_id) }}" >
                                                     @csrf
                                                     <button name="work_status"  class="btn btn-box btn-warning" type="submit" value="resolve">Resolve</button>

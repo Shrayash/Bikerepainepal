@@ -149,13 +149,35 @@
             </div>
                 
                 <div class="row">
-                    <div class="col-md-6 grid-margin">
+                    <div class="col-md-8 grid-margin">
                       <div class="card">
                         <div class="card-body">
+                          <div class="d-flex justify-content-between">
+                            <h4 class="font-weight-semibold">Latest Customer</h4>
+                            
+                            <a href="{{ route('customer.check') }}"><button type="button" class="btn btn-primary btn-fw">Show All</button></a>
+                          </div>
                           <div class="row">
-                            <div class="col-md-8">
-                              <h5 class="font-weight-semibold">Register New Customer</h5>
-                                <a href="{{ route('customer.register_cust') }}"><button type="button" class="btn btn-primary btn-fw">Fill Up Form</button></a></div>
+                            <div class="col-md-12">
+                              <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th>Name</th>
+                                      <th>Mobile No.</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>Hiralal Mathema</td>
+                                      <td>9860167234</td>
+                                      {{-- <td><button type="button" class="btn btn-success btn-fw">Manage</button> --}}
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                             
+                              </div>
                             
                           </div>
                           
@@ -163,20 +185,33 @@
                       </div>
                     </div>
 
-                    <div class="col-md-6 grid-margin">
-                      <div class="card" style="background: linear-gradient(90deg, rgba(246,0,0,1) 0%, rgba(133,0,0,1) 100%); color: white; ">
-                        <div class="card-body">
-                          <h5 class="font-weight-semibold">Search Existing Customer</h5>
-                         <div class="search-container">
-                            <form action="detail_customer.html">
-                              <input type="text" name="customer_search" id="customer_search"  placeholder="Search Mobile No." />
-                              <a href="detail_customer.html"><button type="submit"> <i class="mdi mdi-magnify"></i></button></a>
-                              <ul class="list-group" id="result"></ul>
-                            </form>
+                    
+
+                  <div class="col-md-4 grid-margin">
+                    <div class="card">
+                      <div class="card-body">
+                        <a href="{{ route('customer.register_cust') }}" style="text-decoration: none">
+                        <div class="d-flex justify-content-between ">
+                          <h5 class="font-weight-semibold">Register New Customer</h5>
+                          
+                          <span class="fa fa-fw fa-user-plus" style="font-size: 170%"></span>
                         </div>
-                        </div>
+                      </a>
                       </div>
                     </div>
+                    <div class="card">
+                      <div class="card-body">
+                        <a href="{{ route('customer.check') }}" style="text-decoration: none">
+                          <div class="d-flex justify-content-between ">
+                            <h5 class="font-weight-semibold">Search Existing Customer</h5>
+                            <span class="fa fa-fw fa-street-view" style="font-size: 200%"></span>
+                          </div>
+                        </a>                    
+                        
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               
             <div class="row">  
@@ -254,7 +289,7 @@
                           <div class="card-body">
                             <div class="d-flex justify-content-between">
                               <h4 class="font-weight-semibold">Ongoing Services</h4>
-                              <a href="ongoing_service"><button type="button" class="btn btn-primary btn-fw">Show All</button></a>
+                              <a href="{{ route('service.ongoing') }}"><button type="button" class="btn btn-primary btn-fw">Show All</button></a>
                             </div>
                             <p>Check the availability and respond accordingly.</p>
                             <div class="table-responsive">
@@ -302,7 +337,7 @@
                       <div class="card-body">
                         <div class="d-flex justify-content-between">
                           <h4 class="font-weight-semibold">Resolved Services</h4>
-                          <a href="resolved_service"><button type="button" class="btn btn-primary btn-fw">Show All</button></a>
+                          <a href="{{ route('service.resolved') }}"><button type="button" class="btn btn-primary btn-fw">Show All</button></a>
                         </div>
                         <p>Check the availability and respond accordingly.</p>
                         <div class="table-responsive">
@@ -360,46 +395,36 @@
       
       <!-- page-body-wrapper ends -->
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       $(document).ready(function(){
       
           var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
           console.log(CSRF_TOKEN);
       
-       function video_search(customer_query = '')
+       function customer_search(customer_query = '')
        {
-           
-        
           $('#result').html('');
               $.ajax({
-              url:"{{ route('video.search') }}",
+              url:'{{ route('customer.search') }}',
               method:'GET',
               data:{customer_query:customer_query,_token:CSRF_TOKEN},
               dataType:'json',
-              success:function(data,doc)
+              success:function(data)
               { 
                   
                   var result = data.data;
-                  var result_doc = data.doc;
-                  // console.log('Result', result[0].id);
-                  // console.log('Result1', result.length);
+        
                   if(result.length > 0)
                   {
                       $('#result').html('');
                       for(var count = 0; count < result.length; count++)
                       {
-                          var url = "{{route('video.show', '')}}"+"/"+result[count].id;
-                          $('#result').append('<a href="'+url+'"><li class="list-group-item link-class">'+result[count].video_lecture+'</li></a>'); 
+                          var url = "{{route('customer.show', '')}}"+"/"+result[count].id;
+                          $('#result').append('<a href="'+url+'"><li class="list-group-item link-class">'+result[count].mobile_no+'</li></a>'); 
                       }
                   }
-                  else if(result_doc.length > 0){
-                      $('#result').html('');
-                      for(var count = 0; count < result_doc.length; count++)
-                      {
-                          var urls = "{{route('bio.show', '')}}"+"/"+result_doc[count].id;
-                          $('#result').append('<a href="'+urls+'"><li class="list-group-item link-class">'+result_doc[count].name+'</li></a>'); 
-                      }
-                  }
+              
                   else{
                       $('#result').html('');
                       $('#result').append('<li class="list-group-item link-class">No Data to Display</li>'); 
@@ -416,7 +441,7 @@
                   var query = $(this).val();
                   
                   if (query.length > 0 || event.keyCode !== 8 ){
-                      video_search(query);
+                    customer_search(query);
                   }
                   
               });

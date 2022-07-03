@@ -30,6 +30,30 @@ class ServiceController extends Controller
     return view('customer.register_cust');
     }
 
+    public function ongoing(Request $request)
+    {
+        $services = DB::table('service_activities')
+        ->join('customer_vehicles', 'service_activities.vehicle_id', '=', 'customer_vehicles.id')
+        ->join('customer', 'customer_vehicles.customer_id', '=', 'customer.id')
+        ->where('customer_vehicles.v_status','active')
+        ->where('service_activities.work_status','ongoing')
+        ->select('service_activities.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'customer.id','customer.frst_name','customer.last_name','customer.mobile_no')
+        ->get();
+        
+        return view('service.ongoing_service.show')->with('services', $services);
+    }
+
+    public function resolved(Request $request)
+    {
+        $service_records = DB::table('service_record')
+        ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
+        ->join('customer', 'customer_vehicles.customer_id', '=', 'customer.id')
+        ->select('service_record.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'customer.id','customer.frst_name','customer.last_name','customer.mobile_no')
+        ->latest()->get();
+
+        return view('service.resolved_service.show',['records'=>$service_records]);
+    }
+
     public function update(Request $request, $id)
     {
         // $vehicle = customer_vehicles::findOrfail($id);
@@ -49,11 +73,12 @@ class ServiceController extends Controller
         );
         $customer_update = DB::table('customer_vehicles')->where('id',$id)->update(['work_status'=>$work_status]);
         if($work_status=="ongoing"){
-        $services = DB::table('service_activities')
+            $services = DB::table('service_activities')
         ->join('customer_vehicles', 'service_activities.vehicle_id', '=', 'customer_vehicles.id')
         ->join('customer', 'customer_vehicles.customer_id', '=', 'customer.id')
         ->where('customer_vehicles.v_status','active')
-        ->select('service_activities.*', 'customer_vehicles.*', 'customer.*')
+        ->where('service_activities.work_status','ongoing')
+        ->select('service_activities.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'customer.id','customer.frst_name','customer.last_name','customer.mobile_no')
         ->get();
         
         return view('service.ongoing_service.show')->with('services', $services);
@@ -100,13 +125,32 @@ class ServiceController extends Controller
                 }
             $record->file = $fileNameToStore;
             $record->save();
-            $service_records = DB::table('service_record')
-            ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
-            ->join('customer', 'customer_vehicles.customer_id', '=', 'customer.id')
-            ->select('service_record.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'customer.id','customer.frst_name','customer.last_name','customer.mobile_no')
-            ->get();
+            return redirect()->route('service.resolved');
+            // $service_records = DB::table('service_record')
+            // ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
+            // ->join('customer', 'customer_vehicles.customer_id', '=', 'customer.id')
+            // ->where('customer_vehicles.work_status','resolve')
+            // ->select('service_record.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'customer.id','customer.frst_name','customer.last_name','customer.mobile_no')
+            // ->get();
 
-            return view('service.resolved_service.show',['records'=>$service_records]);
+            // return view('service.resolved_service.show',['records'=>$service_records]);
             
   }
+  public function book()
+  {
+  return view('booking.book_opt');
+  }
+  public function newbook()
+  {
+  return view('booking.new_booking');
+  }
+  public function oldbook()
+  {
+  return view('booking.old_booking');
+  }
+  public function oldmobile()
+  {
+  return view('booking.old_mobile');
+  }
+  
 }
