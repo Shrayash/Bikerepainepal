@@ -121,13 +121,13 @@
                                                                     placeholder="Vehicle color/brand name"
                                                                     class="form-control" required /></td>
                                                             <td>
-                                                             
-                                                                <select class="form-control" name="v_status"
-                                                                id="status">
+                                                                <select class="form-control" name="v_status[]"
+                                                                    id="v_status" required >
+                                                                    {{-- <option  value="">Select option</option> --}}
+                                                                    <option  {{ ($vehicle->v_status) == 'active' ? 'selected' : '' }}  value="active">In Use</option>
+                                                                    <option {{ ($vehicle->v_status) == 'inactive' ? 'selected' : '' }} value="inactive">Not in Use</option>
+                                                                </select>
                                                                
-                                                                <option  {{ ($vehicle->v_status) == 'inactive' ? 'selected' : '' }}  value="inactive">Not in Use</option>
-                                                                <option {{ ($vehicle->v_status) == 'active' ? 'selected' : '' }} value="active">In Use</option>
-                                                            </select>
                                                             </td>
                                                             <td>
                                                                -
@@ -183,11 +183,11 @@
                 html +=
                     '<td><input type="text" name="distance[]" placeholder="Enter Distance Covered " class="form-control" required /></td>';
                 html +=
-                    '<td><select class="form-control" name="delivery[]"><option>Select option</option><option value="self">Self</option><option value="pick/drop">Pick/Drop</option></select></td>';
+                    '<td><select class="form-control" name="delivery[]"><option value="">Select option</option><option value="self">Self</option><option value="pick/drop">Pick/Drop</option></select></td>';
                 html +=
                     '<td><input type="text" name="v_remarks[]" placeholder="Vehicle color/brand name" class="form-control" required /></td>';
                 html +=
-                    '<td><select class="form-control" name="v_status[]" id="status"><option  {{ ($vehicle->v_status) == 'inactive' ? 'selected' : '' }}  value="inactive">Not in Use</option><option {{ ($vehicle->v_status) == 'active' ? 'selected' : '' }} value="active">In Use</option></select></td>';
+                    '<td><select class="form-control" name="v_status[]" id="status"><option value="">Select option</option><option value="active">In Use</option><option value="inactive">Not in Use</option></select></td>';
                 html +=
                     '<td><button type="button" name="remove" id="" class="btn btn-danger remove">Remove</button></td></tr>';
                 $('.body_table').append(html);
@@ -214,9 +214,10 @@
                 var v_remarks = $('input[name^=v_remarks]').map(function(idx, elem) {
                     return $(elem).val();
                 }).get();
-                var v_status = $('input[name^=v_status]').map(function(idx, elem) {
+                var v_status = $('select[name^=v_status]').map(function(idx, elem) {
                     return $(elem).val();
                 }).get();
+                console.log(v_status);
                 event.preventDefault();
                 $.ajax({
                     url: '{{ route('customer.update',$id) }}',

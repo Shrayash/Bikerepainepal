@@ -199,7 +199,7 @@
         </div>
         <!-- main-panel ends -->
     </div>
-    https://www.tutorialrepublic.com/faq/how-to-check-if-an-input-field-is-empty-using-jquery.php
+    {{-- https://www.tutorialrepublic.com/faq/how-to-check-if-an-input-field-is-empty-using-jquery.php --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ asset('assets') }}/js/parsley.min.js"></script>
     <script>

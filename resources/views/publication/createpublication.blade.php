@@ -53,7 +53,7 @@
                                     &nbsp;
                                     Upload
                                 </label>
-                                <input type="file" name="file" id="file-uploader" accept="image/*">
+                                <input type="file" name="file" id="file-uploader" accept="application/pdf,application/vnd.ms-excel">
                                 <div id="file-upload-filename"></div>
                             </div>
 

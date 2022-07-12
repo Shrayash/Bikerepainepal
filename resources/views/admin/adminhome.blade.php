@@ -96,48 +96,48 @@
               <div class="col-md-12">
                 <div class="row">
                  <div class="col-md-4 grid-margin stretch-card average-price-card">
-                    <div class="card text-white">
+                    <div class="card text-white" style="background-color:#DE6449" >
                       <div class="card-body">
                         <div class="d-flex justify-content-between pb-2 align-items-center">
-                          <h3 class="font-weight-semibold mb-0">4,624</h3>
-                          <div class="icon-holder">
+                          <h3 class="font-weight-semibold mb-0">{{$ongoing_count}}</h3>
+                          <div class="icon-holder" style="background-color:#FF7353" >
                             <i class="mdi mdi-wrench-outline"></i>
                           </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                          <p class="font-weight-semibold mb-0 text-white">Ongoing Service</p>
+                          <p class="font-weight-bold mb-0 text-white">Ongoing Service</p>
                           <a href="ongoing_service.html"><p class="text-white mb-0" style="font-size: 14px;">View All</p></a>
                         </div>
                       </div>
                     </div>
                   </div>
                    <div class="col-md-4 grid-margin stretch-card average-price-card">
-                    <div class="card text-white">
+                    <div class="card text-white" style="background-color:#407899" >
                       <div class="card-body">
                         <div class="d-flex justify-content-between pb-2 align-items-center">
-                          <h3 class="font-weight-semibold mb-0">624</h3>
-                          <div class="icon-holder">
+                          <h3 class="font-weight-semibold mb-0">{{$resolved_count}}</h3>
+                          <div class="icon-holder" style="background-color:#56A4D1">
                             <i class="mdi mdi-clipboard-check-outline"></i>
                           </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                          <p class="font-weight-semibold mb-0 text-white">Resolved Service</p>
+                          <p class="font-weight-bold mb-0 text-white">Resolved Service</p>
                           <a href="resolved_service.html"><p class="text-white mb-0" style="font-size: 14px;">View All</p></a>
                         </div>
                       </div>
                     </div>
                   </div>
                    <div class="col-md-4 grid-margin stretch-card average-price-card">
-                    <div class="card text-white">
+                    <div class="card text-white" >
                       <div class="card-body">
                         <div class="d-flex justify-content-between pb-2 align-items-center">
-                          <h3 class="font-weight-semibold mb-0">1,764</h3>
+                          <h3 class="font-weight-semibold mb-0">{{$booking_count}}</h3>
                           <div class="icon-holder">
                             <i class="mdi mdi-information-outline"></i>
                           </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                          <p class="font-weight-semibold mb-0 text-white">Booking</p>
+                          <p class="font-weight-bold mb-0 text-white">Bookings</p>
                           <a href="booked_record.html"><p class="text-white mb-0" style="font-size: 14px;">View All</p></a>
                         </div>
                       </div>
@@ -232,50 +232,32 @@
                                 <th>Mobile No.</th>
                                 <!-- <th>Vehicle No.</th> -->
                                 <th>Requested Date</th>
-                                <th>Respond</th>
+                                <th colspan="2">Respond</th>
                               </tr>
                             </thead>
                             <tbody>
+                              @foreach ($bookings as $book)
                               <tr>
-                                <td>Hiralal Mathema</td>
-                                <td>9860167234</td>
+                                <td>{{$book->frst_name}}</td>
+                                <td>{{$book->mobile_no}}</td>
                                <!--  <td>Paid</td> -->
-                                <td>20 Jan 2019</td>
-                                <td><button type="button" class="btn btn-success btn-fw">Yes</button>
-                      <button type="button" class="btn btn-danger btn-fw">No</button></td>
+                                <td>{{$book->book_date}}</td>
+                                <td> 
+                                  <form></form>
+                                  <form class="form-sample" action="{{ route('book.update',$book->id) }}" >
+                                     @csrf
+                                 <button name="yes" class="btn btn-box btn-success" type="submit">Yes</button>
+                                 </form>
+                              </td>
+                              <td>
+                                 <form class="form-sample" action="{{ route('book.edit',$book->id) }}" >
+                                  @csrf
+                                 <button name="no"  class="btn btn-box btn-danger" type="submit">No</button>
+                                 </form>
+                          </td>
                               </tr>
-                              <tr>
-                                <td>Sharad Kumar Shrestha</td>
-                                <td>9860167234</td>
-                               <!--  <td>Paid</td> -->
-                                <td>20 Jan 2019</td>
-                                <td><button type="button" class="btn btn-success btn-fw">Yes</button>
-                      <button type="button" class="btn btn-danger btn-fw">No</button></td>
-                              </tr>
-                              <tr>
-                                <td>Hiralal Mathema</td>
-                                <td>9860167234</td>
-                               <!--  <td>Paid</td> -->
-                                <td>20 Jan 2019</td>
-                                <td><button type="button" class="btn btn-success btn-fw">Yes</button>
-                      <button type="button" class="btn btn-danger btn-fw">No</button></td>
-                              </tr>
-                              <tr>
-                                <td>Mohan krishna Rajhbhandari</td>
-                                <td>9860167234</td>
-                               <!--  <td>Paid</td> -->
-                                <td>20 Jan 2019</td>
-                                <td><button type="button" class="btn btn-success btn-fw">Yes</button>
-                      <button type="button" class="btn btn-danger btn-fw">No</button></td>
-                              </tr>
-                              <tr>
-                                <td>INV-87239</td>
-                                <td>9860167234</td>
-                               <!--  <td>Paid</td> -->
-                                <td>20 Jan 2019</td>
-                                <td><button type="button" class="btn btn-success btn-fw">Yes</button>
-                      <button type="button" class="btn btn-danger btn-fw">No</button></td>
-                              </tr>
+                              @endforeach
+                              
                             </tbody>
                           </table>
                         </div>
@@ -302,27 +284,17 @@
                                   </tr>
                                 </thead>
                                 <tbody>
+                                  @foreach ($ongoings as $on)
                                   <tr>
-                                    <td>Waiba Lung Sherpa</td>
-                                      <td>Ba-026-pa-2345</td>
-                                    <td><a href="resolve_service_detail.html"><button type="button" class="btn btn-success btn-fw">Resolve</button></a></td>
+                                    <td>{{$on->frst_name}}$nbsp;{{$on->last_name}}</td>
+                                      <td>{{$on->v_no}}</td>
+                                    <td> <form></form>
+                                      <form class="form-sample" action="{{ route('service.edit',$service->vehicle_id) }}" >
+                                      @csrf
+                                      <button name="work_status"  class="btn btn-box btn-warning" type="submit" value="resolve">Resolve</button>
+                                  </form></td>
                                   </tr>
-                                  <tr>
-                                    <td>Waiba Lung Sherpa</td>
-                                      <td>Ba-026-pa-2345</td>
-                                    <td><a href="resolve_service_detail.html"><button type="button" class="btn btn-success btn-fw">Resolve</button></a></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Waiba Lung Sherpa</td>
-                                      <td>Ba-026-pa-2345</td>
-                                    <td><a href="resolve_service_detail.html"><button type="button" class="btn btn-success btn-fw">Resolve</button></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Waiba Lung Sherpa</td>
-                                      <td>Ba-026-pa-2345</td>
-                                    <td><button type="button" class="btn btn-success btn-fw">Resolve</button></td>
-                                  </tr>
-                                  
+                                  @endforeach
                                 </tbody>
                               </table>
                             </div>
@@ -352,31 +324,14 @@
                               </tr>
                             </thead>
                             <tbody>
+                              @foreach ($resolved as $off)
                               <tr>
-                                <td>Waiba Lung Sherpa</td>
-                                <td>Ba-026-pa-2345</td>
-                                <td>9876123456</td>
-                                <td>Self</td>
+                                <td>{{$off->frst_name}}</td>
+                                <td>{{$off->v_no}}</td>
+                                <td>{{$off->mobile_no}}</td>
+                                <td>{{$off->delivery}}</td>
                               </tr>
-                              <tr>
-                                <td> Sharad Kumar Shretsha</td>
-                                <td>Ba-026-pa-2345</td>
-                                <td>9876123456</td>
-                                <td>Self</td>
-                              </tr>
-                              <tr>
-                                <td>Bishnu Narayan Timalsian</td>
-                                <td>Ba-026-pa-2345</td>
-                                <td>9876123456</td>
-                                <td>Drop</td>
-                              </tr>
-                              <tr>
-                                <td>Bikas Humlaguin</td>
-                                <td>Ba-026-pa-2345</td>
-                                <td>9876123456</td>
-                                <td>Drop</td>
-                              </tr>
-                              
+                              @endforeach
                             </tbody>
                           </table>
                         </div>

@@ -97,12 +97,17 @@
                                                 <td>
                                                     <p class="font-weight-medium">{{$vehicle->v_remarks}}</p>
                                                 </td>
-                                                <td> <form method="POST" class="form-sample" action="{{ route('service.start',$vehicle->id) }}" >
-                                                    @csrf
+                                                <td> 
                                                          @if (($vehicle->work_status) == 'ongoing')
+                                                         <form class="form-sample" action="{{ route('service.edit',$vehicle->id) }}" >
+                                                            @csrf
                                                         <button name="work_status"  class="btn btn-box btn-warning" type="submit" value="resolve">Resolve</button>
+                                                        </form>
                                                         @else
+                                                        <form method="POST" class="form-sample" action="{{ route('service.start',$vehicle->id) }}" >
+                                                            @csrf
                                                         <button name="work_status"  class="btn btn-box btn-primary" type="submit" value="ongoing">Start Service</button>
+                                                        </form>
                                                         @endif
                                                     
                                                            {{-- <select class="form-control" name="work_status"
@@ -111,7 +116,7 @@
                                                                     <option {{ ($vehicle->work_status) == 'ongoing' ? 'selected' : '' }} value="ongoing">Start Service</option>
                                                                     <option {{ ($vehicle->work_status) == 'resolved' ? 'selected' : '' }} value="resolved">End Service</option>
                                                                 </select> --}}
-                                                        </form>
+                                                       
                                                        
                                                 </td>
                                             </tr>

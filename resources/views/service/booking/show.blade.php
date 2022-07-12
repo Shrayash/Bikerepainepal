@@ -13,7 +13,7 @@
                 <div class="col-12 grid-margin">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="font-weight-semibold">Ongoing Services</h3><br>
+                            <h3 class="font-weight-semibold">Booking Requests</h3><br>
 
                             <form class="form">
                                 <div class="row">
@@ -32,23 +32,29 @@
                                                 <th>Name</th>
                                                 <th>Vehicle No.</th>
                                                 <th>Mobile No.</th>
-                                                <th>Start Time</th>
-                                                <th>Action</th>
+                                                <th>Requested Date</th>
+                                                <th colspan="2">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($services as $service)
                                             <tr>
                                                 <td>{{$service->frst_name}}{{$service->last_name}}</td>
-                                                <td>{{$service->v_no}}</td>
+                                                <td>{{$service->book_v_no}}</td>
                                                 <td>{{$service->mobile_no}}</td>
-                                                <td>{{$service->updated_at}}</td>
-                                                <td>
+                                                <td>{{$service->book_date}}</td>
+                                                <td> 
                                                     <form></form>
-                                                    <form class="form-sample" action="{{ route('service.edit',$service->vehicle_id) }}" >
+                                                    <form class="form-sample" action="{{ route('book.update',$service->id) }}" >
+                                                       @csrf
+                                                   <button name="yes" class="btn btn-box btn-success" type="submit">Yes</button>
+                                                   </form>
+                                                </td>
+                                                <td>
+                                                   <form class="form-sample" action="{{ route('book.edit',$service->id) }}" >
                                                     @csrf
-                                                    <button name="work_status"  class="btn btn-box btn-warning" type="submit" value="resolve">Resolve</button>
-                                                </form>
+                                                   <button name="no"  class="btn btn-box btn-danger" type="submit">No</button>
+                                                   </form>
                                             </td>
                                             </tr>
                                             @endforeach

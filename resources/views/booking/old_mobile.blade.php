@@ -196,19 +196,17 @@
                                                <h3 class="font-weight-semibold">Check Old Customer</h3>
                                                
                                              </div>
-                                   <form class="form-sample" action="{{ route('customer.oldbook') }}">
+                                   <form method="POST" class="form-sample" action="{{ route('customer.oldbook') }}" id="content_form" data-parsley-validate="">
                                      <p class="card-description">Fill the detail carefully. </p>
-                                 
                                      <div class="row">
                                        <div class="col-md-12">
                                          <div class="form-group">
                                            <label for="exampleInputEmail1">Mobile No.</label>
-                                           <input type="text" class="form-control" placeholder="Mobile Number">
+                                          
+                                           <input type="text" id="mobile_no" class="form-control" placeholder="Mobile Number" data-parsley-required-message="Mobile Number Required" data-parsley-trigger="focusin focusout" required>
                                          </div>
                                        </div>
-                                     
-                                     </div>
-                                                            
+                                     </div>                
                                    <br>
                                     <center>
                                      <a href="{{ route('customer.oldbook') }}">

@@ -64,12 +64,14 @@ class CustomerController extends Controller
              'v_no' =>   $customer_vehicle['v_no'][$count],
              'distance'  => $customer_vehicle['distance'][$count],
              'delivery'  => $customer_vehicle['delivery'][$count],
-             'v_remarks'  => $customer_vehicle['v_remarks'][$count]
-         
+             'v_remarks'  => $customer_vehicle['v_remarks'][$count],
+             'booked_at'  => \Carbon\Carbon::now()->toDateTimeString()
             );
             $insert_data[] = $data; 
            }
            customer_vehicles::insert($insert_data);
+
+           //API SMS
 
            return response()->json([
             'success'  => 'Data Added successfully.','id'=>$id
@@ -130,14 +132,12 @@ class CustomerController extends Controller
     $customer_vehicle['delivery'] = $request->get('delivery');
     $customer_vehicle['v_remarks'] = $request->get('v_remarks');
     $customer_vehicle['v_status'] = $request->get('v_status');
-    dd($customer_vehicle['v_status']);
    
       $maxcount=count( $customer_vehicle['v_no']);
       $customer_id = DB::table('customer_vehicles')->where('customer_id',$id)->select('id')->get();
      
      for($count = 0; $count < $maxcount ; $count++)
      {
-
         $c_id= (count($customer_id)>$count) ? $customer_id[$count]->id : 0;
         $databases = customer_vehicles::updateOrCreate(
           ['id'=>$c_id, 'customer_id'=>$id],
@@ -146,44 +146,23 @@ class CustomerController extends Controller
           'distance'  => $customer_vehicle['distance'][$count],
           'delivery'  => $customer_vehicle['delivery'][$count],
           'v_remarks'  => $customer_vehicle['v_remarks'][$count],
-          'v_status' => $customer_vehicle['v_status'][$count]
+          'v_status' => $customer_vehicle['v_status'][$count],
+          'booked_at'  => \Carbon\Carbon::now()->toDateTimeString()
           ]
       );
-      dd('hasdere');
-         
-      return response()->json([
-        'success'  => 'Data Updated successfully.'
-        ]);
     }
+
+      
+
+      return response()->json([
+        'success'  => 'Data Updated successfully.','id'=>$id
+        ]);
+    
   }
 
   public function search(Request $request)
   {
-  //   $customer_query = $request->get('customer_query');
-  //   dd( $customer_query);
-  //  if($request->ajax())
-  //  {
-  //   if($customer_query != '')
-  //   {
-  //     // $doc= User::where('status',1)->where('name', 'like', '%'.$search_query.'%')->get();
-  //     $data= customer::where('mobile_no', 'like', '%'.$customer_query.'%')->get();
-  //     dd($data);
-      
-  //   }
-  //   else
-  //   {
-  //     $data='Nothing to display';
-  //     // $doc ='Nothing to display';
-  //   }
 
-  //   // return response()->json(array('data'=>$data,'doc'=>$doc));
-  //   return response()->json(array('data'=>$data));
-  //  }else{
-  //   // $data='Nothing to display';
-  //   // return response()->json(array('data'=>$data));
-    
-  //   dd('here');
-  //  }
   if($request->ajax())
   {
    $output = '';

@@ -9,6 +9,7 @@ class customer extends Model
 {
     // use HasFactory;
     protected $table='customer';
+    public $fillable =['frst_name','last_name','mobile_no','address','updated_at','created_at'];
     public $primaryKey = 'id';
     public $timestamps = true;
     public function customer()

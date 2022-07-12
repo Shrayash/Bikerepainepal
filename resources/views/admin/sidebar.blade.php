@@ -64,7 +64,10 @@
               <a class="nav-link" href="book_for_customer.html"> Book for service </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="booked_record.html"> Booked Records </a>
+              <a class="nav-link" href="{{ route('book.request') }}"> Booking Requests </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('book.request') }}"> Booked Service </a>
             </li>
             
           </ul>

@@ -22,7 +22,8 @@ class CustomerVehicleTable extends Migration
             $table->string('delivery');
             $table->string('v_remarks');
             $table->string('v_status')->default('active');
-            $table->string('work_status')->default('none');
+            $table->string('work_status')->default('resolve');
+            $table->string('booked_at');
             $table->timestamps();
         });
     }
