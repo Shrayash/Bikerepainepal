@@ -32,19 +32,20 @@ class ServiceController extends Controller
      $ongoing_count=service_activities::where('work_status','ongoing')->count();
      $resolved_count=service_record::count();
      $booking_count=book_customer_vehicle::count();
+
     
       $ongoings = DB::table('service_activities')
         ->join('customer_vehicles', 'service_activities.vehicle_id', '=', 'customer_vehicles.id')
-        ->join('customer', 'customer_vehicles.customer_id', '=', 'customer.id')
+        ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
         ->where('customer_vehicles.v_status','active')
         ->where('service_activities.work_status','ongoing')
-        ->select('service_activities.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'customer.id','customer.frst_name','customer.last_name','customer.mobile_no')
+        ->select('service_activities.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'users.id','users.frst_name','users.last_name','users.mobile_no')
         ->take(5)->get();
 
         $resolved = DB::table('service_record')
         ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
-        ->join('customer', 'customer_vehicles.customer_id', '=', 'customer.id')
-        ->select('service_record.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'customer.id','customer.frst_name','customer.last_name','customer.mobile_no')
+        ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
+        ->select('service_record.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'users.id','users.frst_name','users.last_name','users.mobile_no')
         ->latest()->take(5)->get();
 
         $booking=DB::table('book_customer_vehicles')
@@ -52,7 +53,16 @@ class ServiceController extends Controller
         ->select('book_customer_vehicles.*','book_customer.id','book_customer.frst_name','book_customer.last_name','book_customer.mobile_no')
         ->latest()->take(5)->get();
 
-      return view('admin.adminhome',['ongoing_count'=>$ongoing_count,'resolved_count' => $resolved_count,'booking_count' => $booking_count,'ongoings' => $ongoings,'resolved' => $resolved,'bookings' => $booking]);
+        $users = User::findOrfail(auth()->user()->id);
+
+        $records = DB::table('service_record')
+        ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
+        ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
+        ->select('service_record.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'users.id','users.frst_name','users.last_name','users.mobile_no')
+        ->where('customer_vehicles.customer_id',auth()->user()->id)
+        ->get();
+
+      return view('admin.adminhome',['users'=>$users,'records'=>$records,'ongoing_count'=>$ongoing_count,'resolved_count' => $resolved_count,'booking_count' => $booking_count,'ongoings' => $ongoings,'resolved' => $resolved,'bookings' => $booking]);
      
     }
 
@@ -65,10 +75,10 @@ class ServiceController extends Controller
     {
         $services = DB::table('service_activities')
         ->join('customer_vehicles', 'service_activities.vehicle_id', '=', 'customer_vehicles.id')
-        ->join('customer', 'customer_vehicles.customer_id', '=', 'customer.id')
+        ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
         ->where('customer_vehicles.v_status','active')
         ->where('service_activities.work_status','ongoing')
-        ->select('service_activities.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'customer.id','customer.frst_name','customer.last_name','customer.mobile_no')
+        ->select('service_activities.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'users.id','users.frst_name','users.last_name','users.mobile_no')
         ->get();
         
         return view('service.ongoing_service.show')->with('services', $services);
@@ -78,17 +88,23 @@ class ServiceController extends Controller
     {
         $service_records = DB::table('service_record')
         ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
-        ->join('customer', 'customer_vehicles.customer_id', '=', 'customer.id')
-        ->select('service_record.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'customer.id','customer.frst_name','customer.last_name','customer.mobile_no')
+        ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
+        ->select('service_record.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'users.id','users.frst_name','users.last_name','users.mobile_no')
         ->latest()->get();
 
         return view('service.resolved_service.show',['records'=>$service_records]);
     }
 
+    // public function sms_bill($id)
+    // {
+    //     $record = DB::table('service_record')->where('invoice_no',$id)->get();
+    //     return view('service.sms',['records'=>$record]);
+    // }
+
     public function update(Request $request, $id)
     {
-        // $vehicle = customer_vehicles::findOrfail($id);
-        // $customer = customer::findOrfail( $vehicle->customer_id);
+        $vehicle = customer_vehicles::findOrfail($id);
+        $customer = User::findOrfail( $vehicle->customer_id);
         $work_status = $request->get('work_status');
         $created_at = \Carbon\Carbon::now()->toDateTimeString();
         $updated_at = \Carbon\Carbon::now()->toDateTimeString();
@@ -103,16 +119,33 @@ class ServiceController extends Controller
             ]   
         );
         $customer_update = DB::table('customer_vehicles')->where('id',$id)->update(['work_status'=>$work_status]);
-        return redirect()->route('service.ongoing');
-        //     $services = DB::table('service_activities')
-        // ->join('customer_vehicles', 'service_activities.vehicle_id', '=', 'customer_vehicles.id')
-        // ->join('customer', 'customer_vehicles.customer_id', '=', 'customer.id')
-        // ->where('customer_vehicles.v_status','active')
-        // ->where('service_activities.work_status','ongoing')
-        // ->select('service_activities.*', 'customer_vehicles.id','customer_vehicles.customer_id','customer_vehicles.v_no', 'customer.id','customer.frst_name','customer.last_name','customer.mobile_no')
-        // ->get();
         
-        // return view('service.ongoing_service.show')->with('services', $services);  
+
+        $args = http_build_query(array(
+            'token' => config('sms.token'),
+            'from'  => config('sms.from'),
+            'to'    => $customer->mobile_no,
+            'text'  => 'Dear Customer,
+Your vehicle servicing has been started at '.$created_at.'. Thank you for using our service.
+Warm Regards,
+Bike Repairs Nepal'));
+      
+        
+      
+          # Make the call using API.
+          $ch = curl_init();
+          curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+          curl_setopt($ch, CURLOPT_POST, 1);
+          curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      
+        // Response
+          $response = curl_exec($ch);
+          $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+          curl_close($ch);
+
+        return redirect()->route('service.ongoing');
+         
   }
 
 
@@ -120,7 +153,7 @@ class ServiceController extends Controller
     // dd('here Ism');
     $record = customer_vehicles::findOrFail($id);
     // dd($record);
-    $customer = customer::where('id','=',$record->customer_id)->get();
+    $customer = User::where('id','=',$record->customer_id)->get();
     return view('service.resolved_service.update',['records'=>$record,'customers'=>$customer]);
   }
 
@@ -148,10 +181,12 @@ class ServiceController extends Controller
             $record->file = $fileNameToStore;
             $record->save();
 
-          
+           $idle='idle';
 
             $created_at = \Carbon\Carbon::now()->toDateTimeString();
             $updated_at = \Carbon\Carbon::now()->toDateTimeString();
+            $vehicle = customer_vehicles::findOrfail($id);
+            $customer = User::findOrfail( $vehicle->customer_id);
             $databases = service_activities::updateOrCreate(
                 [
                     'vehicle_id'   => $id,
@@ -162,7 +197,33 @@ class ServiceController extends Controller
                     'updated_at'   => $updated_at
                 ]   
             );
-            $customer_update = DB::table('customer_vehicles')->where('id',$id)->update(['work_status'=>$work_status]);
+            $customer_update = DB::table('customer_vehicles')->where('id',$id)->update(['work_status'=>$work_status, 'preinfo' => $idle]);
+           
+            
+           
+            $args = http_build_query(array(
+                'token' => config('sms.token'),
+                'from'  => config('sms.from'),
+                'to'    => $customer->mobile_no,
+                'text'  => 'Dear Customer,
+Your vehicle has been serviced. Your grand total is NRS '.$record->amount.'. For more details of this billing, click this link http://bikerepairsnepal.com.np/customer/bill/'.$record->invoice_no.'.
+Warm Regards,
+Bike Repairs Nepal'));
+          
+            
+          
+              # Make the call using API.
+              $ch = curl_init();
+              curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+              curl_setopt($ch, CURLOPT_POST, 1);
+              curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+          
+            // Response
+              $response = curl_exec($ch);
+              $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+              curl_close($ch);
+
             return redirect()->route('service.resolved');
   }
 

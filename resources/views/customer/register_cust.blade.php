@@ -97,7 +97,7 @@
                                         Dashboard</button></a>
                             </div>
                             <form method="POST" class="form-sample" action="{{ route('customer.store') }}"
-                                id="content_form" data-parsley-validate="">
+                                id="content_form" data-parsley-validate="" autocomplete="off">
                                 @csrf
                                 <p class="card-description">Fill the details carefully. </p>
                                 <div class="row">

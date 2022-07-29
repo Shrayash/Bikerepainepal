@@ -8,7 +8,7 @@
         </div>
         <div class="login-main-section">
             <div class="login-main-box">
-                <h2>Welcome To <br><strong>SMF Educational Portal!</strong></h2>
+                {{-- <h2>Welcome To <br><strong>SMF Educational Portal!</strong></h2> --}}
                 <p> There is no such videos or publications saved for current action.</p>
             </div>
         </div>

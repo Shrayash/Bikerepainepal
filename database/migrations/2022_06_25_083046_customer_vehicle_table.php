@@ -16,12 +16,13 @@ class CustomerVehicleTable extends Migration
         Schema::create('customer_vehicles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('customer_id');
-            $table->foreign('customer_id')->references('id')->on('customer')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('v_no');
             $table->string('distance');
             $table->string('delivery');
             $table->string('v_remarks');
             $table->string('v_status')->default('active');
+            $table->string('preinfo');
             $table->string('work_status')->default('resolve');
             $table->string('booked_at');
             $table->timestamps();

@@ -35,25 +35,25 @@ class VideoController extends Controller
      */
     public function index()
     {
-      // try{
-      // $videos = videos::where('user_id', '=', auth()->user()->id)->latest()->paginate(5,['*'],'videos');
-      // $publication = publication::where('user_id', '=', auth()->user()->id)->latest()->paginate(5,['*'],'publications');
-      // $users = User::role('admin')->latest()->get();
+      try{
+      $videos = videos::where('user_id', '=', auth()->user()->id)->latest()->paginate(5,['*'],'videos');
+      $publication = publication::where('user_id', '=', auth()->user()->id)->latest()->paginate(5,['*'],'publications');
+      $users = User::role('admin')->latest()->get();
 
-      // $video_user = DB::table('users')
-      // ->whereExists(function ($query) {
-      //     $query->from('videos')
-      //           ->whereRaw('videos.user_id = users.id');
-      // })
-      // ->paginate(5,['*'],'videos_user');
+      $video_user = DB::table('users')
+      ->whereExists(function ($query) {
+          $query->from('videos')
+                ->whereRaw('videos.user_id = users.id');
+      })
+      ->paginate(5,['*'],'videos_user');
 
-      // $publication_user = DB::table('users')
-      // ->whereExists(function ($query) {
-      //     $query->from('publications')
-      //           ->whereRaw('publications.user_id = users.id');
-      // })
-      // ->paginate(5,['*'],'publications_user');
-      // return view('video.managecontent')->with('users',$users)->with('videos',$videos)->with('publication',$publication)->with('video_user',$video_user)->with('publication_user',$publication_user);
+      $publication_user = DB::table('users')
+      ->whereExists(function ($query) {
+          $query->from('publications')
+                ->whereRaw('publications.user_id = users.id');
+      })
+      ->paginate(5,['*'],'publications_user');
+      return view('video.managecontent')->with('users',$users)->with('videos',$videos)->with('publication',$publication)->with('video_user',$video_user)->with('publication_user',$publication_user);
       return view('admin.adminhome');
      
     }

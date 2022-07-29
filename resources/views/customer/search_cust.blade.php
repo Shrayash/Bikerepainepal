@@ -49,13 +49,6 @@
                                             <input type="text" name="search" id="search" class="form-control" placeholder="Search by Customer Mobile Number or Name" />
                                         </div>
                                     </div>
-                                    <!-- <div class="form-group row">
-                        <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Password</label>
-                        <div class="col-sm-9">
-                          <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-                        </div>
-                      </div> -->
-                                    {{-- <button type="submit" class="btn btn-success mr-2">Search</button> --}}
                                 </form>
                             </div>
                         </div>

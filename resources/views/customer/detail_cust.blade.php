@@ -167,67 +167,35 @@
                                 <h3 class="font-weight-semibold">Customer Service Record</h3>
 
                             </div>
-                            <form class="form">
+                            {{-- <form class="form">
                                 <div class="row">
                                     <div class="col-md-10"><input class="form-control" type="search"
                                             placeholder="Search by mobile no. / vehicle no." aria-label="Search"></div>
                                     <div class="col-md-2"><button class="btn btn-outline-success"
                                             type="submit">Search</button></div>
                                 </div>
-                            </form><br>
+                            </form><br> --}}
 
                             <form class="form-sample">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead class="thead-dark">
                                             <tr>
-                                                <!-- <th>Name</th> -->
+                                                <th>Invoice No</th>
                                                 <th>Vehicle No.</th>
-                                                <th>Vehicle Remarks</th>
-                                                <!-- <th>Mobile No.</th> -->
                                                 <th>Service Date</th>
-                                                <th>Total Amount</th>
                                                 <th>Delivery</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($resolved as $rec )
                                             <tr>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>Blue NS 200 CC</td>
-                                                <td>08/12/2022 10:09</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
+                                                <td>{{$rec->invoice_no}}</td>
+                                                <td>{{$rec->v_no}}</td>
+                                                <td>{{$rec->updated_at}}</td> 
+                                                <td>{{$rec->delivery}}</td> 
                                             </tr>
-                                            <tr>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>Blue NS 200 CC</td>
-                                                <td>08/12/2022 10:09</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>Blue NS 200 CC</td>
-                                                <td>08/12/2022 10:09</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>Blue NS 200 CC</td>
-                                                <td>08/12/2022 10:09</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ba-026-pa-2345</td>
-                                                <td>Blue NS 200 CC</td>
-                                                <td>08/12/2022 10:09</td>
-                                                <td>Nrs 1200</td>
-                                                <td>Self</td>
-                                            </tr>
-
-
+                                            @endforeach
 
                                         </tbody>
                                     </table>

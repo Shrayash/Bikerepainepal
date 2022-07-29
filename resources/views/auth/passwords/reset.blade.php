@@ -16,13 +16,13 @@
 
                 <input type="hidden" name="token" value="{{ $token }}">
                 <label for="">
-                    Email
+                    Username
                 </label>
                 <div class="input-box">
                     <span class="input-box-icon">
                         <i class="fa fa-lock"></i>
                     </span>
-                    <input id="email" type="email" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+                    <input id="mobile_no" type="text" name="mobile_no" value="{{ $mobile_no ?? old('mobile_no') }}" required autocomplete="mobile_no" autofocus>
                     {{-- <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus> --}}
                 </div>
                 {{-- @error('email')

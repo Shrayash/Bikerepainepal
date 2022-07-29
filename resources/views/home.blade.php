@@ -108,85 +108,9 @@
             </ul>
         </div>
     @endif
-  
-        
-
-    {{-- <div class="body-container home-page home-page-bg">
-        <div class="container" style="position: relative;">
-            <div class="alert alert-success alert-dismissible fade show message" id="vanish" role="alert">
-                <strong style="font-size: large">{{ $message }}</strong>
-                <button type="button" class="close" data-dismiss="alert" id="vanish" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <h1 class="text-center">
-                SMF Health Portal
-            </h1>
-            
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="division-box">
-                        <a href="{{ route('category.menu') }}">
-                            <p class="text-center"><span> <img src="{{ URL::to('assets/images/Disease.svg')}}" width="60%" alt=""></span></p>
-                            <p class="text-center division-name">Diseases</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="division-box">
-                        <a href="{{ route('category.menu') }}">
-                            <div style="margin:5%">
-                            <p class="text-center"><span> <img src="{{ URL::to('assets/images/Symptoms.svg')}}" width="60%" alt=""></span></p>
-                            </div>
-                            <p class="text-center division-name">Symptoms</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="division-box">
-                        <a href="{{ route('category.menu') }}">
-                            <div style="margin:5%">
-                            <p class="text-center"><span><img src="{{ URL::to('assets/images/Medicine.svg')}}" width="60%" alt=""></span></p>
-                            </div>
-                            <p class="text-center division-name">Medicine</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="division-box">
-                        <a href="{{ route('category.menu') }}">
-                            <div style="margin:5%">
-                            <p class="text-center"><span><img src="{{ URL::to('assets/images/Nutrition.svg')}}" width="60%" alt=""></span></p>
-                            </div>
-                            <p class="text-center division-name">Nutrition</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="division-box">
-                        <a href="{{ route('category.menu') }}">
-                            <div style="margin:5%">
-                            <p class="text-center"><span><img src="{{ URL::to('assets/images/lab Test.svg')}}" width="60%" alt=""></span></p>
-                            </div>
-                            <p class="text-center division-name">Lab Test</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="division-box">
-                        <a href="{{ route('pub') }}">
-                            <div style="margin:5%">
-                            <p class="text-center"><span><img src="{{ URL::to('assets/images/research.svg')}}" width="60%" alt=""></span></p>
-                            </div>
-                            <p class="text-center division-name"style="font-size:22px;">Research & Publications</p>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div> --}}
+ 
     <section class="banner" id="top">
+        
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
@@ -196,7 +120,7 @@
                         <span>We care for you</span>
                         <div class="row">
                         <div class="col-md-2 blue-button">
-                            <a href="{{ route('customer.book') }}">Book Now</a>
+                            <a href="{{ route('customer.newbook') }}">Book Now</a>
                         </div>
                         <!-- <div class="col-md-2 red-button">
                             <a href="book_for_customer.html">Old Customer</a>
@@ -217,11 +141,104 @@
                 <div class="col-md-12">
                     <div class="section-heading">
                         <h3 >About Us</h3><br>
-                        <p style="font-size: 20px;">Mauris sit amet quam congue, pulvinar urna et, congue diam. Suspendisse eu lorem massa. Integer sit amet posuere.Mauris sit amet quam congue, pulvinar urna et, congue diam. Suspendisse eu lorem massa. Integer sit amet posuere.Mauris sit amet quam congue, pulvinar urna et, congue diam. Suspendisse eu lorem massa. Integer sit amet posuere.</p>
+                        <p style="font-size: 20px;">We are the first multibrand two wheeler service center franchisee of Pikpart Smart Garage India  in Nepal. We provide all services related to two wheeler.</p>
 
                     </div>
                 </div> 
             </div> 
+        </div>
+    </section>
+
+    <section class="featured-places" style="padding-top: 0px!important;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-heading">
+                        <hr>
+                        <span></span>
+                        <br><br>
+                        <h3 >Our Services</h3><br>
+                    </div>
+                </div> 
+            </div> 
+            <div class="row">
+                {{-- <div class="col-md-4 grid-margin stretch-card average-price-card">
+                    <div class="card text-white" style="background-color:#DE6449" >
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between pb-2 align-items-center">
+                          <h4 class="font-weight-semibold mb-0">Pick n Drop</h4>
+                          <div class="icon-holder" style="background-color:#FF7353;width:30%;height:100px;" >
+                            <i class="mdi mdi-wrench-outline"></i>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <p class="font-weight-bold mb-0 text-white">Ongoing Service</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div> --}}
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="featured-item">
+                        <div class="down-content">
+                            <h4>Pick n Drop</h4>
+                        
+                            <p>Get your bike/scooter serviced from your comfort zone.</p><br>
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="featured-item">
+                        <div class="down-content">
+                            <h4>Express Service</h4>
+                        
+                            <p>Get your bike/scooter serviced in the quickest time frame.</p><br>
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="featured-item">
+                        <div class="down-content">
+                            <h4>General Service</h4>
+                        
+                            <p>General servicing of your bike/scooter in the most efficient manner.</p><br>
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="featured-item">
+                        <div class="down-content">
+                            <h4>Service Warranty</h4>
+                        
+                            <p>Each of our service comes with great warranty.</p><br>
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="featured-item">
+                        <div class="down-content">
+                            <h4>AMC</h4>
+                        
+                            <p>Save 30% on filling AMC.</p><br>
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="featured-item">
+                        <div class="down-content">
+                            <h4>Road Assistance</h4>
+                        
+                            <p>Get your bike/scooter service on any part of the city.</p><br>
+                           
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </section>
 
@@ -235,7 +252,7 @@
                         <hr>
                         <span></span>
                         <br><br>
-                        <h1><b>Franchise's Glimpse<b></h1>
+                        <h3 >Franchise Glimspe</h3><br>
                     </div>
                 </div> 
             </div> 

@@ -13,10 +13,10 @@ class usersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'name'=>'SuperAdmin',
-                'status'=>1,
-                'email'=>'bikerepairnepal@gmail.com',
-                'verifyToken'=>NULL,
+                'frst_name'=>'BikeRepairs',
+                'last_name'=>'Nepal',
+                'mobile_no'=>'9802350866',
+                'address'=>'Satungal',
                 'password'=>Hash::make('test123!')
             ]
         ]);

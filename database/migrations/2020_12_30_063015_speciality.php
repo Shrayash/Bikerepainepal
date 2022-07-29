@@ -11,21 +11,21 @@ class Speciality extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('speciality', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('speciality');
-        });
-        // Schema::create('group', function (Blueprint $table) {
-        //     $table->bigIncrements('id');
-        //     $table->string('group');
-        // });
-        // Schema::create('department', function (Blueprint $table) {
-        //     $table->bigIncrements('id');
-        //     $table->string('department');
-        // });
-    }
+    // public function up()
+    // {
+    //     // Schema::create('speciality', function (Blueprint $table) {
+    //     //     $table->bigIncrements('id');
+    //     //     $table->string('speciality');
+    //     // });
+    //     // Schema::create('group', function (Blueprint $table) {
+    //     //     $table->bigIncrements('id');
+    //     //     $table->string('group');
+    //     // });
+    //     // Schema::create('department', function (Blueprint $table) {
+    //     //     $table->bigIncrements('id');
+    //     //     $table->string('department');
+    //     // });
+    // }
 
     /**
      * Reverse the migrations.
@@ -34,6 +34,6 @@ class Speciality extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('speciality');
     }
 }

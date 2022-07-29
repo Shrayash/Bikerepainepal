@@ -14,6 +14,7 @@
         </a>
       </li>
       <li class="nav-item nav-category">Admin Panel Menu</li>
+      @role('superadmin')
       <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.index') }}">
           <i class="menu-icon typcn typcn-document-text"></i>
@@ -61,30 +62,69 @@
         <div class="collapse" id="auth">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item">
-              <a class="nav-link" href="book_for_customer.html"> Book for service </a>
+              <a class="nav-link" href="{{route('customer.newbook')}}"> New Customer Booking </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{route('customer.oldmobile')}}"> Old Customer Booking </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ route('book.request') }}"> Booking Requests </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('book.request') }}"> Booked Service </a>
+              <a class="nav-link" href="{{ route('book.check') }}"> Booked Service </a>
             </li>
             
           </ul>
         </div>
       </li>
+      @endrole
+      @role('admin')
       <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.index') }}">
+          <i class="menu-icon typcn typcn-document-text"></i>
+          <span class="menu-title">Dashboard</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="">
+          <i class="menu-icon typcn typcn-shopping-bag"></i>
+          <span class="menu-title">Book for Service</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="">
+          <i class="menu-icon typcn typcn-shopping-bag"></i>
+          <span class="menu-title">Servicing History</span>
+        </a>
+      </li>
+      @endrole
+
+      <li class="nav-item">
+        <a class="nav-link" href="" onclick="event.preventDefault();
+        document.getElementById('logout-form').submit();">
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+          </form>
+          <i class="menu-icon typcn typcn-shopping-bag"></i>
+          <span class="menu-title">Logout</span>
+        </a>
+      </li>
+     
+    
+      {{-- <li class="nav-item">
         <a class="nav-link" href="detail_customer_edit.html">
           <i class="menu-icon typcn typcn-th-large-outline"></i>
           <span class="menu-title">User Edit</span>
         </a>
-      </li>
-      <li class="nav-item">
+      </li> --}}
+      {{-- <li class="nav-item">
         <a class="nav-link" href="sms_pic.html">
           <i class="menu-icon typcn typcn-th-large-outline"></i>
           <span class="menu-title">SMS Sample</span>
         </a>
-      </li>
+      </li> --}}
       
       </ul>
   </nav>

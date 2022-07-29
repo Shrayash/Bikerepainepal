@@ -11,18 +11,18 @@ class CreateDoctorSocialMediaTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('doctor_social_media', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->string('facebook')->nullable();
-            $table->string('twitter')->nullable();
-            $table->string('youtube')->nullable();
-            $table->string('linkedin')->nullable();
-            $table->timestamps();
-        });
-    }
+    // public function up()
+    // {
+    //     Schema::create('doctor_social_media', function (Blueprint $table) {
+    //         $table->bigIncrements('id');
+    //         $table->integer('user_id');
+    //         $table->string('facebook')->nullable();
+    //         $table->string('twitter')->nullable();
+    //         $table->string('youtube')->nullable();
+    //         $table->string('linkedin')->nullable();
+    //         $table->timestamps();
+    //     });
+    // }
 
     /**
      * Reverse the migrations.
@@ -31,6 +31,6 @@ class CreateDoctorSocialMediaTable extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('doctor_social_media');
+        Schema::dropIfExists('doctor_social_media');
     }
 }

@@ -46,11 +46,11 @@ class LoginController extends Controller
     {
         
         $validator=$this->validate($request, [
-            'email'=>'required|email|exists:users,email',
+            'mobile_no'=>'required|regex:/[0-9]{10}/|digits:10',
             'password'=>'required|min:8',
         ]);
         
-        return ['email' => $request->{$this->username()}, 'password' => $request->password, 'status' => 1];
+        return ['mobile_no' => $request->{$this->username()}, 'password' => $request->password];
     }
     
 }

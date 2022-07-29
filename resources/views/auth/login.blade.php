@@ -279,7 +279,7 @@
     </div> --}}
 
     <div class="container-scroller">
-        @if ($errors->count() > 0)
+        {{-- @if ($errors->count() > 0)
             <div class="alert alert-danger alert-dismissible fade show" id="vanish" role="alert">
                 <button type="button" class="close" data-dismiss="alert" id="vanish" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -292,7 +292,7 @@
                 </ul>
             </div>
 
-        @endif
+        @endif --}}
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
                 <div class="row w-100">
@@ -394,14 +394,27 @@
                                 <input type="submit" class="btn btn-primary submit-btn btn-block" value="Log In">
 
                             </form> --}}
+                            @if ($errors->count() > 0)
+                            <div class="alert alert-danger alert-dismissible fade show" id="vanish" role="alert" style="position: relative">
+                                <button type="button" class="close" data-dismiss="alert" id="vanish" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>Validation Error:</strong>
+                                <ul class="list-unstyled">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ ucfirst($error) }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                           <form method="POST" action="{{ route('login') }}" >
                             @csrf
                             <div class="form-group">
                             <label class="label">Username</label>
                             <div class="input-group">
-                                <input id="email" type="email" class=" @error('email') is-invalid @enderror"
-                                name="email" value="{{ old('email') }}" required autocomplete="email"
-                                placeholder="email@service.com" autofocus style="width: 100%;">
+                                <input id="mobile_no" type="text" class=" @error('mobile_no') is-invalid @enderror"
+                                name="mobile_no" value="{{ old('mobile_no') }}" required autocomplete="mobile_no"
+                                autofocus style="width: 100%;">
                                 {{-- <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="mdi mdi-check-circle-outline"></i>

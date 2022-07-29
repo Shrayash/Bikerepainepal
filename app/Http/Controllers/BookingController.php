@@ -8,6 +8,7 @@ use Validator;
 use DB;
 use App\User;
 use App\book_customer;
+use App\service_record;
 use App\book_customer_vehicle;
 use App\Helpers\Helper;
 use Spatie\Permission\Models\Role;
@@ -34,12 +35,18 @@ class BookingController extends Controller
   return view('booking.wait_book');
   }
 
+  public function sms_bill($id)
+  {
+      $record = DB::table('service_record')->where('invoice_no',$id)->get();
+      return view('service.sms',['records'=>$record]);
+  }
+
  
 
   public function book_store(Request $request)
   {
     // $trial=\Carbon\Carbon::createFromFormat('Y-m-d\TH:i',$request->get('date'));
-
+    // dd($request);
     $book_customer=[];
     $book_customer_vehicle = [];
  
@@ -74,7 +81,28 @@ class BookingController extends Controller
     }
     book_customer_vehicle::insert($insert_data);
 
-    //API SMS
+    $args = http_build_query(array(
+      'token' => config('sms.token'),
+      'from'  => config('sms.from'),
+      'to'    => $request->get('mobile_no'),
+      'text'  => 'Dear Customer,
+Thank you for booking our service.You will recieve a booking confirmation message/call from us during office hour. 
+Warm Regards,
+Bike Repairs Nepal'));
+
+  
+
+    # Make the call using API.
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+  // Response
+    $response = curl_exec($ch);
+    $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
 
     return response()->json([
      'success'  => 'Data Added successfully.'
@@ -83,6 +111,8 @@ class BookingController extends Controller
   // return view('booking.new_booking');
   }
 
+
+  
   
 
 

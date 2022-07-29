@@ -116,10 +116,13 @@
                    
                             <div class="d-flex justify-content-between">
                                 <h3 class="font-weight-semibold">Book New Customer</h3>
-
+                                @role('superadmin')
+                                <a href="{{ route('admin.index') }}"><button type="button" class="btn btn-primary btn-fw">Back to
+                                    Dashboard</button></a>
+                                @endrole
                             </div>
                                 <form method="POST" class="form-sample" action="{{ route('book.newstore') }}"
-                                id="content_form" data-parsley-validate="">
+                                id="content_form" data-parsley-validate="" autocomplete="off">
                                 @csrf
                                      <p class="card-description">
                                 Fill the details carefully. </p>
@@ -163,7 +166,75 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <table class="table table-bordered" id="dynamicTable">
+                                          {{-- <tr>
+                                                    <td>Ba-025-Pa-2034</td>
+                                                    <td>06/13/2022 10:30</td>
+                                                    <td>Self</td>
+                                                    <td>Blue NS 200CC</td>
+                                                    <td>--</td>
+                                                </tr> --}}
+                                                <h5 class="text-justify">
+                                                    Fill up your vehicle/s details here. If you have more than 1 vehicle to
+                                                    service, click <b>"Add More"</b> and add details of other vehicles.</h5> 
+
+                                                <div class="container" style="border: 1px solid rgb(201, 183, 183);border-radius: 2%;">
+                                                    <div class="for_videos" style="margin-top:2%;">
+                                                        <div class="video-1">
+                                                            
+                                                            <label for=""><b>Vehicle 1</b></label><br>
+                                                            <label for="">Vehicle No.</label>
+                                                            <input type="text" name="v_no[]" id="v_no" placeholder="Enter Vehicle Number" class="form-control" required>
+                                        
+                                                            <label for="">Service Date</label>
+                                                            <input type="datetime-local" name="date[]" id="date" class="form-control" required>
+                                        
+                                                            <label for="">Delivery</label>
+                                                            <select class="form-control" name="delivery[]" id="delivery">
+                                                                <option>Select option</option>
+                                                                <option value="self">Self</option>
+                                                                <option value="pick/drop">Pick/Drop</option>
+                                                            </select>
+                                                            <label for="">Vehicle Remarks</label>
+                                                            <input type="text" name="v_remarks[]" id="v_remarks" placeholder="Vehicle color/brand name" class="form-control" required>
+                                                        </div><br>
+                                                    </div>
+                                                    <button type="button" name="add" id="add" class="btn btn-primary" style="margin-bottom:5%;margin-top:1%;">Add More Vehicle</button><br>
+                                                </div>
+
+
+                                        {{-- <table class="table table-bordered" id="dynamicTable"> 
+                                            
+                                            <tr>
+                                                <th>Vehicle No.</th>
+                                                <th>Service Date</th>
+                                                <th>Delivery</th>
+                                                <th>Vehicle Remarks</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            <tr>  
+                                                <td><input type="text" name="v_no[]" id="v_no"
+                                                    placeholder="Enter Vehicle Number" class="form-control"
+                                                    required /></td>
+                                                    <td><input type="datetime-local" name="date[]" id="date"
+                                                        placeholder="Enter Distance Covered " class="form-control"
+                                                        required /></td>
+                                                <td>
+                                                    <select class="form-control" name="delivery[]" id="delivery">
+                                                        <option>Select option</option>
+                                                        <option value="self">Self</option>
+                                                        <option value="pick/drop">Pick/Drop</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" name="v_remarks[]" id="v_remarks"
+                                                        placeholder="Vehicle color/brand name" class="form-control"
+                                                        required /></td>
+                                                <td><button type="button" name="add" id="add"
+                                                        class="btn btn-primary">Add More</button></td>  
+                                              
+                                            </tr>  
+                                        </table>  --}}
+
+                                        {{-- <table class="table table-bordered" id="dynamicTable">
                                             <h4>
                                                 Enter your vehicle/s details here. If you have more than 1 vehicle to
                                                 service, click <b>"Add More"</b> and add details of other vehicles.</h4>
@@ -172,18 +243,12 @@
                                                 <tr>
                                                     <th>Vehicle No.</th>
                                                     <th>Service Date</th>
-                                                    {{-- <th>Distance</th> --}}
+                                                   
                                                     <th>Delivery</th>
                                                     <th>Vehicle Remarks</th>
                                                     <th>Action</th>
                                                 </tr>
-                                                {{-- <tr>
-                                                    <td>Ba-025-Pa-2034</td>
-                                                    <td>06/13/2022 10:30</td>
-                                                    <td>Self</td>
-                                                    <td>Blue NS 200CC</td>
-                                                    <td>--</td>
-                                                </tr> --}}
+                                              
                                             </thead>
                                             <tbody class="body_table">
                                                 <tr>
@@ -193,9 +258,7 @@
                                                     <td><input type="datetime-local" name="date[]" id="date"
                                                             placeholder="Enter Distance Covered " class="form-control"
                                                             required /></td>
-                                                    {{-- <td><input type="text" name="distance[]" id="distance"
-                                                            placeholder="Enter Distance Covered " class="form-control"
-                                                            hidden /></td> --}}
+                                                   
                                                     <td>
                                                         <select class="form-control" name="delivery[]" id="delivery">
                                                             <option>Select option</option>
@@ -211,12 +274,10 @@
                                                 </tr>
                                             </tbody>
 
-                                        </table>
+                                        </table> --}}
                                     </div>
                                 </div><br>
                                 <center>
-
-
                                     <input type="submit" class="btn btn-box btn-success" name="save" id="save"
                                         value="submit" />
 
@@ -239,30 +300,48 @@
                 }
             });
 
+            // $count = 1;
+            // $iteration = 0;
+            // $(this).on("click", "#add", function() {
+
+            //     var html = '<tr>';
+            //     $count++;
+            //     $iteration++;
+            //     html +=
+            //         '<td><input type="text" name="v_no[]" placeholder="Enter Vehicle Number" class="form-control" required /></td>';
+            //     html +=
+            //         '<td><input type="datetime-local"  name="date[]" class="form-control" required /></td>';
+            //     html +=
+            //         '<td><select class="form-control" name="delivery[]"><option>Select option</option><option value="self">Self</option><option value="pick/drop">Pick/Drop</option></select></td>';
+            //     html +=
+            //         '<td><input type="text" name="v_remarks[]" placeholder="Vehicle color/brand name" class="form-control" required /></td>';
+            //     html +=
+            //         '<td><button type="button" name="remove" id="" class="btn btn-danger remove">Remove</button></td></tr>';
+            //     $('.body_table').append(html);
+            // });
+
+
+
+            // $(this).on("click", ".remove", function() {
+            //     $(this).closest("tr").remove();
+            // });
+
             $count = 1;
-            $iteration = 0;
-            $(this).on("click", "#add", function() {
-
-                var html = '<tr>';
+            $(this).on("click","#add",function(){
+                var html = '<div class="video-1"';
                 $count++;
-                $iteration++;
-                html +=
-                    '<td><input type="text" name="v_no[]" placeholder="Enter Vehicle Number" class="form-control" required /></td>';
-                html +=
-                    '<td><input type="datetime-local"  name="date[]" class="form-control" required /></td>';
-                html +=
-                    '<td><select class="form-control" name="delivery[]"><option>Select option</option><option value="self">Self</option><option value="pick/drop">Pick/Drop</option></select></td>';
-                html +=
-                    '<td><input type="text" name="v_remarks[]" placeholder="Vehicle color/brand name" class="form-control" required /></td>';
-                html +=
-                    '<td><button type="button" name="remove" id="" class="btn btn-danger remove">Remove</button></td></tr>';
-                $('.body_table').append(html);
+                html += '<label for=""><b>Vehicle '+ $count +'</b></label><br>';
+                html += '<label for="">Vehicle No</label><input type="text" name="v_no[]" id="v_no" placeholder="Enter Vehicle Number" class="form-control" required>';
+                html +='<label for="">Service Date</label><input type="datetime-local" name="date[]" id="date" class="form-control" required>';
+                html += '<label for="">Delivery</label><select class="form-control" name="delivery[]" id="delivery"><option>Select option</option><option value="self">Self</option><option value="pick/drop">Pick/Drop</option></select><br>';
+                html +='<label for="">Vehicle Service</label><input type="text" name="v_remarks[]" id="v_remarks" placeholder="Vehicle color/brand name" class="form-control" required>';
+                html +='<br><button type="button" name="remove" id="" class="btn btn-danger remove" style="margin-bottom:2%;margin-top:2%;">Remove</button></div>';
+                    $('.for_videos').append(html);
+                
             });
-
-
-
-            $(this).on("click", ".remove", function() {
-                $(this).closest("tr").remove();
+            $(this).on("click",".remove",function(){
+                $(this).closest("div.video-1").remove();
+                $count--;
             });
 
 

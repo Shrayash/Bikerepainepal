@@ -9,7 +9,7 @@ class customer_vehicles extends Model
 {
     // use HasFactory;
     protected $table='customer_vehicles';
-    public $fillable =['vehicle_id','work_status','v_no','v_remarks','v_status','delivery','distance','updated_at','customer_id','booked_at'];
+    public $fillable =['vehicle_id','work_status','v_no','v_remarks','v_status','delivery','distance','updated_at','customer_id','booked_at','preinfo'];
     public $primaryKey = 'id';
     public $timestamps = true;
     // public function user()
@@ -18,7 +18,7 @@ class customer_vehicles extends Model
     // }
     public function customer_vehicle()
     {
-    return $this->belongsTo('App\customer','customer_id');
+    return $this->belongsTo('App\User','customer_id');
     }
 
     public function v_service()
