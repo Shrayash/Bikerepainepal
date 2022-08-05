@@ -19,6 +19,7 @@ class BookCustomerVehicleTable extends Migration
             $table->foreign('book_customer_id')->references('id')->on('book_customer')->onDelete('cascade');
             $table->string('book_v_no');
             $table->string('book_date');
+            $table->string('book_distance');
             $table->string('book_delivery');
             $table->string('book_v_remarks');
             $table->string('book_v_status')->default('active');

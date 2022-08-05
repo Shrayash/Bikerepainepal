@@ -17,6 +17,7 @@ class usersTableSeeder extends Seeder
                 'last_name'=>'Nepal',
                 'mobile_no'=>'9802350866',
                 'address'=>'Satungal',
+                // 'slug'=> Str::slug('BikeRepairs'),
                 'password'=>Hash::make('test123!')
             ]
         ]);

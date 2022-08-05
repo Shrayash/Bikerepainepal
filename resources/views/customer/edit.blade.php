@@ -248,7 +248,7 @@
                             $('#result').html('<div class="alert alert-danger">' +
                                 error_html + '</div>');
                         } else {
-                            window.location.href = "/customer/show/"+data.id;
+                            window.location.href = "/customer/show/"+data.slug;
                             // window.location.href = "/admin/index";
                             // window.location.href = "/customer/show/".$id;
                         }

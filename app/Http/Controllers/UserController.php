@@ -180,6 +180,7 @@ class UserController extends Controller
            $customer['mobile_no'] = $request->get('mobile_no');
            $customer['address'] = $request->get('address');
            $customer['password'] = Hash::make('test123!');
+          //  $customer['id'] = Str::id($request->get('frst_name'));
            $customer['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
            $customer['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
           
@@ -198,7 +199,7 @@ class UserController extends Controller
            {
                
             $data = array(
-             'customer_id' => $id,
+             'customer_id' =>  $id,
              'v_no' =>   $customer_vehicle['v_no'][$count],
              'distance'  => $customer_vehicle['distance'][$count],
              'preinfo'  =>  $info,
@@ -209,13 +210,15 @@ class UserController extends Controller
             $insert_data[] = $data; 
            }
            customer_vehicles::insert($insert_data);
-           $roles = DB::table('model_has_roles')->insert([
-            [
-                'role_id'=>1 ,
-                'model_type'=>'App\User',
-                'model_id'=>$id
-            ]
-        ]);
+           $user = User::findOrFail( $id);
+           $user->assignRole('admin');
+        //    $roles = DB::table('model_has_roles')->insert([
+        //     [
+        //         'role_id'=>1 ,
+        //         'model_type'=>'App\User',
+        //         'model_id'=>$id
+        //     ]
+        // ]);
 
 //            $args = http_build_query(array(
 //             'token' => config('sms.token'),
@@ -269,22 +272,24 @@ class UserController extends Controller
 
         public function show($id)
         {
-                $customer = User::where('id','=',$id)->get();
+                $customer = User::where('id',$id)->get();
                 $customer_vehicle = DB::table('customer_vehicles')->where('customer_vehicles.customer_id','=',$id)->where('customer_vehicles.v_status','=','active')->get()->toArray();
                 $resolved = DB::table('service_record')
                 ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
                 ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
+                ->where('users.id', '=', $id)
                 ->select('service_record.*','customer_vehicles.v_no','customer_vehicles.delivery')
                 ->latest()->get();
+
                 return view('customer.detail_cust')->with('id',$id)->with('customer',$customer)->with('customer_vehicle',$customer_vehicle)->with('resolved',$resolved);
             
         }
 
-        public function edit($id)
+        public function edit(User $id)
     {
       // dd('here');
         $customer_vehicle = [];
-        $customer = User::find($id);
+        $customer = User::findOrfail($id);
         $customer_vehicle = DB::table('customer_vehicles')->where('customer_vehicles.customer_id','=',$id)->get();
         // return view('admin.adminhome');
         return view('customer.edit',['customer'=>$customer,'customer_vehicle'=>$customer_vehicle,'id'=>$id]);
@@ -307,6 +312,7 @@ class UserController extends Controller
     $customer['last_name'] = $request->get('last_name');
     $customer['mobile_no'] = $request->get('mobile_no');
     $customer['address'] = $request->get('address');
+    // $customer['id'] = Str::id($request->get('frst_name'));
     $customer['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
     $customer['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
    
@@ -327,7 +333,7 @@ class UserController extends Controller
         $c_id= (count($customer_id)>$count) ? $customer_id[$count]->id : 0;
         $databases = customer_vehicles::updateOrCreate(
           ['id'=>$c_id, 'customer_id'=>$id],
-          ['customer_id' => $id,
+          ['customer_id' =>$customer_id,
           'v_no' =>   $customer_vehicle['v_no'][$count],
           'distance'  => $customer_vehicle['distance'][$count],
           'preinfo'  =>  $info,

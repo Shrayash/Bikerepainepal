@@ -1,11 +1,10 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVideoContentsTable extends Migration
+class CreatePersonalAccessTokensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +13,13 @@ class CreateVideoContentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('video_contents', function (Blueprint $table) {
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('parent_id');
-            $table->foreign('parent_id')->references('id')->on('videos')->onDelete('cascade');
+            $table->morphs('tokenable');
             $table->string('name');
-            $table->longText('description');
-            $table->string('link');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateVideoContentsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('personal_access_tokens');
     }
 }

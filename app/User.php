@@ -6,12 +6,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Sanctum\HasApiTokens;
 
 
 class User extends Authenticatable
 {
     use HasRoles;
-    use Notifiable;
+    use Notifiable,HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +22,7 @@ class User extends Authenticatable
      */
     public $timestamps = true;
     protected $fillable = [
-        'frst_name', 'last_name', 'password','mobile_no','address'
+        'frst_name', 'last_name', 'password','mobile_no','address','slug'
     ];
 
     /**
@@ -47,7 +48,7 @@ class User extends Authenticatable
 
     public function customer()
     {
-    return $this->hasMany('App\customer_vehicles','customer_id');
+    return $this->hasMany('App\customer_vehicles','customer_slug');
     }
 
 }

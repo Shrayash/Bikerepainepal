@@ -15,13 +15,13 @@
                         <div class="card-body">
                             <h3 class="font-weight-semibold">Booked Services</h3><br>
 
-                            <form class="forms-sample" action="detail_customer.html">
+                            {{-- <form class="forms-sample" action="detail_customer.html">
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <input type="text" name="search" id="search" class="form-control" placeholder="Search by Customer Mobile Number or Name" />
                                     </div>
                                 </div>
-                            </form><br>
+                            </form><br> --}}
 
                             <form class="form-sample">
                                 <div class="table-responsive">
@@ -38,7 +38,7 @@
                                         </thead>
                                         <tbody>
                                             {{-- {{$services}} --}}
-                                            {{-- @foreach ($services as $service)
+                                            @foreach ($data as $service)
                                             <tr>
                                                 <td>{{$service->frst_name}}{{$service->last_name}}</td>
                                                 <td>{{$service->v_no}}</td>
@@ -63,7 +63,7 @@
                                             </form>
                                         </td>
                                             </tr>
-                                            @endforeach --}}
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -92,7 +92,7 @@
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script>
+    {{-- <script>
         $(document).ready(function(){
         
          fetch_customer_data();
@@ -117,5 +117,5 @@
           fetch_customer_data(query);
          });
         });
-        </script>
+        </script> --}}
 @endsection

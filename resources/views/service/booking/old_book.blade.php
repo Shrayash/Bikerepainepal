@@ -77,8 +77,9 @@
                                                 </tr> --}}
                                                 <h5 class="text-justify">
                                                     To add new vehicles or update information of current vehicles, click <b>Update Details</b>.<br>
-                                                    <button type="button" name="update" id="update" class="btn btn-primary" style="margin-bottom:5%;margin-top:1%;">Update Details</button></h5> 
-
+                                                    <a href="{{route('customer.edit',$customer->id) }}"> 
+                                                    <button type="button" name="update" id="update" class="btn btn-primary" style="margin-bottom:5%;margin-top:1%;">Update Details</button></a></h5> 
+                                                    
                                                 <div class="container" style="border: 1px solid rgb(201, 183, 183);border-radius: 2%;">
                                                    
                                                     <div class="for_videos" style="margin-top:2%;">
@@ -90,19 +91,22 @@
                                                         <div class="video-1">
                                                             <label for=""><b>Vehicle No. {{ $vehicle->v_no }}</b></label><br>
                                                             {{-- <label for="">Vehicle No.</label> --}}
-                                                            <input type="text" name="v_no[]" id="v_no" value="{{ $vehicle->v_no }}" class="form-control" required hidden>
+                                                            <input type="text" name="v_no" id="v_no" value="{{ $vehicle->v_no }}" class="form-control" required hidden>
                                         
                                                             <label for="">Choose Service Date</label>
-                                                            <input type="datetime-local" name="date[]" id="date" class="form-control" required>
+                                                            <input type="datetime-local" name="date" id="date" class="form-control" required>
                                         
+                                                            <label for="">Distance Covered (Kilometers)</label>
+                                                            <input type="text" name="distance" id="distance" class="form-control" required>
+
                                                             <label for="">Delivery</label>
-                                                            <select class="form-control" name="delivery[]" id="delivery" required>
+                                                            <select class="form-control" name="delivery" id="delivery" required>
                                                                 <option>Select option</option>
                                                                 <option value="self">Self</option>
                                                                 <option value="pick/drop">Pick/Drop</option>
                                                             </select>
                                                             <label for="">Vehicle Remarks</label>
-                                                            <input type="text" name="v_remarks[]" id="v_remarks" value="{{ $vehicle->v_remarks }}" class="form-control" required>
+                                                            <input type="text" name="v_remarks" id="v_remarks" value="{{ $vehicle->v_remarks }}" class="form-control" required>
                                                         </div><br>
                                                         <input type="submit" class="btn btn-box btn-success" name="save" id="save"
                                                         value="Book Service" /><br>
@@ -147,6 +151,7 @@
                 html += '<label for=""><b>Vehicle '+ $count +'</b></label><br>';
                 html += '<label for="">Vehicle No</label><input type="text" name="v_no[]" id="v_no" placeholder="Enter Vehicle Number" class="form-control" required>';
                 html +='<label for="">Service Date</label><input type="datetime-local" name="date[]" id="date" class="form-control" required>';
+                html += '<label for="">Distance Covered (Kilometers)</label><input type="text" name="distance[]" id="distance" placeholder="Enter Distance Covered" class="form-control" required>';
                 html += '<label for="">Delivery</label><select class="form-control" name="delivery[]" id="delivery"><option>Select option</option><option value="self">Self</option><option value="pick/drop">Pick/Drop</option></select><br>';
                 html +='<label for="">Vehicle Service</label><input type="text" name="v_remarks[]" id="v_remarks" placeholder="Vehicle color/brand name" class="form-control" required>';
                 html +='<br><button type="button" name="remove" id="" class="btn btn-danger remove" style="margin-bottom:2%;margin-top:2%;">Remove</button></div>';
@@ -161,18 +166,18 @@
 
 
             $('#content_form').on('submit', function(event) {
-                var v_no = $('input[name^=v_no]').map(function(idx, elem) {
-                    return $(elem).val();
-                }).get();
-                var date = $('input[name^=date]').map(function(idx, elem) {
-                    return $(elem).val();
-                }).get();
-                var delivery = $('select[name^=delivery]').map(function(idx, elem) {
-                    return $(elem).val();
-                }).get();
-                var v_remarks = $('input[name^=v_remarks]').map(function(idx, elem) {
-                    return $(elem).val();
-                }).get();
+                // var v_no = $('input[name^=v_no]').map(function(idx, elem) {
+                //     return $(elem).val();
+                // }).get();
+                // var date = $('input[name^=date]').map(function(idx, elem) {
+                //     return $(elem).val();
+                // }).get();
+                // var delivery = $('select[name^=delivery]').map(function(idx, elem) {
+                //     return $(elem).val();
+                // }).get();
+                // var v_remarks = $('input[name^=v_remarks]').map(function(idx, elem) {
+                //     return $(elem).val();
+                // }).get();
                 event.preventDefault();
                 $.ajax({
                     url: '{{ route('book.newstore') }}',
@@ -183,10 +188,11 @@
                         last_name: $('#last_name').val(),
                         mobile_no: $('#mobile_no').val(),
                         address: $('#address').val(),
-                        v_no: v_no,
-                        date: date,
-                        delivery: delivery,
-                        v_remarks: v_remarks
+                        v_no: $('#v_no').val(),
+                        date: $('#date').val(),
+                        delivery: $('#delivery').val(),
+                        v_remarks: $('#v_remarks').val(),
+                        distance: $('#distance').val()
                     },
                     dataType: 'json',
                     beforeSend: function() {

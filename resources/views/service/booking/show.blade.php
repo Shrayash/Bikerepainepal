@@ -39,11 +39,14 @@
                                         <tbody>
                                             @foreach ($services as $service)
                                             <tr>
-                                                <td>{{$service->frst_name}}{{$service->last_name}}</td>
+                                                <td>{{$service->frst_name}} {{$service->last_name}}</td>
                                                 <td>{{$service->book_v_no}}</td>
                                                 <td>{{$service->mobile_no}}</td>
-                                                <td>{{$service->book_date}}</td>
+                                               @php($date_array = explode("T", $service->book_date)) 
+                                                <td>
+                                                    {{$date_array[0]}} &nbsp; {{$date_array[1]}}</td>
                                                 <td> 
+                                               
                                                     <form></form>
                                                     <form class="form-sample" action="{{ route('book.update',$service->id) }}" >
                                                        @csrf

@@ -175,18 +175,23 @@
                                                 </tr> --}}
                                                 <h5 class="text-justify">
                                                     Fill up your vehicle/s details here. If you have more than 1 vehicle to
-                                                    service, click <b>"Add More"</b> and add details of other vehicles.</h5> 
+                                                    service, click <b>"Add More"</b> and add details of other vehicles. Vehicle number
+                                                should be written in format as <b>Ba-023-Pa-2056</b>.</h5> 
+
 
                                                 <div class="container" style="border: 1px solid rgb(201, 183, 183);border-radius: 2%;">
                                                     <div class="for_videos" style="margin-top:2%;">
                                                         <div class="video-1">
                                                             
                                                             <label for=""><b>Vehicle 1</b></label><br>
-                                                            <label for="">Vehicle No.</label>
+                                                            <label for="">Vehicle Number</label>
                                                             <input type="text" name="v_no[]" id="v_no" placeholder="Enter Vehicle Number" class="form-control" required>
                                         
                                                             <label for="">Service Date</label>
                                                             <input type="datetime-local" name="date[]" id="date" class="form-control" required>
+
+                                                            <label for="">Distance Covered (Kilometers)</label>
+                                                            <input type="text" name="distance[]" id="distance" class="form-control" required>
                                         
                                                             <label for="">Delivery</label>
                                                             <select class="form-control" name="delivery[]" id="delivery">
@@ -333,6 +338,7 @@
                 html += '<label for=""><b>Vehicle '+ $count +'</b></label><br>';
                 html += '<label for="">Vehicle No</label><input type="text" name="v_no[]" id="v_no" placeholder="Enter Vehicle Number" class="form-control" required>';
                 html +='<label for="">Service Date</label><input type="datetime-local" name="date[]" id="date" class="form-control" required>';
+                html += '<label for="">Distance Covered (Kilometers)</label><input type="text" name="distance[]" id="distance" placeholder="Enter Distance Covered" class="form-control" required>';
                 html += '<label for="">Delivery</label><select class="form-control" name="delivery[]" id="delivery"><option>Select option</option><option value="self">Self</option><option value="pick/drop">Pick/Drop</option></select><br>';
                 html +='<label for="">Vehicle Service</label><input type="text" name="v_remarks[]" id="v_remarks" placeholder="Vehicle color/brand name" class="form-control" required>';
                 html +='<br><button type="button" name="remove" id="" class="btn btn-danger remove" style="margin-bottom:2%;margin-top:2%;">Remove</button></div>';
@@ -359,6 +365,9 @@
                 var v_remarks = $('input[name^=v_remarks]').map(function(idx, elem) {
                     return $(elem).val();
                 }).get();
+                var distance = $('input[name^=distance]').map(function(idx, elem) {
+                    return $(elem).val();
+                }).get();
                 event.preventDefault();
                 $.ajax({
                     url: '{{ route('book.newstore') }}',
@@ -372,7 +381,8 @@
                         v_no: v_no,
                         date: date,
                         delivery: delivery,
-                        v_remarks: v_remarks
+                        v_remarks: v_remarks,
+                        distance: distance
                     },
                     dataType: 'json',
                     beforeSend: function() {

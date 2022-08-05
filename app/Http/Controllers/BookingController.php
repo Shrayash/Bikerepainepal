@@ -35,11 +35,11 @@ class BookingController extends Controller
   return view('booking.wait_book');
   }
 
-  public function sms_bill($id)
-  {
-      $record = DB::table('service_record')->where('invoice_no',$id)->get();
-      return view('service.sms',['records'=>$record]);
-  }
+  // public function sms_bill($id)
+  // {
+  //     $record = DB::table('service_record')->where('invoice_no',$id)->get();
+  //     return view('service.sms',['records'=>$record]);
+  // }
 
  
 
@@ -56,53 +56,65 @@ class BookingController extends Controller
     $book_customer['address'] = $request->get('address');
     $book_customer['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
     $book_customer['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
-   
-    $id = DB::table('book_customer')->insertGetId($book_customer);
-    
-   $book_customer_vehicle['v_no'] = $request->get('v_no');
-   $book_customer_vehicle['date'] = $request->get('date');
-   $book_customer_vehicle['delivery'] = $request->get('delivery');
-   $book_customer_vehicle['v_remarks'] = $request->get('v_remarks');
-  
-  
-     $maxcount=count( $book_customer_vehicle['v_no']);
+
+    $book_customer_vehicle['v_no'] = $request->get('v_no');
+    $book_customer_vehicle['date'] = $request->get('date');
+    $book_customer_vehicle['distance'] = $request->get('distance');
+    $book_customer_vehicle['delivery'] = $request->get('delivery');
+    $book_customer_vehicle['v_remarks'] = $request->get('v_remarks');
+
+    $database_customer = book_customer::updateOrCreate(
+      ['frst_name' => $book_customer['frst_name'],'mobile_no'=>$book_customer['mobile_no']],
+      ['frst_name' => $book_customer['frst_name'],
+      'last_name' => $book_customer['last_name'],
+      'mobile_no'  => $book_customer['mobile_no'],
+      'address'  => $book_customer['address'],
+      'created_at'  => \Carbon\Carbon::now()->toDateTimeString(),
+      'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+      ]
+  );
+
+
+  $customer_id = DB::table('book_customer')->where('mobile_no',$book_customer['mobile_no'])->first();
+
+  $maxcount=count( $book_customer_vehicle['v_no']);
     for($count = 0; $count < $maxcount ; $count++)
     {
-        
-     $data = array(
-      'book_customer_id' => $id,
-      'book_v_no' =>   $book_customer_vehicle['v_no'][$count],
-      'book_date'  => $book_customer_vehicle['date'][$count],
-      'book_delivery'  => $book_customer_vehicle['delivery'][$count],
-      'book_v_remarks'  => $book_customer_vehicle['v_remarks'][$count]
-  
-     );
-     $insert_data[] = $data; 
+  $database_customer_vehicle = book_customer_vehicle::updateOrCreate(
+  ['book_customer_id'=>$customer_id->id,'book_v_no'=>$book_customer_vehicle['v_no'][$count]],
+  ['book_customer_id' => $customer_id->id,
+  'book_v_no' =>   $book_customer_vehicle['v_no'][$count],
+  'book_date'  => $book_customer_vehicle['date'][$count],
+  'book_distance'=>$book_customer_vehicle['distance'][$count],
+  'book_delivery'  => $book_customer_vehicle['delivery'][$count],
+  'book_v_remarks'  => $book_customer_vehicle['v_remarks'][$count]
+  ]
+);
     }
-    book_customer_vehicle::insert($insert_data);
+   
 
-    $args = http_build_query(array(
-      'token' => config('sms.token'),
-      'from'  => config('sms.from'),
-      'to'    => $request->get('mobile_no'),
-      'text'  => 'Dear Customer,
-Thank you for booking our service.You will recieve a booking confirmation message/call from us during office hour. 
-Warm Regards,
-Bike Repairs Nepal'));
+//     $args = http_build_query(array(
+//       'token' => config('sms.token'),
+//       'from'  => config('sms.from'),
+//       'to'    => $request->get('mobile_no'),
+//       'text'  => 'Dear Customer,
+// Thank you for booking our service.You will recieve a booking confirmation message/call from us during office hour. 
+// Warm Regards,
+// Bike Repairs Nepal'));
 
   
 
-    # Make the call using API.
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, config('sms.url'));
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//     # Make the call using API.
+//     $ch = curl_init();
+//     curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+//     curl_setopt($ch, CURLOPT_POST, 1);
+//     curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-  // Response
-    $response = curl_exec($ch);
-    $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+//   // Response
+//     $response = curl_exec($ch);
+//     $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//     curl_close($ch);
 
     return response()->json([
      'success'  => 'Data Added successfully.'

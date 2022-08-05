@@ -159,22 +159,22 @@
                         <div class="col-md-6 grid-margin">
                             <div class="card">
                                 <div class="card-body">
-                                   
-                                        <a href="{{ route('customer.register_cust') }}" style="text-decoration: none">
-                                            <div class="d-flex justify-content-between ">
-                                                <h5 class="font-weight-semibold">Register New Customer</h5>
-                                                <span class="fa fa-fw fa-user-plus" style="font-size: 170%"></span>
-                                            </div>
-                                        </a>
-                                    </div>
-                             
+
+                                    <a href="{{ route('customer.register_cust') }}" style="text-decoration: none">
+                                        <div class="d-flex justify-content-between ">
+                                            <h5 class="font-weight-semibold">Register New Customer</h5>
+                                            <span class="fa fa-fw fa-user-plus" style="font-size: 170%"></span>
+                                        </div>
+                                    </a>
+                                </div>
+
                             </div>
                         </div>
 
 
 
                         <div class="col-md-6 grid-margin">
-                            
+
                             <div class="card">
                                 <div class="card-body">
                                     <a href="{{ route('customer.check') }}" style="text-decoration: none">
@@ -219,7 +219,11 @@
                                                         <td>{{ $book->frst_name }}</td>
                                                         <td>{{ $book->mobile_no }}</td>
                                                         <!--  <td>Paid</td> -->
-                                                        <td>{{ $book->book_date }}</td>
+                                                        {{-- <td>{{ $book->book_date }}</td> --}}
+                                                        @php($date_array = explode('T', $book->book_date))
+                                                        <td>
+                                                            {{ $date_array[0] }} &nbsp; {{ $date_array[1] }}</td>
+                                                        <td>
                                                         <td>
                                                             <form></form>
                                                             <form class="form-sample"
@@ -336,142 +340,142 @@
                             <div class="card">
                                 <div class="card-body"> --}}
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">First name</label>
-                                                <h4><b>{{ $users->frst_name }}</b></h4>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Last name</label>
-                                                <h4><b>{{ $users->last_name }}</b></h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Mobile No.</label>
-                                                <h4><b>{{ $users->mobile_no }}</b></h4>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Address</label>
-                                                <h4><b>{{ $users->address }}</b></h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                  {{-- </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">First name</label>
+                                <h4><b>{{ $users->frst_name }}</b></h4>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Last name</label>
+                                <h4><b>{{ $users->last_name }}</b></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Mobile No.</label>
+                                <h4><b>{{ $users->mobile_no }}</b></h4>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Address</label>
+                                <h4><b>{{ $users->address }}</b></h4>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- </div>
                                 </div>
                             </div>
                         </div> --}}
 
-                                    <div class="row">
-                                        <div class="col-md-12 grid-margin">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
-                                                        <h4 class="font-weight-semibold">Servicing Records</h4>
-                                                        <a href="{{ route('service.resolved') }}"><button type="button"
-                                                                class="btn btn-primary btn-fw">Show All</button></a>
-                                                    </div>
-                                                    <p>Check your last services.</p>
-                                                    <div class="table-responsive">
-                                                        <table class="table table-striped table-hover">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Vehicle No.</th>
-                                                                    <th>Invoice_no.</th>
-                                                                    <th>Amount</th>
-                                                                    <th>Service Date</th>
-                                                                    <!-- <th>Done By</th> -->
-                                                                    {{-- <th>Delivery Type</th> --}}
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-
-                                                                @foreach ($records as $off)
-                                                                    <tr>
-                                                                        <td>{{ $off->v_no }}</td>
-                                                                        <td>{{ $off->invoice_no }}</td>
-                                                                        <td>{{ $off->amount }}</td>
-                                                                        <td>{{ $off->updated_at }}</td>
-                                                                    </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                    <div class="row">
+                        <div class="col-md-12 grid-margin">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h4 class="font-weight-semibold">Servicing Records</h4>
+                                        <a href="{{ route('service.resolved') }}"><button type="button"
+                                                class="btn btn-primary btn-fw">Show All</button></a>
                                     </div>
-                               
+                                    <p>Check your last services.</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle No.</th>
+                                                    <th>Invoice_no.</th>
+                                                    <th>Amount</th>
+                                                    <th>Service Date</th>
+                                                    <!-- <th>Done By</th> -->
+                                                    {{-- <th>Delivery Type</th> --}}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                                @endrole
-
+                                                @foreach ($records as $off)
+                                                    <tr>
+                                                        <td>{{ $off->v_no }}</td>
+                                                        <td>{{ $off->invoice_no }}</td>
+                                                        <td>{{ $off->amount }}</td>
+                                                        <td>{{ $off->updated_at }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- content-wrapper ends -->
-                            <!-- partial:partials/_footer.html -->
-
-                            <!-- partial -->
                         </div>
-                        <!-- main-panel ends -->
-
-                        <!-- page-body-wrapper ends -->
                     </div>
-                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                    <script>
-                        $(document).ready(function() {
 
-                            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                            console.log(CSRF_TOKEN);
 
-                            function customer_search(customer_query = '') {
-                                $('#result').html('');
-                                $.ajax({
-                                    url: '{{ route('customer.search') }}',
-                                    method: 'GET',
-                                    data: {
-                                        customer_query: customer_query,
-                                        _token: CSRF_TOKEN
-                                    },
-                                    dataType: 'json',
-                                    success: function(data) {
+                @endrole
 
-                                        var result = data.data;
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
 
-                                        if (result.length > 0) {
-                                            $('#result').html('');
-                                            for (var count = 0; count < result.length; count++) {
-                                                var url = "{{ route('customer.show', '') }}" + "/" + result[count].id;
-                                                $('#result').append('<a href="' + url +
-                                                    '"><li class="list-group-item link-class">' + result[count]
-                                                    .mobile_no + '</li></a>');
-                                            }
-                                        } else {
-                                            $('#result').html('');
-                                            $('#result').append(
-                                                '<li class="list-group-item link-class">No Data to Display</li>');
-                                        }
-                                    },
-                                    error: function() {
-                                        console.log('error')
-                                    }
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
 
-                                });
+        <!-- page-body-wrapper ends -->
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
 
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            console.log(CSRF_TOKEN);
+
+            function customer_search(customer_query = '') {
+                $('#result').html('');
+                $.ajax({
+                    url: '{{ route('customer.search') }}',
+                    method: 'GET',
+                    data: {
+                        customer_query: customer_query,
+                        _token: CSRF_TOKEN
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+
+                        var result = data.data;
+
+                        if (result.length > 0) {
+                            $('#result').html('');
+                            for (var count = 0; count < result.length; count++) {
+                                var url = "{{ route('customer.show', '') }}" + "/" + result[count].id;
+                                $('#result').append('<a href="' + url +
+                                    '"><li class="list-group-item link-class">' + result[count]
+                                    .mobile_no + '</li></a>');
                             }
+                        } else {
+                            $('#result').html('');
+                            $('#result').append(
+                                '<li class="list-group-item link-class">No Data to Display</li>');
+                        }
+                    },
+                    error: function() {
+                        console.log('error')
+                    }
 
-                            $(document).on('keyup', '#customer_search', function() {
-                                var query = $(this).val();
+                });
 
-                                if (query.length > 0 || event.keyCode !== 8) {
-                                    customer_search(query);
-                                }
+            }
 
-                            });
-                        });
-                    </script>
+            $(document).on('keyup', '#customer_search', function() {
+                var query = $(this).val();
+
+                if (query.length > 0 || event.keyCode !== 8) {
+                    customer_search(query);
+                }
+
+            });
+        });
+    </script>

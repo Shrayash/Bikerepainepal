@@ -74,7 +74,7 @@ Route::post('/customer/service/booking/update/{id}','AdminBookController@update_
 Route::post('/customer/service/booking/cancel/{id}','AdminBookController@cancel_book')->name('book.cancel')->middleware('role:superadmin');
 //booking
 
-Route::get('/customer/bill/{id}','BookingController@sms_bill')->name('sms.bill');
+Route::get('/customer/bill/','BookingController@sms_bill')->name('sms.bill')->middleware('role:admin');
 
 
 Route::get('/customer/book','BookingController@book')->name('customer.book');
