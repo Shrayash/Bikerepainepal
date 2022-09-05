@@ -166,16 +166,11 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                          {{-- <tr>
-                                                    <td>Ba-025-Pa-2034</td>
-                                                    <td>06/13/2022 10:30</td>
-                                                    <td>Self</td>
-                                                    <td>Blue NS 200CC</td>
-                                                    <td>--</td>
-                                                </tr> --}}
+                                          
                                                 <h5 class="text-justify">
                                                     Fill up your vehicle/s details here. If you have more than 1 vehicle to
-                                                    service, click <b>"Add More"</b> and add details of other vehicles. Vehicle number
+                                                    service, click <b>"Add More"</b> and add details of other vehicles. <br><br>
+                                                    Vehicle number
                                                 should be written in format as <b>Ba-023-Pa-2056</b>.</h5> 
 
 
@@ -185,7 +180,7 @@
                                                             
                                                             <label for=""><b>Vehicle 1</b></label><br>
                                                             <label for="">Vehicle Number</label>
-                                                            <input type="text" name="v_no[]" id="v_no" placeholder="Enter Vehicle Number" class="form-control" required>
+                                                            <input type="text" name="v_no[]" id="v_no" placeholder="Example Ba-023-Pa-2056" class="form-control" required>
                                         
                                                             <label for="">Service Date</label>
                                                             <input type="datetime-local" name="date[]" id="date" class="form-control" required>
@@ -207,79 +202,6 @@
                                                 </div>
 
 
-                                        {{-- <table class="table table-bordered" id="dynamicTable"> 
-                                            
-                                            <tr>
-                                                <th>Vehicle No.</th>
-                                                <th>Service Date</th>
-                                                <th>Delivery</th>
-                                                <th>Vehicle Remarks</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            <tr>  
-                                                <td><input type="text" name="v_no[]" id="v_no"
-                                                    placeholder="Enter Vehicle Number" class="form-control"
-                                                    required /></td>
-                                                    <td><input type="datetime-local" name="date[]" id="date"
-                                                        placeholder="Enter Distance Covered " class="form-control"
-                                                        required /></td>
-                                                <td>
-                                                    <select class="form-control" name="delivery[]" id="delivery">
-                                                        <option>Select option</option>
-                                                        <option value="self">Self</option>
-                                                        <option value="pick/drop">Pick/Drop</option>
-                                                    </select>
-                                                </td>
-                                                <td><input type="text" name="v_remarks[]" id="v_remarks"
-                                                        placeholder="Vehicle color/brand name" class="form-control"
-                                                        required /></td>
-                                                <td><button type="button" name="add" id="add"
-                                                        class="btn btn-primary">Add More</button></td>  
-                                              
-                                            </tr>  
-                                        </table>  --}}
-
-                                        {{-- <table class="table table-bordered" id="dynamicTable">
-                                            <h4>
-                                                Enter your vehicle/s details here. If you have more than 1 vehicle to
-                                                service, click <b>"Add More"</b> and add details of other vehicles.</h4>
-                                            <br>
-                                            <thead>
-                                                <tr>
-                                                    <th>Vehicle No.</th>
-                                                    <th>Service Date</th>
-                                                   
-                                                    <th>Delivery</th>
-                                                    <th>Vehicle Remarks</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                              
-                                            </thead>
-                                            <tbody class="body_table">
-                                                <tr>
-                                                    <td><input type="text" name="v_no[]" id="v_no"
-                                                            placeholder="Enter Vehicle Number" class="form-control"
-                                                            required /></td>
-                                                    <td><input type="datetime-local" name="date[]" id="date"
-                                                            placeholder="Enter Distance Covered " class="form-control"
-                                                            required /></td>
-                                                   
-                                                    <td>
-                                                        <select class="form-control" name="delivery[]" id="delivery">
-                                                            <option>Select option</option>
-                                                            <option value="self">Self</option>
-                                                            <option value="pick/drop">Pick/Drop</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><input type="text" name="v_remarks[]" id="v_remarks"
-                                                            placeholder="Vehicle color/brand name" class="form-control"
-                                                            required /></td>
-                                                    <td><button type="button" name="add" id="add"
-                                                            class="btn btn-primary">Add More</button></td>
-                                                </tr>
-                                            </tbody>
-
-                                        </table> --}}
                                     </div>
                                 </div><br>
                                 <center>

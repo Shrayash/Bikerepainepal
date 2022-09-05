@@ -273,7 +273,7 @@
                                             <tbody>
                                                 @foreach ($ongoings as $on)
                                                     <tr>
-                                                        <td>{{ $on->frst_name }}$nbsp;{{ $on->last_name }}</td>
+                                                        <td>{{ $on->frst_name }} {{ $on->last_name }}</td>
                                                         <td>{{ $on->v_no }}</td>
                                                         <td>
                                                             <form></form>

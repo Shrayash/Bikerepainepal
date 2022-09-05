@@ -1,0 +1,14 @@
+W&sYM}$T1#8I
+
+bikerepa_demo
+
+%QY=YZMa^o&r
+bikerepa_demoo
+
+LI5Fr_7-tShO
+bikerepa_api_test
+
+ RewriteEngine On
+    RewriteBase /
+    RewriteRule ^$ public/index.php [L]
+    RewriteRule ^((?!public/).*)$ public/$1 [L,NC]

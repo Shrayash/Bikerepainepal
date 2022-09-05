@@ -27,7 +27,7 @@
                             <div class="d-flex justify-content-between">
                                 <h3 class="font-weight-semibold">Customer Detail</h3>
                                 <a href="{{ route('customer.edit',$id) }}"><button type="button" 
-                                    class="btn btn-danger" > Manage Settings </button>
+                                    class="btn btn-danger" > Update Customer Details </button>
                                  </a>
                                 <a href="{{ route('admin.index') }}"><button type="button" class="btn btn-primary btn-fw">Back to
                                         Dashboard</button></a>

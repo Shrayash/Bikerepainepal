@@ -39,7 +39,7 @@
                                         <tbody>
                                             @foreach ($services as $service)
                                             <tr>
-                                                <td>{{$service->frst_name}}{{$service->last_name}}</td>
+                                                <td>{{$service->frst_name}} {{$service->last_name}}</td>
                                                 <td>{{$service->v_no}}</td>
                                                 <td>{{$service->mobile_no}}</td>
                                                 <td>{{$service->updated_at}}</td>

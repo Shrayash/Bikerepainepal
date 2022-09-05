@@ -9,7 +9,7 @@ class customer_vehicles extends Model
 {
     // use HasFactory;
     protected $table='customer_vehicles';
-    public $fillable =['vehicle_slug','customer_slug','work_status','v_no','v_remarks','v_status','delivery','distance','updated_at','booked_at','preinfo'];
+    public $fillable =['vehicle_id','customer_id','work_status','v_no','v_remarks','v_status','delivery','distance','updated_at','booked_at','preinfo'];
     public $primaryKey = 'id';
     public $timestamps = true;
     // public function user()
@@ -18,17 +18,17 @@ class customer_vehicles extends Model
     // }
     public function customer_vehicle()
     {
-    return $this->belongsTo('App\User','customer_slug');
+    return $this->belongsTo('App\User','customer_id');
     }
 
     public function v_service()
     {
-    return $this->hasMany('App\service_activities','vehicle_slug');
+    return $this->hasMany('App\service_activities','vehicle_id');
     }
 
     public function v_record()
     {
-    return $this->hasMany('App\service_record','vehicle_slug');
+    return $this->hasMany('App\service_record','vehicle_id');
     }
 
 

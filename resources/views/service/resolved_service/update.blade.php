@@ -24,7 +24,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <h4 class="font-weight-semibold">Resolving : Ba-023-Pa-2093</h4>
-                                https://www.codegrepper.com/code-examples/php/php+delete+file+from+server+after+24+hours
+                                {{-- https://www.codegrepper.com/code-examples/php/php+delete+file+from+server+after+24+hours --}}
                                 <a href="{{ route('admin.index') }}"><button type="button" class="btn btn-primary btn-fw">Back to
                                         Dashboard</button></a>
                             </div>
@@ -111,9 +111,9 @@
                                             <label class="form-label" for="customFile">File Upload</label>
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" 
-                                                    name="image" accept="image/*" required>
+                                                    name="image" accept="image/*,application/pdf" required>
                                                 <label class="custom-file-label" for="customFile">Upload Bill
-                                                    Image</label>
+                                                    File</label>
                                             </div>
                                         </div>
                                         {{-- <div class="form-group">

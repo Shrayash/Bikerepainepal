@@ -61,43 +61,36 @@
     </div> --}}
 
     <!-- partial -->
+    @if ($errors->any())
+    {{$error}}
+    {{-- <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div> --}}
+@endif
     <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_sidebar.html -->
         @include('admin.sidebar')
         <!-- partial -->
-        @if (session()->has('message'))
-            <div class="alert alert-success alert-dismissible fade show" id="vanish" role="alert">
-                {{ session()->get('message') }}
-                <button type="button" class="close" data-dismiss="alert" id="vanish" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @elseif(session()->has('error'))
-            <div class="alert alert-danger" role="alert">{{ session()->get('error') }} </div>
-        @endif
+       
         <div class="main-panel">
             <div class="content-wrapper">
                 <br><br>
-                @if (session()->has('message'))
-                <div class="alert alert-success alert-dismissible fade show" id="vanish" role="alert">
-                    {{ session()->get('message') }}
-                    <button type="button" class="close" data-dismiss="alert" id="vanish" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @elseif(session()->has('error'))
-                <div class="alert alert-danger" role="alert">{{ session()->get('error') }} </div>
-            @endif
+                
                 <div class="col-12 grid-margin">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <h3 class="font-weight-semibold">Register New Customer</h3>
-                                <a href="{{ route('admin.index') }}"><button type="button" class="btn btn-primary btn-fw">Back to
+                                <a href="{{ route('admin.index') }}"><button type="button"
+                                        class="btn btn-primary btn-fw">Back to
                                         Dashboard</button></a>
                             </div>
                             <form method="POST" class="form-sample" action="{{ route('customer.store') }}"
-                                id="content_form" data-parsley-validate="" autocomplete="off">
+                                id="content_form"  autocomplete="off">
                                 @csrf
                                 <p class="card-description">Fill the details carefully. </p>
                                 <div class="row">
@@ -118,14 +111,19 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Mobile No.</label>
-                                            <input type="text" id="mobile_no" class="form-control"
+                                            <input type="text" id="mobile_no" class="form-control @error('mobile_no') is-invalid @enderror"
                                                 placeholder="Mobile Number"
                                                 data-parsley-required-message="Mobile Number Required"
                                                 data-parsley-trigger="focusin focusout" required>
+                                        
+                                            @error('mobile_no')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -174,8 +172,8 @@
                                                             </select>
                                                         </td>
                                                         <td><input type="text" name="v_remarks[]" id="v_remarks"
-                                                                placeholder="Vehicle color/brand name" class="form-control"
-                                                                required /></td>
+                                                                placeholder="Vehicle color/brand name"
+                                                                class="form-control" required /></td>
                                                         <td><button type="button" name="add" id="add"
                                                                 class="btn btn-primary">Add More</button></td>
                                                     </tr>
@@ -223,7 +221,7 @@
 
         $(document).ready(function() {
             $('#add').prop('disabled', true);
-           
+
             $('input[name^=v_remarks]').keyup(function() {
                 if ($(this).val() != '') {
                     $('#add').prop('disabled', false);
@@ -233,7 +231,7 @@
             $count = 1;
             $iteration = 0;
             $(this).on("click", "#add", function() {
-               
+
                 var html = '<tr>';
                 $count++;
                 $iteration++;
@@ -300,7 +298,7 @@
                             $('#result').html('<div class="alert alert-danger">' +
                                 error_html + '</div>');
                         } else {
-                            window.location.href = "/customer/show/"+data.id;
+                            window.location.href = "/customer/show/" + data.id;
                             // window.location.href = "/admin/index";
                             // window.location.href = "/customer/show/".$id;
                         }

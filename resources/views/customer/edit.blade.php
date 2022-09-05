@@ -35,7 +35,7 @@
                                 @csrf
                                 <p class="card-description">Edit the details carefully. </p>
                              
-                               
+                               {{-- {{$customer_vehicle}} --}}
                               
                                 <div class="row">
                                     <div class="col-md-6">
@@ -44,7 +44,7 @@
                                             <input type="text" class="form-control" placeholder="First Name"
                                                 id="frst_name" data-parsley-required-message="Name Required"
                                                 data-parsley-trigger="focusin focusout"
-                                                value="{{ $customer['frst_name'] }}" required>
+                                                value="{{ $customer->frst_name }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -53,7 +53,7 @@
                                             <input type="text" id="last_name" class="form-control"
                                                 placeholder="Last Name" data-parsley-required-message="Name Required"
                                                 data-parsley-trigger="focusin focusout"
-                                                value="{{ $customer['last_name'] }}" required>
+                                                value="{{ $customer->last_name }}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                                                 placeholder="Mobile Number"
                                                 data-parsley-required-message="Mobile Number Required"
                                                 data-parsley-trigger="focusin focusout"
-                                                value="{{ $customer['mobile_no'] }}" required>
+                                                value="{{ $customer->mobile_no }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -73,7 +73,7 @@
                                             <label for="exampleInputEmail1">Address</label>
                                             <input type="text" id="address" class="form-control" placeholder="Address"
                                                 data-parsley-required-message="Address Required"
-                                                data-parsley-trigger="focusin focusout" value="{{ $customer['address'] }}"
+                                                data-parsley-trigger="focusin focusout" value="{{ $customer->address }}"
                                                 required>
                                         </div>
                                     </div>
@@ -248,7 +248,7 @@
                             $('#result').html('<div class="alert alert-danger">' +
                                 error_html + '</div>');
                         } else {
-                            window.location.href = "/customer/show/"+data.slug;
+                            window.location.href = "/customer/show/"+data.id;
                             // window.location.href = "/admin/index";
                             // window.location.href = "/customer/show/".$id;
                         }

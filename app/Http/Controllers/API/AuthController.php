@@ -13,24 +13,18 @@ use App\customer_vehicles;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use DB;
+use App\Http\Middleware\VerifyCsrfToken ;
 
 class AuthController extends BaseController
 {
     public function login(Request $request)
     {
-       
         if(Auth::attempt(['mobile_no' => $request->mobile_no, 'password' => $request->password])){ 
             $user = Auth::user(); 
-            // 'headers' => [
-            //     'Authorization' => 'Bearer '.$token,
-            //     'Accept' => 'application/json',
-            // ],
-            $success['token'] =  $user->createToken('BikeRepairsNepal')-> accessToken; 
-            // $success['first_name'] =  $user->frst_name;
-            // $success['last_name'] =  $user->last_name;
-            // $success['mobile_no'] =  $user->mobile_no;
-            // $success['address'] =  $user->address;
-            // $success['id'] =  $user->id;
+          
+            // $success['token'] =  $user->createToken('BikeRepairsNepal')-> accessToken; 
+            $success['token'] =  $user->createToken('BikeRepairsNepal')->plainTextToken; 
+            
             $success['user_detail']= $user;
             $vehicles=customer_vehicles::where('customer_id',$user->id)->get();
             $success['vehicles']=$vehicles;
@@ -52,7 +46,7 @@ class AuthController extends BaseController
 
     public function logout(Request $request)
     {
-        Auth
+        // Auth
         auth()->user()>tokens()->delete();
 
         return $this->sendResponse($success, 'User logout successfully.');

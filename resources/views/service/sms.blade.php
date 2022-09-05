@@ -4,6 +4,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="title" content="Bike Repairs Nepal">
+    <meta name="description" content="Bike Repairs Nepal">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Bike Repairs Nepal - Bill</title>
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/icon" href="assets/images/favicon.ico"/>
@@ -17,7 +20,24 @@
 	<!-- Google Fonts Open sans -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800" rel="stylesheet">
  
-  
+  <style>
+    .container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    }
+    
+    .responsive-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
 
     <!-- CSS Reset : END -->
 
@@ -27,13 +47,38 @@
 	</head>
 
 <body>
+  {{-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#"><b>Bike Repairs Nepal</b></a>
+    
+    <a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+      <button type="button" class="btn btn-primary">Logout</button>
+  </a>
+
+  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+      @csrf
+  </form>
+  </nav> --}}
     <nav class="navbar navbar-light bg-light justify-content-between">
-       <a class="navbar-brand"> <img src="{{ asset('assets') }}/images/logo_main.png" width="60%" class="d-inline-block align-top" alt=""></a>
-       
+
+      <a class="navbar-brand"> <img src="{{ asset('assets') }}/images/logo_main.png" width="60%" class="d-inline-block align-top" alt=""></a>
+      <a class="navbar-brand" href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <button type="button" class="btn btn-primary">Logout</button>
+            </a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
       </nav>
       <div class="container">
+        Billing Detail
+       {{-- Customer Bill: {{ Auth::user()->frst_name }} <span class="caret"></span> --}}
     @foreach ($records as $record)
+    @php($extension = pathinfo(asset('storage/images/' . $record->file), PATHINFO_EXTENSION))
+    @if($extension == 'pdf')
+        <iframe class="responsive-iframe"  src="{{asset('storage/images/' . $record->file)}}"  type="application/pdf" frameborder=0></iframe>
+    @else
         <img src="{{ asset('storage/images/' . $record->file) }}" class="img-fluid" alt="Responsive image" alt="">
+    @endif
     @endforeach
 
     <p class="text-center" style="font-size:18px;color:rgb(95, 95, 95)">

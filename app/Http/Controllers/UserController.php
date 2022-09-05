@@ -170,7 +170,20 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
- 
+          $values = array(
+            'mobile_no' => 'required|unique:users,mobile_no|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'v_no' => 'required',
+            'v_remarks' => 'required'
+          );
+          $error = Validator::make($request->all(), $values);
+          if($error->fails())
+          {
+            // return Redirect::to('register')->withErrors($error);
+          return response()->json([
+            'error'  => $error->errors()->all()
+          ]);
+          }
+
            $customer=[];
            $customer_vehicle = [];
         
@@ -285,13 +298,12 @@ class UserController extends Controller
             
         }
 
-        public function edit(User $id)
+        public function edit($id)
     {
       // dd('here');
         $customer_vehicle = [];
         $customer = User::findOrfail($id);
         $customer_vehicle = DB::table('customer_vehicles')->where('customer_vehicles.customer_id','=',$id)->get();
-        // return view('admin.adminhome');
         return view('customer.edit',['customer'=>$customer,'customer_vehicle'=>$customer_vehicle,'id'=>$id]);
       
     }
@@ -301,6 +313,51 @@ class UserController extends Controller
         return view('customer.search_cust');
       
     }
+
+  //   public function update_user(Request $request, $id)
+  //   {
+   
+  //   $customer=[];
+  //   $customer_vehicle = [];
+  
+  //   $customer['frst_name'] = $request->get('frst_name');
+  //   $customer['last_name'] = $request->get('last_name');
+  //   $customer['mobile_no'] = $request->get('mobile_no');
+  //   $customer['address'] = $request->get('address');
+  //   $customer['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
+  //   $customer['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
+   
+  //   DB::table('users')->where('id',$id)->update($customer);
+
+  //     return response()->json([
+  //       'success'  => 'Data Updated successfully.','id'=>$id
+  //       ]);
+    
+  // }
+
+  // public function update_vehicle(Request $request, $id)
+  //   {
+
+  //     $vehicle = DB::table('customer_vehicles')->where('id',$id)->get();
+   
+  //   $customer_vehicle = [];
+
+  //   $customer_vehicle['v_no'] = $request->get('v_no');
+  //   $customer_vehicle['distance'] = $request->get('distance');
+  //   $customer_vehicle['delivery'] = $request->get('delivery');
+  //   $customer_vehicle['v_remarks'] = $request->get('v_remarks');
+  //   $customer_vehicle['v_status'] = $request->get('v_status');
+  //   $customer_vehicle['preinfo']='reg';
+  //   $customer_vehicle['booked_at']= $vehicle->booked_at;
+  //   $customer_vehicle['work_status']= $vehicle->work_status;
+
+  //   DB::table('customer_vehicles')->where('id',$id)->update($customer_vehicle);
+
+  //     return response()->json([
+  //       'success'  => 'Data Updated successfully.','id'=>$id
+  //       ]);
+    
+  // }
 
     public function update(Request $request, $id)
     {
@@ -312,7 +369,6 @@ class UserController extends Controller
     $customer['last_name'] = $request->get('last_name');
     $customer['mobile_no'] = $request->get('mobile_no');
     $customer['address'] = $request->get('address');
-    // $customer['id'] = Str::id($request->get('frst_name'));
     $customer['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
     $customer['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
    
@@ -333,7 +389,7 @@ class UserController extends Controller
         $c_id= (count($customer_id)>$count) ? $customer_id[$count]->id : 0;
         $databases = customer_vehicles::updateOrCreate(
           ['id'=>$c_id, 'customer_id'=>$id],
-          ['customer_id' =>$customer_id,
+          ['customer_id' => $id,
           'v_no' =>   $customer_vehicle['v_no'][$count],
           'distance'  => $customer_vehicle['distance'][$count],
           'preinfo'  =>  $info,

@@ -23,6 +23,11 @@ use Illuminate\Support\Facades\Hash;
 class AdminBookController extends Controller
 {
 
+  public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function show(Request $request)
     {
         $services = DB::table('book_customer_vehicles')
@@ -55,17 +60,15 @@ class AdminBookController extends Controller
 
     public function book_old_store(Request $request,$id)
   {
-    // $trial=\Carbon\Carbon::createFromFormat('Y-m-d\TH:i',$request->get('date'));
-    // dd($request);
-    // $book_customer=[];
-    // $book_customer_vehicle = [];
+    // dd('here');
     $records = DB::table('customer_vehicles')
     ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
     ->where('customer_vehicles.id',$id)
     ->select('customer_vehicles.*','users.frst_name','users.last_name','users.mobile_no','users.address')
     ->get();
-   
+
     foreach ($records as $cust) {
+ 
       $database_customer = book_customer::updateOrCreate(
             ['frst_name' => $cust->frst_name,'mobile_no'=>$cust->mobile_no],
             ['frst_name' => $cust->frst_name,
@@ -84,8 +87,8 @@ class AdminBookController extends Controller
         ['book_customer_id' => $customer_id->id,
         'book_v_no' => $cust->v_no,
         'book_date'  => $request->get('date'),
-        'book_delivery'  => $cust->delivery,
-        'book_distance' => $cust->distance,
+        'book_delivery'  => $request->get('delivery'),
+        'book_distance' => $request->get('distance'),
         'book_v_remarks'  => $cust->v_remarks,
         'book_v_status' => $cust->v_status,
         'book_work_status'  => $cust->work_status
@@ -98,7 +101,7 @@ class AdminBookController extends Controller
 //     $args = http_build_query(array(
 //       'token' => config('sms.token'),
 //       'from'  => config('sms.from'),
-//       'to'    => $customer_id[0]->mobile_no,
+//       'to'    =>  $customer_id->mobile_no,
 //       'text'  => 'Dear Customer,
 // Thank you for booking our service.You will recieve a booking confirmation message/call from us during office hour. 
 // Warm Regards,
@@ -118,11 +121,11 @@ class AdminBookController extends Controller
 //     $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 //     curl_close($ch);
 
-    return response()->json([
-     'success'  => 'Data Added successfully.'
-    ]);
+    // return response()->json([
+    //  'success'  => 'Data Added successfully.', 'id'=>$id
+    // ]);
     
-  // return view('booking.new_booking');
+    return redirect()->route('book.request');
   }
 
     public function update_book($id)

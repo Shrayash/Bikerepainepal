@@ -106,7 +106,7 @@
                                                                 <option value="pick/drop">Pick/Drop</option>
                                                             </select>
                                                             <label for="">Vehicle Remarks</label>
-                                                            <input type="text" name="v_remarks" id="v_remarks" value="{{ $vehicle->v_remarks }}" class="form-control" required>
+                                                            <input type="text" name="v_remarks" id="v_remarks" value="{{ $vehicle->v_remarks }}" class="form-control" required readonly>
                                                         </div><br>
                                                         <input type="submit" class="btn btn-box btn-success" name="save" id="save"
                                                         value="Book Service" /><br>
@@ -180,7 +180,7 @@
                 // }).get();
                 event.preventDefault();
                 $.ajax({
-                    url: '{{ route('book.newstore') }}',
+                    url: '{{ route('customer.oldbook_store',$vehicle->id) }}',
                     method: 'post',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -209,7 +209,7 @@
                                 error_html + '</div>');
                         } else {
                             // window.location.href = "/customer/show/"+data.id;
-                            window.location.href = "/customer/newbook/success";
+                            window.location.href = "/customer/show/"+data.id;
                             // window.location.href = "/customer/show/".$id;
                         }
                         $('#save').attr('disabled', false);

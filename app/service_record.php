@@ -12,6 +12,6 @@ class service_record extends Model
 
     public function service_vehicle()
     {
-    return $this->belongsTo('App\customer_vehicles','vehicle_slug');
+    return $this->belongsTo('App\customer_vehicles','vehicle_id');
     }
 }

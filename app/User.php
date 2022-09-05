@@ -22,7 +22,7 @@ class User extends Authenticatable
      */
     public $timestamps = true;
     protected $fillable = [
-        'frst_name', 'last_name', 'password','mobile_no','address','slug'
+        'frst_name', 'last_name', 'password','mobile_no','address'
     ];
 
     /**
@@ -48,7 +48,7 @@ class User extends Authenticatable
 
     public function customer()
     {
-    return $this->hasMany('App\customer_vehicles','customer_slug');
+    return $this->hasMany('App\customer_vehicles','customer_id');
     }
 
 }

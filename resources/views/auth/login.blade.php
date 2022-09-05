@@ -410,7 +410,7 @@
                           <form method="POST" action="{{ route('login') }}" >
                             @csrf
                             <div class="form-group">
-                            <label class="label">Username</label>
+                            <label class="label">User ID</label>
                             <div class="input-group">
                                 <input id="mobile_no" type="text" class=" @error('mobile_no') is-invalid @enderror"
                                 name="mobile_no" value="{{ old('mobile_no') }}" required autocomplete="mobile_no"
