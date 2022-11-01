@@ -49,7 +49,7 @@ class UserController extends BaseController
         $service_records =DB::table('service_record')
         ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
         ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
-        ->select('service_record.*', 'customer_vehicles.customer_id','customer_vehicles.v_no','users.frst_name','users.last_name','users.mobile_no')
+        ->select('service_record.*', 'customer_vehicles.customer_id','customer_vehicles.v_no','customer_vehicles.delivery','customer_vehicles.v_remarks','users.frst_name','users.last_name','users.mobile_no')
         ->where('customer_vehicles.customer_id',auth()->user()->id)
         ->latest()->get();
 
@@ -161,160 +161,36 @@ class UserController extends BaseController
   }
 
 
-  //   public function update(Request $request)
-  //   {
-  //     $values = array(
-  //       'mobile_no' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-  //     );
-  //     $error = Validator::make($request->all(), $values);
-  //     if($error->fails())
-  //     {
-  //       // return Redirect::to('register')->withErrors($error);
-  //     return response()->json([
-  //       'error'  => $error->errors()->all()
-  //     ]);
-  //     }
-  //   $customer=[];
-  //   $customer_vehicle = [];
   
-  //   $customer['frst_name'] = $request->get('frst_name');
-  //   $customer['last_name'] = $request->get('last_name');
-  //   $customer['mobile_no'] = $request->get('mobile_no');
-  //   $customer['address'] = $request->get('address');
-  //   $customer['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
-  //   $customer['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
-   
-  //   DB::table('users')->where('id',auth()->user()->id)->update($customer);
-
-  //   $customer_vehicle['v_no'] = $request->get('v_no');
-  //   $customer_vehicle['distance'] = $request->get('distance');
-  //   $customer_vehicle['delivery'] = $request->get('delivery');
-  //   $customer_vehicle['v_remarks'] = $request->get('v_remarks');
-  //   $customer_vehicle['v_status'] = $request->get('v_status');
-  //   $info='reg';
-   
-  //     $maxcount=count( $customer_vehicle['v_no']);
-  //     $customer_id = DB::table('customer_vehicles')->where('customer_id',auth()->user()->id)->select('id')->get();
-     
-  //    for($count = 0; $count < $maxcount ; $count++)
-  //    {
-  //       $c_id= (count($customer_id)>$count) ? $customer_id[$count]->id : 0;
-  //       $databases = customer_vehicles::updateOrCreate(
-  //         ['id'=>$c_id, 'customer_id'=>auth()->user()->id],
-  //         ['customer_id' => auth()->user()->id,
-  //         'v_no' =>   $customer_vehicle['v_no'][$count],
-  //         'distance'  => $customer_vehicle['distance'][$count],
-  //         'preinfo'  =>  $info,
-  //         'delivery'  => $customer_vehicle['delivery'][$count],
-  //         'v_remarks'  => $customer_vehicle['v_remarks'][$count],
-  //         'v_status' => $customer_vehicle['v_status'][$count],
-  //         'booked_at'  => \Carbon\Carbon::now()->toDateTimeString()
-  //         ]
-  //     );
-  //   }
-  //     $records = DB::table('customer_vehicles')
-  // ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
-  // ->where('customer_vehicles.customer_id',auth()->user()->id)
-  // ->select('customer_vehicles.*','users.frst_name','users.last_name','users.mobile_no','users.address')
-  // ->get();
-
-  //   return $this->sendResponse($records, 'Personal Data Updated successfully.');
-  // }
-
-  //   public function update(Request $request)
-  //   {
-   
-  //   $customer=[];
-  //   $customer_vehicle = [];
-  
-  //   $customer['frst_name'] = $request->get('frst_name');
-  //   $customer['last_name'] = $request->get('last_name');
-  //   $customer['mobile_no'] = $request->get('mobile_no');
-  //   $customer['address'] = $request->get('address');
-  //   // $customer['id'] = Str::id($request->get('frst_name'));
-  //   $customer['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
-  //   $customer['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
-   
-  //   DB::table('users')->where('id',auth()->user()->id)->update($customer);
-
-  //   $customer_vehicle['v_no'] = $request->get('v_no');
-  //   $customer_vehicle['distance'] = $request->get('distance');
-  //   $customer_vehicle['delivery'] = $request->get('delivery');
-  //   $customer_vehicle['v_remarks'] = $request->get('v_remarks');
-  //   $customer_vehicle['v_status'] = $request->get('v_status');
-  //   $info='reg';
-   
-  //     $maxcount=count( $customer_vehicle['v_no']);
-  //     $customer_id = DB::table('customer_vehicles')->where('customer_id',auth()->user()->id)->select('id')->get();
-  //   //  dd($customer_id);
-  //    for($count = 0; $count < $maxcount ; $count++)
-  //    {
-  //       $c_id= (count($customer_id)>$count) ? $customer_id[$count]->id : 0;
-  //       $databases = customer_vehicles::updateOrCreate(
-  //         ['id'=>$c_id, 'customer_id'=>auth()->user()->id],
-  //         ['customer_id' =>$customer_id,
-  //         'v_no' =>   $customer_vehicle['v_no'][$count],
-  //         'distance'  => $customer_vehicle['distance'][$count],
-  //         'preinfo'  =>  $info,
-  //         'delivery'  => $customer_vehicle['delivery'][$count],
-  //         'v_remarks'  => $customer_vehicle['v_remarks'][$count],
-  //         'v_status' => $customer_vehicle['v_status'][$count],
-  //         'booked_at'  => \Carbon\Carbon::now()->toDateTimeString()
-  //         ]
-  //     );
-  //   }
-
-  //   $records = DB::table('customer_vehicles')
-  // ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
-  // ->where('customer_vehicles.customer_id',auth()->user()->id)
-  // ->select('customer_vehicles.*','users.frst_name','users.last_name','users.mobile_no','users.address')
-  // ->get();
-
-  //   return $this->sendResponse($records, 'Personal Data Updated successfully.');
-    
-  // }
 
     public function book_old_store(Request $request,$id)
 {
 
   $records = DB::table('customer_vehicles')
-  ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
-  ->where('customer_vehicles.id',$id)
-  ->select('customer_vehicles.*','users.frst_name','users.last_name','users.mobile_no','users.address')
-  ->get();
+    ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
+    ->where('customer_vehicles.id',$id)
+    ->select('customer_vehicles.*','users.frst_name','users.last_name','users.mobile_no','users.address')
+    ->get();
 
-  //while one table isnt necessary to be updated we can discard it.
- 
-  foreach ($records as $cust) {
-    $database_customer = book_customer::updateOrCreate(
-          ['frst_name' => $cust->frst_name,'mobile_no'=>$cust->mobile_no],
-          ['frst_name' => $cust->frst_name,
-          'last_name' => $cust->last_name,
-          'mobile_no'  => $cust->mobile_no,
-          'address'  => $cust->address,
-          'created_at'  => \Carbon\Carbon::now()->toDateTimeString(),
-          'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
-          ]
-      );
-   
-  
-      $customer_id = DB::table('book_customer')->where('mobile_no',$cust->mobile_no)->first();
-    $database_customer_vehicle = book_customer_vehicle::updateOrCreate(
-      ['book_customer_id'=>$customer_id->id,'book_v_no'=>$cust->v_no],
-      ['book_customer_id' => $customer_id->id,
-      'book_v_no' => $cust->v_no,
-      'book_date'  => $request->get('date'),
-      'book_delivery'  => $request->get('delivery'),
-      'book_distance' => $request->get('distance'),
-      'book_v_remarks'  => $cust->v_remarks,
-      'book_v_status' => $cust->v_status,
-      'book_work_status'  => $cust->work_status
-      ]
-  );
-}
+    foreach ($records as $cust) {
+
+      $customer_id = DB::table('users')->where('mobile_no',$cust->mobile_no)->first();
+      $database_customer_vehicle = book_customer_vehicle::updateOrCreate(
+        ['book_customer_id'=>$customer_id->id,'book_v_no'=>$cust->v_no],
+        ['book_customer_id' => $customer_id->id,
+        'book_v_no' => $cust->v_no,
+        'book_date'  => $request->get('date'),
+        'book_delivery'  => $request->get('delivery'),
+        'book_distance' => $request->get('distance'),
+        'book_v_remarks'  => $cust->v_remarks,
+        'book_v_status' => $cust->v_status,
+        'book_work_status'  => $cust->work_status
+        ]
+    );
+  }
 
 
-$booked = DB::table('book_customer_vehicles')->where('book_customer_id',$customer_id->id)->get();
+$booked = DB::table('book_customer_vehicles')->where('book_customer_id',)->get();
 // $booked = DB::table('book_customer_vehicles')
 // ->join('users', 'book_customer_vehicle.book_customer_id', '=', 'book_customer.id')
 // ->where('book_customer_id',$customer_id->id)

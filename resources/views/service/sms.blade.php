@@ -38,7 +38,7 @@
       height: 100%;
       border: none;
     }
-
+</style>
     <!-- CSS Reset : END -->
 
     <!-- Progressive Enhancements : BEGIN -->
@@ -69,10 +69,11 @@
                 @csrf
             </form>
       </nav>
-      <div class="container">
-        Billing Detail
-       {{-- Customer Bill: {{ Auth::user()->frst_name }} <span class="caret"></span> --}}
+      <div class="container" style="padding-top: 4%!important;">
+     
+     
     @foreach ($records as $record)
+    {{-- {{$record->file}} --}}
     @php($extension = pathinfo(asset('storage/images/' . $record->file), PATHINFO_EXTENSION))
     @if($extension == 'pdf')
         <iframe class="responsive-iframe"  src="{{asset('storage/images/' . $record->file)}}"  type="application/pdf" frameborder=0></iframe>
@@ -89,4 +90,4 @@
       </div>
 </body>
 
-</html
+</html>

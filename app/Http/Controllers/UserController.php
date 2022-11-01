@@ -20,142 +20,7 @@ use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
-    //   /**
-    //  * Create a new controller instance.
-    //  *
-    // //  * @return void
-
-    // //  */
-    // public function AuthRouteAPI(Request $request){
-    //     return $request->user();
-    //  }
-  
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
-    // /**
-    //  * Display a listing of the resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function index()
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Show the form for creating a new resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function create()
-    // {
-    // //     // try{
-    // //     $users =User::orderBy('created_at','DESC')->paginate(5);
-    // //     $roles =  DB::table('roles')->get();
-    // // // } catch(\Exception $exception) { 
-    // // //     throw new NotFoundException();
-    // // //   }
-    // //     return view('admin.manageusers')->with('users',$users)->with('roles',$roles);
-    // return view('customer.register_cust');
-    // }
-
-    // // public function register()
-    // // {
-    // //     return view('customer.register_cust');
-    // // }
-
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request,$id)
-    // {
-
-    //     $validated = $request->validate([
-    //         'activeness' => 'required',
-    //         'usertype' => 'required',
-    //     ]);
-    //     $user = User::findOrfail($id);
-    //     $userstat = $user->status;
-    //     $user->status = $request->get('activeness');
-    //     $user->update();
-    //     $current_stat=(int)$user->status;
-    //     if($userstat === $current_stat){
-    //     }else{
-            
-    //     }
-        
-    //     $model = DB::table('model_has_roles')->where('model_id', '=', $id)->get();
-    //      if ($model === null) {
-    //             $user->assignRole($request->get('usertype'));
-    //             // Notification::send($user, new RolesChange($user));
-    //         } else {
-    //             $previous_roles=$user->getRoleNames();
-    //             $previous_role=$previous_roles->get(0);
-    //             $current_role=$request->get('usertype');
-    //             if($previous_role===$current_role){}else{
-    //             $user->syncRoles($current_role);
-    //                 // Notification::send($user, new RolesChange($user));    
-    //         }
-    //     }
-    
-    //     return redirect()->route('admin.manageusers');
-    // }
-
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
- 
-
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit($id)
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(Request $request, $id)
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
-    //     // try{
-    //     $user = User::find($id);
-    //     $user->delete();
-    //     if($user){
-    //         return redirect()->route('admin.manageusers')->with(['message'=> 'User Removed Sucessfully']);
-    //         }
-    //         else{
-    //             return redirect()->route('admin.manageusers')->with(['error'=> 'Error while deleting the user!!']);
-    //         }
-
-    // }
+   
     public function __construct()
     {
         $this->middleware('auth');
@@ -187,12 +52,15 @@ class UserController extends Controller
            $customer=[];
            $customer_vehicle = [];
         
-             
-           $customer['frst_name'] = $request->get('frst_name');
-           $customer['last_name'] = $request->get('last_name');
+           $lower_frst_name=strtolower($request->get('frst_name'));
+           $lower_last_name=strtolower($request->get('last_name'));
+           $customer['frst_name'] = ucfirst($lower_frst_name);
+           $customer['last_name'] = ucfirst($lower_last_name);
            $customer['mobile_no'] = $request->get('mobile_no');
            $customer['address'] = $request->get('address');
-           $customer['password'] = Hash::make('test123!');
+           $raw_mobile=substr($customer['mobile_no'], -4);
+           $concat = $customer['frst_name']."_".$raw_mobile;
+           $customer['password'] = Hash::make($concat);
           //  $customer['id'] = Str::id($request->get('frst_name'));
            $customer['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
            $customer['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
@@ -233,29 +101,29 @@ class UserController extends Controller
         //     ]
         // ]);
 
-//            $args = http_build_query(array(
-//             'token' => config('sms.token'),
-//             'from'  => config('sms.from'),
-//             'to'    => $request->get('mobile_no'),
-//             'text'  => 'Dear Customer,
-// You have been successfully registered as our user. Your User-ID is '.$request->get('mobile_no').'
-// Warm Regards,
-// Bike Repairs Nepal'));
+           $args = http_build_query(array(
+            'token' => config('sms.token'),
+            'from'  => config('sms.from'),
+            'to'    => $request->get('mobile_no'),
+            'text'  => 'Dear Customer,
+Welcome to Bike Repairs Nepal! Your User-ID is '.$request->get('mobile_no').' & Password is '.$concat.'
+Warm Regards,
+Bike Repairs Nepal'));
 
       
         
       
-//           # Make the call using API.
-//           $ch = curl_init();
-//           curl_setopt($ch, CURLOPT_URL, config('sms.url'));
-//           curl_setopt($ch, CURLOPT_POST, 1);
-//           curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
-//           curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+          # Make the call using API.
+          $ch = curl_init();
+          curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+          curl_setopt($ch, CURLOPT_POST, 1);
+          curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
       
-//         // Response
-//           $response = curl_exec($ch);
-//           $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//           curl_close($ch);
+        // Response
+          $response = curl_exec($ch);
+          $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+          curl_close($ch);
 
           // $days = 1;
           // $dir = dirname ( \storage\app\public\images );
@@ -364,11 +232,14 @@ class UserController extends Controller
    
     $customer=[];
     $customer_vehicle = [];
-  
-    $customer['frst_name'] = $request->get('frst_name');
-    $customer['last_name'] = $request->get('last_name');
+
+    $lower_frst_name=strtolower($request->get('frst_name'));
+    $lower_last_name=strtolower($request->get('last_name'));
+    $customer['frst_name'] = ucfirst($lower_frst_name);
+    $customer['last_name'] = ucfirst($lower_last_name);
     $customer['mobile_no'] = $request->get('mobile_no');
     $customer['address'] = $request->get('address');
+           
     $customer['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
     $customer['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
    
@@ -444,6 +315,7 @@ class UserController extends Controller
      </tr>
      ';
     }
+  
    }
    else
    {

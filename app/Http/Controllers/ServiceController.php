@@ -12,7 +12,6 @@ use App\customer;
 use App\customer_vehicles;
 use App\service_activities;
 use App\service_record;
-use App\book_customer;
 use App\book_customer_vehicle;
 use App\Helpers\Helper;
 use Spatie\Permission\Models\Role;
@@ -51,8 +50,8 @@ class ServiceController extends Controller
 
 
         $booking=DB::table('book_customer_vehicles')
-        ->join('book_customer', 'book_customer_vehicles.book_customer_id', '=', 'book_customer.id')
-        ->select('book_customer_vehicles.*','book_customer.id','book_customer.frst_name','book_customer.last_name','book_customer.mobile_no')
+        ->join('users', 'book_customer_vehicles.book_customer_id', '=', 'users.id')
+        ->select('book_customer_vehicles.*','users.frst_name','users.last_name','users.mobile_no')
         ->latest()->take(5)->get();
 
         //if admin else superadmin
@@ -82,6 +81,7 @@ class ServiceController extends Controller
         ->select('service_record.*', 'customer_vehicles.v_no', 'users.frst_name','users.last_name','users.mobile_no')
         ->where('customer_vehicles.customer_id',auth()->user()->id)
         ->get();
+        // dd($record);
         // $user=auth()->user()->id;
         // $vehicle = customer_vehicles::where('customer_id',$user)->get();
         // $record = DB::table('service_record')->where('invoice_no',$id)->get();
@@ -107,8 +107,8 @@ class ServiceController extends Controller
         $service_records =DB::table('service_record')
         ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
         ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
-        ->select('service_record.*', 'customer_vehicles.customer_id','customer_vehicles.v_no', 'users.frst_name','users.last_name','users.mobile_no')
-        ->latest()->get();
+        ->select('service_record.*', 'customer_vehicles.customer_id','customer_vehicles.v_no','customer_vehicles.distance', 'users.frst_name','users.last_name','users.mobile_no')
+        ->latest()->paginate(10);
         return view('service.resolved_service.show',['records'=>$service_records]);
     }
 
@@ -139,28 +139,28 @@ class ServiceController extends Controller
         $customer_update = DB::table('customer_vehicles')->where('id',$id)->update(['work_status'=>$work_status]);
         
 
-//         $args = http_build_query(array(
-//             'token' => config('sms.token'),
-//             'from'  => config('sms.from'),
-//             'to'    => $customer->mobile_no,
-//             'text'  => 'Dear Customer,
-// Your vehicle servicing has been started at '.$created_at.'. Thank you for using our service.
-// Warm Regards,
-// Bike Repairs Nepal'));
+        $args = http_build_query(array(
+            'token' => config('sms.token'),
+            'from'  => config('sms.from'),
+            'to'    => $customer->mobile_no,
+            'text'  => 'Dear Customer,
+Your vehicle servicing has been started at '.$created_at.'. Thank you for using our service.
+Warm Regards,
+Bike Repairs Nepal'));
       
         
       
-//           # Make the call using API.
-//           $ch = curl_init();
-//           curl_setopt($ch, CURLOPT_URL, config('sms.url'));
-//           curl_setopt($ch, CURLOPT_POST, 1);
-//           curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
-//           curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+          # Make the call using API.
+          $ch = curl_init();
+          curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+          curl_setopt($ch, CURLOPT_POST, 1);
+          curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
       
-//         // Response
-//           $response = curl_exec($ch);
-//           $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//           curl_close($ch);
+        // Response
+          $response = curl_exec($ch);
+          $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+          curl_close($ch);
 
         return redirect()->route('service.ongoing');
          
@@ -194,7 +194,7 @@ class ServiceController extends Controller
                 $fileNameToStore = $filename.'_'.time().'.'.$extension;
                 $path = $request->file('image')->move('storage/images/',$fileNameToStore);
                 }else{
-                    $fileNameToStore = 'nofile.jpg';
+                    $fileNameToStore = 'nofile.pdf';
                 }
             $record->file = $fileNameToStore;
             $record->save();
@@ -216,31 +216,32 @@ class ServiceController extends Controller
                 ]   
             );
             $customer_update = DB::table('customer_vehicles')->where('id',$id)->update(['work_status'=>$work_status, 'preinfo' => $idle]);
+            // '.$record->invoice_no.
            
             
            
-//             $args = http_build_query(array(
-//                 'token' => config('sms.token'),
-//                 'from'  => config('sms.from'),
-//                 'to'    => $customer->mobile_no,
-//                 'text'  => 'Dear Customer,
-// Your vehicle has been serviced. Your grand total is NRS '.$record->amount.'. For more details of this billing, click this link http://bikerepairsnepal.com.np/customer/bill/'.$record->invoice_no.'.
-// Warm Regards,
-// Bike Repairs Nepal'));
+            $args = http_build_query(array(
+                'token' => config('sms.token'),
+                'from'  => config('sms.from'),
+                'to'    => $customer->mobile_no,
+                'text'  => 'Dear Customer,
+Your vehicle has been serviced. Your grand total is NRS '.$record->amount.'. For bill details, click this link https://bikerepairsnepal.com.np/customer/bill.
+Warm Regards,
+Bike Repairs Nepal'));
           
             
           
-//               # Make the call using API.
-//               $ch = curl_init();
-//               curl_setopt($ch, CURLOPT_URL, config('sms.url'));
-//               curl_setopt($ch, CURLOPT_POST, 1);
-//               curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
-//               curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+              # Make the call using API.
+              $ch = curl_init();
+              curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+              curl_setopt($ch, CURLOPT_POST, 1);
+              curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
           
-//             // Response
-//               $response = curl_exec($ch);
-//               $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//               curl_close($ch);
+            // Response
+              $response = curl_exec($ch);
+              $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+              curl_close($ch);
 
             return redirect()->route('service.resolved');
   }

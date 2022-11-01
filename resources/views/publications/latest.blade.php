@@ -9,7 +9,7 @@
                                 <span class="designation">Author(s):</span>
                                 <span class="name">Dr. Munna Bhai</span>
                             </p>
-                        </div>
+                        </div>rr
                     </div>
                     <div class="download-section">
                         <a href="src/assets/pdf/lorem.pdf" download>

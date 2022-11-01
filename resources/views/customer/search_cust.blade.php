@@ -57,7 +57,7 @@
 
                 </div>
                 <div class="table-responsive">
-                {{-- <h5 align="center">Customers Filtered : <span id="total_records"></span></h5> --}}
+                <h5 align="center">Total Customers : <span id="total_records"></span></h5>
                     <table class="table table-hover">
                         <thead class="thead-dark">
                             <tr>

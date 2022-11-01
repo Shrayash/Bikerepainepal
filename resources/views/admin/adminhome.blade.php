@@ -101,13 +101,15 @@
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between pb-2 align-items-center">
                                                 <h3 class="font-weight-semibold mb-0">{{ $ongoing_count }}</h3>
+                                                <a href="{{ route('service.ongoing') }}">
                                                 <div class="icon-holder" style="background-color:#FF7353">
                                                     <i class="mdi mdi-wrench-outline"></i>
                                                 </div>
+                                                </a>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <p class="font-weight-bold mb-0 text-white">Ongoing Service</p>
-                                                <a href="ongoing_service.html">
+                                                <a href="{{ route('service.ongoing') }}">
                                                     <p class="text-white mb-0" style="font-size: 14px;">View All</p>
                                                 </a>
                                             </div>
@@ -119,14 +121,16 @@
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between pb-2 align-items-center">
                                                 <h3 class="font-weight-semibold mb-0">{{ $resolved_count }}</h3>
+                                                <a href="{{ route('service.resolved') }}">
                                                 <div class="icon-holder" style="background-color:#56A4D1">
                                                     <i class="mdi mdi-clipboard-check-outline"></i>
                                                 </div>
+                                                </a>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <p class="font-weight-bold mb-0 text-white">Resolved Service</p>
-                                                <a href="resolved_service.html">
-                                                    <p class="text-white mb-0" style="font-size: 14px;">View All</p>
+                                                <a href="{{ route('service.resolved') }}">
+                                                    <p class="text-white mb-0"  style="font-size: 14px;">View All</p>
                                                 </a>
                                             </div>
                                         </div>
@@ -137,13 +141,15 @@
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between pb-2 align-items-center">
                                                 <h3 class="font-weight-semibold mb-0">{{ $booking_count }}</h3>
+                                                <a href="{{ route('book.request') }}">
                                                 <div class="icon-holder">
                                                     <i class="mdi mdi-information-outline"></i>
                                                 </div>
+                                                </a>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <p class="font-weight-bold mb-0 text-white">Bookings</p>
-                                                <a href="booked_record.html">
+                                                <a href="{{ route('book.request') }}">
                                                     <p class="text-white mb-0" style="font-size: 14px;">View All</p>
                                                 </a>
                                             </div>

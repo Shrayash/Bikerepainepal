@@ -38,37 +38,37 @@
                                                 <th>Vehicle No.</th>
                                                 <th>Mobile No.</th>
                                                 <th>Service Date</th>
-                                            </tr>
+                                                <th>Distance</th>
+                                              </tr>
                                         </thead>
                                         <tbody>
+
                                             @foreach ($records as $rec )
                                             <tr>
                                                 <td>{{$rec->invoice_no}}</td>
-                                                <td>{{$rec->frst_name}}{{$rec->last_name}}</td>
+                                                <td>{{$rec->frst_name}}</td>
                                                 <td>{{$rec->v_no}}</td>
                                                 <td>{{$rec->mobile_no}}</td>
                                                 <td>{{$rec->updated_at}}</td> 
+                                               <td>{{$rec->distance}}</td>
                                             </tr>
                                             @endforeach
 
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- <nav aria-label="...">
-                                    <ul class="pagination">
-                                      <li class="page-item disabled">
+                                <nav aria-label="Page navigation example" style="margin-top: 2%;">
+                                    <ul class="pagination justify-content-center">
+                                      {{-- <li class="page-item disabled">
                                         <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                      </li>
-                                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                      <li class="page-item active">
-                                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                                      </li>
-                                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                      <li class="page-item">
+                                      </li> --}}
+                                      {{ $records->links() }}
+                                      {{-- <li class="page-item">
                                         <a class="page-link" href="#">Next</a>
-                                      </li>
+                                      </li> --}}
                                     </ul>
-                                  </nav> -->
+                                </nav>
+                               
 
                             </form>
                         </div>

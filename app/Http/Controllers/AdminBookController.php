@@ -31,8 +31,8 @@ class AdminBookController extends Controller
     public function show(Request $request)
     {
         $services = DB::table('book_customer_vehicles')
-        ->join('book_customer', 'book_customer_vehicles.book_customer_id', '=', 'book_customer.id')
-        ->select('book_customer_vehicles.*','book_customer.frst_name','book_customer.last_name','book_customer.mobile_no')
+        ->join('users', 'book_customer_vehicles.book_customer_id', '=', 'users.id')
+        ->select('book_customer_vehicles.*','users.frst_name','users.last_name','users.mobile_no')
         ->get();
         
         return view('service.booking.show')->with('services', $services);
@@ -54,7 +54,7 @@ class AdminBookController extends Controller
     {
       
         $book_vehicle = book_customer_vehicle::findOrFail($id);
-        $book_customer = book_customer::where('id','=',$book_vehicle->book_customer_id)->get();
+        $book_customer = User::where('id','=',$book_vehicle->book_customer_id)->get();
         return view('service.booking.update_date',['customers'=> $book_customer,'vehicles'=> $book_vehicle]);
     }
 
@@ -68,20 +68,8 @@ class AdminBookController extends Controller
     ->get();
 
     foreach ($records as $cust) {
- 
-      $database_customer = book_customer::updateOrCreate(
-            ['frst_name' => $cust->frst_name,'mobile_no'=>$cust->mobile_no],
-            ['frst_name' => $cust->frst_name,
-            'last_name' => $cust->last_name,
-            'mobile_no'  => $cust->mobile_no,
-            'address'  => $cust->address,
-            'created_at'  => \Carbon\Carbon::now()->toDateTimeString(),
-            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
-            ]
-        );
-     
-    
-        $customer_id = DB::table('book_customer')->where('mobile_no',$cust->mobile_no)->first();
+
+      $customer_id = DB::table('users')->where('mobile_no',$cust->mobile_no)->first();
       $database_customer_vehicle = book_customer_vehicle::updateOrCreate(
         ['book_customer_id'=>$customer_id->id,'book_v_no'=>$cust->v_no],
         ['book_customer_id' => $customer_id->id,
@@ -95,31 +83,30 @@ class AdminBookController extends Controller
         ]
     );
   }
-   
-
-
-//     $args = http_build_query(array(
-//       'token' => config('sms.token'),
-//       'from'  => config('sms.from'),
-//       'to'    =>  $customer_id->mobile_no,
-//       'text'  => 'Dear Customer,
-// Thank you for booking our service.You will recieve a booking confirmation message/call from us during office hour. 
-// Warm Regards,
-// Bike Repairs Nepal'));
+  $booked = DB::table('book_customer_vehicles')->where('book_customer_id', $customer_id->id)->get();
+  $customer = User::findOrfail( $customer_id->id);
+    $args = http_build_query(array(
+      'token' => config('sms.token'),
+      'from'  => config('sms.from'),
+      'to'    =>  $customer->mobile_no,
+      'text'  => 'Dear Customer,
+Thank you for booking our service.You will recieve a booking confirmation message/call from us during office hour. 
+Warm Regards,
+Bike Repairs Nepal'));
 
   
 
-//     # Make the call using API.
-//     $ch = curl_init();
-//     curl_setopt($ch, CURLOPT_URL, config('sms.url'));
-//     curl_setopt($ch, CURLOPT_POST, 1);
-//     curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    # Make the call using API.
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-//   // Response
-//     $response = curl_exec($ch);
-//     $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//     curl_close($ch);
+  // Response
+    $response = curl_exec($ch);
+    $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
 
     // return response()->json([
     //  'success'  => 'Data Added successfully.', 'id'=>$id
@@ -128,35 +115,17 @@ class AdminBookController extends Controller
     return redirect()->route('book.request');
   }
 
+
+  //If booking Request 'Yes' then this 
     public function update_book($id)
     {
-  
- 
         $book_vehicle = book_customer_vehicle::findOrFail($id);
-        $book_customer = book_customer::where('id','=',$book_vehicle->book_customer_id)->get();
-        foreach ($book_customer as $cust) {
-        $database_customer = User::updateOrCreate(
-              ['frst_name' => $cust->frst_name,'mobile_no'=>$cust->mobile_no],
-              ['frst_name' => $cust->frst_name,
-              'last_name' => $cust->last_name,
-              'mobile_no'  => $cust->mobile_no,
-              'password' => Hash::make('test123!'),
-              'address'  => $cust->address,
-              'created_at'  => \Carbon\Carbon::now()->toDateTimeString(),
-              'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
-              ]
-          );
-       
-          // $user=User::where('mobile_no',$cust->mobile_no)->get();
-          $customer_id = DB::table('users')->where('mobile_no',$cust->mobile_no)->select('id')->first();
-        }
+        $customer_id=$book_vehicle->book_customer_id;
         //if condn in distance if exist same else 0
-      
-    //  $distance='0';
-     $info='book';
+          $info='book';
           $database_customer_vehicle = customer_vehicles::updateOrCreate(
-            ['customer_id'=>$customer_id->id,'v_no'=>$book_vehicle->book_v_no],
-            ['customer_id' => $customer_id->id,
+            ['customer_id'=>$customer_id,'v_no'=>$book_vehicle->book_v_no],
+            ['customer_id' => $customer_id,
             'v_no' => $book_vehicle->book_v_no,
             'distance'  => $book_vehicle->book_distance,
             'delivery'  => $book_vehicle->book_delivery,
@@ -167,52 +136,43 @@ class AdminBookController extends Controller
             'booked_at' => $book_vehicle->book_date
             ]
         );
-        $user = User::findOrFail($customer_id->id);
-        $user->assignRole('admin');
-        // dd('here');
-      //   $roles = model_has_roles::updateOrCreate(
-      //     ['model_id' => $customer_id->id,'role_id'=>'1'],
-      //     [
-      //       'role_id'=>1 ,
-      //       'model_type'=>'App\User',
-      //       'model_id'=>$customer_id->id
-      //     ]
-      // );
-    // }
-      //if one delete user else if many only vehicle
-      $count=book_customer_vehicle::where('book_customer_id','=',$book_vehicle->book_customer_id)->count();
-      if($count > 1){
-        $del_vehicle = book_customer_vehicle::where('id','=',$id)->delete();
-      } else{
-        $book_customer = book_customer::where('id','=',$book_vehicle->book_customer_id)->delete();
-      }
-      
 
-//         $args = http_build_query(array(
-//           'token' => config('sms.token'),
-//           'from'  => config('sms.from'),
-//           'to'    => $cust->mobile_no,
-//           'text'  => 'Dear Customer,
-// Your booking has been confirmed for '.$book_vehicle->book_date.'.
-// Warm Regards,
-// Bike Repairs Nepal'));
+        
+      //if one delete user else if many only vehicle IMPORTANT CHANGE LATER NO DELTE STATUS KEEP IN BOOKING TABLE PENDING/BOOKED
+      $del_vehicle = book_customer_vehicle::where('id','=',$id)->delete();
+      // $count=book_customer_vehicle::where('book_customer_id','=',$book_vehicle->book_customer_id)->count();
+      // if($count > 1){
+      //   $del_vehicle = book_customer_vehicle::where('id','=',$id)->delete();
+      // } else{
+      //   $book_customer = book_customer::where('id','=',$book_vehicle->book_customer_id)->delete();
+      // }
+      
+      $customer = User::findOrfail( $customer_id);
+        $args = http_build_query(array(
+          'token' => config('sms.token'),
+          'from'  => config('sms.from'),
+          'to'    => $customer->mobile_no,
+          'text'  => 'Dear Customer,
+Your booking has been confirmed for '.$book_vehicle->book_date.'.
+Warm Regards,
+Bike Repairs Nepal'));
     
       
     
-//         # Make the call using API.
-//         $ch = curl_init();
-//         curl_setopt($ch, CURLOPT_URL, config('sms.url'));
-//         curl_setopt($ch, CURLOPT_POST, 1);
-//         curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
-//         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        # Make the call using API.
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     
-//       // Response
-//         $response = curl_exec($ch);
-//         $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//         curl_close($ch);
+      // Response
+        $response = curl_exec($ch);
+        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
         
       
-        return redirect()->route('customer.show',$customer_id->id);
+        return redirect()->route('customer.show',$customer_id);
     
   }
 
@@ -222,32 +182,16 @@ class AdminBookController extends Controller
     {
   
     $book_vehicle = book_customer_vehicle::findOrFail($id);
-    $book_customer = book_customer::where('id','=',$book_vehicle->book_customer_id)->get();
-
+    $customer_id=$book_vehicle->book_customer_id;
     $info='book';
-    foreach ($book_customer as $cust) {
-    $database_customer = User::updateOrCreate(
-          ['frst_name' => $cust->frst_name,'mobile_no'=>$cust->mobile_no],
-          ['frst_name' => $cust->frst_name,
-          'last_name' => $cust->last_name,
-          'mobile_no'  => $cust->mobile_no,
-          'address'  => $cust->address,
-          'password' => Hash::make('test123!'),
-          'created_at'  => \Carbon\Carbon::now()->toDateTimeString(),
-          'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
-          ]
-      );
-   
-  
-      $customer_id = DB::table('users')->where('mobile_no',$cust->mobile_no)->select('id')->get();
-    }
+    
 //  $distance='0';
  $info='book';
  $date=$request->get('book_date');
 //   dd( $date->toDateTimeString());
       $database_customer_vehicle = customer_vehicles::updateOrCreate(
-        ['customer_id'=>$customer_id[0]->id,'v_no'=>$book_vehicle->book_v_no],
-        ['customer_id' => $customer_id[0]->id,
+        ['customer_id'=>$customer_id,'v_no'=>$book_vehicle->book_v_no],
+        ['customer_id' => $customer_id,
         'v_no' => $book_vehicle->book_v_no,
         'distance'  => $book_vehicle->book_distance,
         'delivery'  => $book_vehicle->book_delivery,
@@ -260,41 +204,42 @@ class AdminBookController extends Controller
         ]
     );
 
+    $del_vehicle = book_customer_vehicle::where('id','=',$id)->delete();
+    // $count=book_customer_vehicle::where('book_customer_id','=',$book_vehicle->book_customer_id)->count();
+    // if($count > 1){
+    //   $del_vehicle = book_customer_vehicle::where('id','=',$id)->delete();
+    // } else{
+    //   $book_customer = book_customer::where('id','=',$book_vehicle->book_customer_id)->delete();
+    // }
 
-    $count=book_customer_vehicle::where('book_customer_id','=',$book_vehicle->book_customer_id)->count();
-    if($count > 1){
-      $del_vehicle = book_customer_vehicle::where('id','=',$id)->delete();
-    } else{
-      $book_customer = book_customer::where('id','=',$book_vehicle->book_customer_id)->delete();
-    }
-
-
-//     $args = http_build_query(array(
-//       'token' => config('sms.token'),
-//       'from'  => config('sms.from'),
-//       'to'    => $cust->mobile_no,
-//       'text'  => 'Dear Customer,
-// Your booking has been confirmed for '.$date.'.
-// Warm Regards,
-// Bike Repairs Nepal'));
+// $mobile= DB::table('users')->where('id',$customer_id)->select('mobile_no')->get();
+$customer = User::findOrfail( $customer_id);
+    $args = http_build_query(array(
+      'token' => config('sms.token'),
+      'from'  => config('sms.from'),
+      'to'    => $customer->mobile_no,
+      'text'  => 'Dear Customer,
+Your booking has been confirmed for '.$date.'.
+Warm Regards,
+Bike Repairs Nepal'));
 
   
 
-//     # Make the call using API.
-//     $ch = curl_init();
-//     curl_setopt($ch, CURLOPT_URL, config('sms.url'));
-//     curl_setopt($ch, CURLOPT_POST, 1);
-//     curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    # Make the call using API.
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-//   // Response
-//     $response = curl_exec($ch);
-//     $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//     curl_close($ch);
+  // Response
+    $response = curl_exec($ch);
+    $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
     
     
   
-    return redirect()->route('customer.show',$customer_id[0]->id);
+    return redirect()->route('customer.show',$customer_id);
   
 
   }
@@ -457,30 +402,35 @@ class AdminBookController extends Controller
     {
       $idle='idle';
       $customer_update = DB::table('customer_vehicles')->where('id',$id)->update(['preinfo'=>$idle]);
-      // $customer_vehicle = customer_vehicles::findOrFail($id);
-      // $book_customer = User::findOrFail($customer_vehicle->customer_id);
-//       $args = http_build_query(array(
-//         'token' => config('sms.token'),
-//         'from'  => config('sms.from'),
-//         'to'    =>  $book_customer->mobile_no,
-//         'text'  => 'Dear Customer,
-// Your booking has been canceled for '.$customer_vehicle->booked_at.'.
-// Warm Regards,
-// Bike Repairs Nepal'));
+      $vehicle= customer_vehicles::findOrFail($id);
+      $del_vehicle = book_customer_vehicle::where([
+        ['book_customer_id', '=', $vehicle->customer_id],
+        ['book_v_no', '=', $vehicle->v_no]
+    ])->delete();
+      $customer_vehicle = customer_vehicles::findOrFail($id);
+      $book_customer = User::findOrFail($customer_vehicle->customer_id);
+      $args = http_build_query(array(
+        'token' => config('sms.token'),
+        'from'  => config('sms.from'),
+        'to'    =>  $book_customer->mobile_no,
+        'text'  => 'Dear Customer,
+Your booking has been canceled for '.$customer_vehicle->booked_at.'.
+Warm Regards,
+Bike Repairs Nepal'));
   
     
   
-//       # Make the call using API.
-//       $ch = curl_init();
-//       curl_setopt($ch, CURLOPT_URL, config('sms.url'));
-//       curl_setopt($ch, CURLOPT_POST, 1);
-//       curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
-//       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      # Make the call using API.
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+      curl_setopt($ch, CURLOPT_POST, 1);
+      curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   
-//     // Response
-//       $response = curl_exec($ch);
-//       $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//       curl_close($ch);
+    // Response
+      $response = curl_exec($ch);
+      $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      curl_close($ch);
       return redirect()->route('admin.index');
   
 

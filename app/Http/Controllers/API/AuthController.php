@@ -31,7 +31,7 @@ class AuthController extends BaseController
             $record= DB::table('service_record')
             ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
             ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
-            ->select('service_record.*', 'customer_vehicles.v_no','users.frst_name','users.last_name','users.mobile_no')
+            ->select('service_record.*', 'customer_vehicles.v_no','customer_vehicles.delivery','customer_vehicles.v_remarks','users.frst_name','users.last_name','users.mobile_no')
             ->where('customer_vehicles.customer_id',$user->id)
             ->get();
             $success['resolved_service']=$record;

@@ -35,6 +35,9 @@ Route::get('verify/{email}/{verifyToken}','Auth\RegisterController@emailsent')->
 // });
 Route::get('/', 'CategoryController@home')->name('index');
 
+Route::get('/change_data', 'BookingController@change_data')->name('change.data');
+Route::get('/sms_all', 'BookingController@send_sms_all')->name('sms.all');
+
 //.........................ADMIN SECTION..............................................//
 
 //index of video and publication 
@@ -100,6 +103,10 @@ Route::get('/video/create','VideoController@create')->name('video.create')->midd
 Route::get('/doctor/social_media','SiteController@index')->name('doctor_media')->middleware('role:admin|superadmin');
 Route::post('/doctor/social_media/store','SiteController@store')->name('doctor_media.store')->middleware('role:admin|superadmin');
 
+// Route::get('/', 'BookingController@about')->name('about');
+Route::get('/about', 'BookingController@about')->name('about');
+Route::get('/service', 'BookingController@service')->name('service');
+Route::get('/downloads', 'BookingController@downloads')->name('downloads');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

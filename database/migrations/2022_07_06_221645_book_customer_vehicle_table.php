@@ -16,7 +16,7 @@ class BookCustomerVehicleTable extends Migration
         Schema::create('book_customer_vehicles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('book_customer_id');
-            $table->foreign('book_customer_id')->references('id')->on('book_customer')->onDelete('cascade');
+            $table->foreign('book_customer_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('book_v_no');
             $table->string('book_date');
             $table->string('book_distance');
