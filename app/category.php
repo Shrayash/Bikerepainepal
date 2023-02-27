@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class category extends Model
 {
-    protected $table='categories';
+    protected $table='category';
     public $primaryKey = 'id';
     
-    public function videos()
+    public function category()
     {
-    return $this->hasMany('App\videos','category');
+    return $this->hasMany('App\Inventory','id');
     }
 }

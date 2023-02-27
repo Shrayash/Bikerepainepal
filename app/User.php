@@ -51,4 +51,14 @@ class User extends Authenticatable
     return $this->hasMany('App\customer_vehicles','customer_id');
     }
 
+    public function customer_order()
+    {
+    return $this->hasMany('App\Order','id');
+    }
+
+    public function getMobileForPasswordReset()
+    {
+        return $this->mobile_no;
+    }
+
 }

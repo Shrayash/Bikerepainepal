@@ -622,10 +622,10 @@ main {
 }
 
 #mu-call-to-action:before {
-	background: #ed5f00;
+	background: #df5900;
 	content: '';
 	position: absolute;
-	opacity: 0.85;
+	opacity: 0.8;
 	left: 0;
 	right: 0;
 	top: 0;
@@ -667,6 +667,9 @@ main {
 .mu-quote-btn:focus {
 	color: #9d3f00;
 }
+
+
+
 
 /*--------------------*/
 /* SERVICE */
@@ -2770,13 +2773,7 @@ background: linear-gradient(344deg, rgba(185,74,0,1) 14%, rgba(255,102,0,1) 68%)
 /* RESPONSIVE STYLE */
 /*--------------------*/
 
-
-
 @media (max-width: 1199px) {
-
-	#mu-slider{
-		padding-top: 6%;
-	}
 
 	.mu-single-slide-content-area {
 		padding: 9% 10%;
@@ -2877,10 +2874,6 @@ background: linear-gradient(344deg, rgba(185,74,0,1) 14%, rgba(255,102,0,1) 68%)
 }
 
 @media (min-width: 992px) {
-
-	#mu-slider{
-		padding-top: 8%;
-	}
   .dropdown:hover .dropdown-menu {
       display: block;
       margin-top: 0; 
@@ -2889,10 +2882,6 @@ background: linear-gradient(344deg, rgba(185,74,0,1) 14%, rgba(255,102,0,1) 68%)
 }
 
 @media (max-width: 991px) {	
-
-	#mu-slider{
-		padding-top: 8%;
-	}
 
 	.mu-navbar-nav {
 		display: flex;
@@ -3074,10 +3063,6 @@ background: linear-gradient(344deg, rgba(185,74,0,1) 14%, rgba(255,102,0,1) 68%)
 
 @media (max-width: 767px) {
 
-	#mu-slider{
-		padding-top: 12%;
-	}
-
 	.mu-title {
 		padding: 0;
 	}
@@ -3253,10 +3238,6 @@ background: linear-gradient(344deg, rgba(185,74,0,1) 14%, rgba(255,102,0,1) 68%)
 
 @media (max-width: 640px){
 
-	#mu-slider{
-		padding-top: 12%;
-	}
-
 	.mu-single-slide-content h1 {
 		font-size: 25px;
 		margin-bottom: 10px;
@@ -3329,11 +3310,6 @@ background: linear-gradient(344deg, rgba(185,74,0,1) 14%, rgba(255,102,0,1) 68%)
 
 
 @media (max-width: 480px) {
-
-	#mu-slider{
-		padding-top: 16%;
-	}
-
 	.mu-single-slide-content a.mu-primary-btn {
 		display: none;
 	}
@@ -3491,10 +3467,6 @@ background: linear-gradient(344deg, rgba(185,74,0,1) 14%, rgba(255,102,0,1) 68%)
 
 
 @media (max-width: 360px) {
-
-	#mu-slider{
-		padding-top: 18%;
-	}
 	.mu-single-slide-content h1 {
 		font-size: 18px;
 		margin-bottom: 5px;
@@ -3653,10 +3625,6 @@ background: linear-gradient(344deg, rgba(185,74,0,1) 14%, rgba(255,102,0,1) 68%)
 
 
 @media (max-width: 320px) {
-
-	#mu-slider{
-		padding-top: 21%;
-	}
 
 	.mu-single-slide-content-area {
 		padding: 2% 0%;

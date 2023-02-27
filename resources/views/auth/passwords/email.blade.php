@@ -15,23 +15,23 @@
                 </div>
             @endif
                 <h2>Forgot Password</h2>
-                <p class="form-paragraph">Enter your email, so we can send a verification link to it to verify its you.
+                <p class="form-paragraph">Enter your mobile_no, so we can send a verification link to it to verify its you.
                 </p>
                 <br>
                
 
-                <form method="POST" action="{{ route('password.email') }}">
+                <form method="POST" action="{{ route('') }}">
 
                 @csrf
                     <label for="">
-                        Your Email Address
+                        Your Mobile Number
                     </label>
                     <div class="input-box">
                         <span class="input-box-icon">
-                            <i class="fa fa-envelope"></i>
+                            <i class="fa fa-phone"></i>
                         </span>
-                        <input id="email" type="email" class=" @error('email') is-invalid @enderror" name="email"
-                            value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <input id="mobile_no" type="text" class=" @error('mobile_no') is-invalid @enderror" name="mobile_no"
+                            value="{{ old('mobile_no') }}" required autofocus>
                     </div>
                     @error('email')
                         <span class="invalid-feedback" role="alert">

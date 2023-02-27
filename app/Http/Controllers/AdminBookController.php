@@ -401,20 +401,22 @@ Bike Repairs Nepal'));
   public function cancel_book(Request $request,$id)
     {
       $idle='idle';
-      $customer_update = DB::table('customer_vehicles')->where('id',$id)->update(['preinfo'=>$idle]);
-      $vehicle= customer_vehicles::findOrFail($id);
-      $del_vehicle = book_customer_vehicle::where([
-        ['book_customer_id', '=', $vehicle->customer_id],
-        ['book_v_no', '=', $vehicle->v_no]
-    ])->delete();
-      $customer_vehicle = customer_vehicles::findOrFail($id);
-      $book_customer = User::findOrFail($customer_vehicle->customer_id);
+     
+      $book_vehicle= book_customer_vehicle::findOrFail($id);
+      $customer_update = DB::table('customer_vehicles')->where('v_no',$book_vehicle->book_v_no)->update(['preinfo'=>$idle]);
+      $customer = User::findOrFail($book_vehicle->book_customer_id);
+      // $vehicle= customer_vehicles::findOrFail($id);
+    //   $del_vehicle = book_customer_vehicle::where([
+    //     ['book_customer_id', '=', $vehicle->customer_id],
+    //     ['book_v_no', '=', $vehicle->v_no]
+    // ])->delete();
+    $del_vehicle = book_customer_vehicle::where('id',$id)->delete();
       $args = http_build_query(array(
         'token' => config('sms.token'),
         'from'  => config('sms.from'),
-        'to'    =>  $book_customer->mobile_no,
+        'to'    =>  $customer->mobile_no,
         'text'  => 'Dear Customer,
-Your booking has been canceled for '.$customer_vehicle->booked_at.'.
+Your booking has been canceled for '.$book_vehicle->book_date.'.
 Warm Regards,
 Bike Repairs Nepal'));
   

@@ -4,18 +4,24 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Inventory;
+use App\category;
 use Validator;
 use DB;
 use App\User;
 use App\customer;
 use App\book_customer;
+use App\Qr_data;
 use App\service_record;
 use App\book_customer_vehicle;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\Helper;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use App\customer_vehicles;
 
 
 
@@ -267,6 +273,174 @@ Bike Repairs Nepal'));
     
   // return view('booking.new_booking');
   }
+
+  public function show_category(Inventory $inventory)
+    {
+        $inventory = Inventory::all();
+        $category = category::all();
+        // foreach ( $category as $p) {
+        //     dd($p->id);
+        //     }
+       
+
+        return view('inventory.show',['inventory'=>$inventory,'category'=>compact('category')]);
+    }
+
+    public function search_cat(Request $request)
+    {
+        
+        // $category_search = Inventory::findOrfail($request->get('category'));
+        // $inventory = Inventory::where('category_id',$request->get('category'))->get();
+        // $category = category::all();
+     
+        $slug =  $request->get('category');
+        return redirect()->route('inventory.category_items',$slug);
+
+
+    }
+
+    public function category_items($slug)
+    {
+       
+        $category_id = category::where('slug',$slug)->select('id')->get();
+        $inventory = Inventory::where('category_id',$category_id[0]->id)->get();
+        $category = category::all();
+
+        return view('inventory.category_items',['inventory'=>$inventory,'category'=>compact('category'),'category_id'=>$category_id[0]->id]);
+    }
+
+    public function items_details($slug)
+    {
+       
+        // $category_id = category::where('slug',$slug)->select('id')->get();
+        $inventory = Inventory::where('slug',$slug)->get();
+        $cat_id = $inventory[0]->category_id;
+        $cat_info = category::findOrFail($cat_id);
+
+        $category = category::all();
+
+
+        return view('inventory.item_detail',['inventory'=>$inventory,'category'=>compact('category'),'cat_info'=>$cat_info]);
+    }
+    public function qr_gen(Qr_data $Qr_data)
+    {
+        $qr_codes = Qr_data::all();
+        // dd($qr_codes);
+        // $pdf = Pdf::loadView('qr_code',['qr_codes'=>compact('qr_codes')])->setOptions(['defaultFont' => 'sans-serif']);
+        // return $pdf->download('qr_code.pdf');
+        return view('qr_code',['qr_codes'=>compact('qr_codes')]);
+    }
+
+    public function signup_brn(Request $request){
+      return view('auth.signup');
+    }
+
+    public function signup_store(Request $request){
+      $values = array(
+        'mobile_no' => 'required|unique:users,mobile_no|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+        'v_no' => 'required'
+      );
+      $error = Validator::make($request->all(), $values);
+      if($error->fails())
+      {
+        // return Redirect::to('register')->withErrors($error);
+      return response()->json([
+        'error'  => $error->errors()->all()
+      ]);
+      }
+
+       $customer=[];
+       $customer_vehicle = [];
+    
+       $lower_frst_name=strtolower($request->get('frst_name'));
+       $lower_last_name=strtolower($request->get('last_name'));
+       $customer['frst_name'] = ucfirst($lower_frst_name);
+       $customer['last_name'] = ucfirst($lower_last_name);
+       $customer['mobile_no'] = $request->get('mobile_no');
+       $customer['address'] = $request->get('address');
+       $raw_mobile=substr($customer['mobile_no'], -4);
+       $concat = $customer['frst_name']."_".$raw_mobile;
+       $customer['password'] = Hash::make($concat);
+      //  $customer['id'] = Str::id($request->get('frst_name'));
+       $customer['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
+       $customer['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
+      
+       $id = DB::table('users')->insertGetId($customer);
+       
+   
+      $customer_vehicle['v_no'] = $request->get('v_no');
+      $customer_vehicle['distance'] = '0';
+      $customer_vehicle['delivery'] = 'self';
+      $customer_vehicle['v_remarks'] = $request->get('v_remarks');
+      $info='reg';
+     
+     
+        $maxcount=count( $customer_vehicle['v_no']);
+       for($count = 0; $count < $maxcount ; $count++)
+       {
+           
+        $data = array(
+         'customer_id' =>  $id,
+         'v_no' =>   $customer_vehicle['v_no'][$count],
+         'distance'  => $customer_vehicle['distance'][$count],
+         'preinfo'  =>  $info,
+         'delivery'  => $customer_vehicle['delivery'][$count],
+         'v_remarks'  => $customer_vehicle['v_remarks'][$count],
+         'booked_at'  => \Carbon\Carbon::now()->toDateTimeString()
+        );
+        $insert_data[] = $data; 
+       }
+       customer_vehicles::insert($insert_data);
+       $user = User::findOrFail( $id);
+       $user->assignRole('admin');
+   
+       $args = http_build_query(array(
+        'token' => config('sms.token'),
+        'from'  => config('sms.from'),
+        'to'    => $request->get('mobile_no'),
+        'text'  => 'Dear Customer,
+Welcome to Bike Repairs Nepal! Your User-ID is '.$request->get('mobile_no').' & Password is '.$concat.'
+Warm Regards,
+Bike Repairs Nepal'));
+
+  
+    
+  
+      # Make the call using API.
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, config('sms.url'));
+      curl_setopt($ch, CURLOPT_POST, 1);
+      curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  
+    // Response
+      $response = curl_exec($ch);
+      $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      curl_close($ch);
+
+      // $days = 1;
+      // $dir = dirname ( \storage\app\public\images );
+
+      // $nofiles = 0;
+
+      //     if ($handle = opendir($dir)) {
+      //     while (( $file = readdir($handle)) !== false ) {
+      //         if ( $file == '.' || $file == '..' || is_dir($dir.'/'.$file) ) {
+      //             continue;
+      //         }
+
+      //         if ((time() - filemtime($dir.'/'.$file)) > ($days *86400)) {
+      //             $nofiles++;
+      //             unlink($dir.'/'.$file);
+      //         }
+      //     }
+      //     closedir($handle);
+
+       return response()->json([
+        'success'  => 'Data Added successfully.'
+       ]);
+      // return redirect()->route('inventory.show');
+    }
 
 
   

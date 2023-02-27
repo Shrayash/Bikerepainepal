@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
 
     <!-- META DATA -->
     <meta name="title" content="Bike Repairs Nepal">
@@ -23,10 +23,10 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/shared/style.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/demo_1/style.css">
-    {{-- <link rel="stylesheet" href="{{ asset('assets') }}/css/templatemo-style.css"> --}}
     <link rel="stylesheet" href="{{ asset('assets') }}/css/style2style.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/slick.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/css/magnific-popup.css">
+
  
 
 
@@ -51,15 +51,17 @@
 
 </head>
 
-<header id="mu-hero">
+
     <nav class="navbar navbar-expand-lg navbar-light fixed-top justify-content-between" style="background-color:white; box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);">
+    {{-- <nav class="navbar navbar-expand-lg navbar-light fixed-top justify-content-between" style="background-color:white; box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);"> --}}
+
         <div class="container">
             @hasanyrole('admin|superadmin')
-            <a href="{{route("home")}}" class="navbar-brand" id="nav_brand" style="width: 20%;">
+            <a href="{{route("home")}}" class="navbar-brand" id="nav_brand">
             <img src="{{ asset('assets') }}/images/logo_main.png" class="img-fluid" width="100%">
             </a>
             @else
-            <a href="{{route("index")}}" class="navbar-brand" id="nav_brand" style="width: 20%;">
+            <a href="{{route("index")}}" class="navbar-brand" id="nav_brand" >
                 <img src="{{ asset('assets') }}/images/logo_main.png" width="100%">
             </a>
             @endhasanyrole
@@ -76,22 +78,25 @@
                     <ul class="navbar-nav mx-auto" style="font-weight: 600" >
                         <!-- Authentication Links -->
                         @guest
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('index') }}">Home</a>
-                        </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </li>&nbsp;&nbsp;&nbsp;&nbsp;
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('about') }}">About Us</a>
-                        </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </li>&nbsp;&nbsp;&nbsp;&nbsp;
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('service') }}">Service</a>
-                        </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </li>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('inventory.show') }}">Shop Now</a>
+                        </li>&nbsp;&nbsp;&nbsp;&nbsp;
                         <li class="nav-item">
                             <a class="nav-link" href="#contact">Contact Us</a>
-                        </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                        
                             <li class="nav-item">
-                                <a class="header-login" href="{{ route('login') }}"><button type="button" class="btn btn-primary btn-fw" >Officer Portal</button></a>
+                                <a class="header-login" href="{{ route('login') }}"><button type="button" class="btn btn-fw" style="background-color: #ff6600;color:white;">Officer Portal</button></a>
                             </li>
                             {{-- @if (Route::has('register'))
                                 <li class="nav-item">
@@ -121,15 +126,12 @@
                             </li>
                         @endguest
                     </ul>
-                    
-                {{-- </ul> --}}
             </div>
         </div>
     </nav>
     
    
 
-</header>
 
 <body>
     @yield('content')
@@ -184,10 +186,10 @@
                                 <h5>Useful link</h5>
                   <br>
                                 <div class="mu-social-media">
-                                    <a href="https://www.facebook.com/Bike-Repairs-Nepal-Pikpart-108074821853751/"><i class="fa fa-facebook"></i></a>
-                                    <a class="mu-twitter" href="https://www.instagram.com/invites/contact/?i=cqm6ibn6qdo2&utm_content=pax661v"><i class="fa fa-instagram"></i></a>
-                                    <a class="mu-google-plus" href="#"><i class="fa fa-whatsapp"></i></a>
-                                    <a class="mu-youtube" href="https://www.tiktok.com/@smartgaragenepal11?_t=8VYnluJzqqH&_r=1">Tik</a>
+                                    <a href="https://www.facebook.com/Bike-Repairs-Nepal-Pikpart-108074821853751/" target="_blank"><i class="fa fa-facebook"></i></a>
+                                    <a class="mu-twitter" href="https://www.instagram.com/smartgarage_nepal/" target="_blank"><i class="fa fa-instagram"></i></a>
+                                    <a class="mu-google-plus" href="#"><i class="fa fa-whatsapp" target="_blank"></i></a>
+                                    <a class="mu-youtube" href="https://www.tiktok.com/@smartgaragenepal11?_t=8VYnluJzqqH&_r=1" target="_blank"><i class="fa fa-music"></i></a>
                                     <!-- <a class="mu-youtube" href="#"><i class="fa fa-youtube"></i></a> -->
                                 </div>
                             </div>

@@ -19,13 +19,23 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-       '/api/login',
+        '/api/*',
+        '/api/login',
        '/api/customer/newbook',
        '/api/customer/details/',
        '/api/customer/details/vehicles/{id}',
        '/api/customer/add/vehicles/',
        '/api/customer/oldbook/store/{id}',
        '/api/customer/service/ongoings/',
-       '/api/customer/service/resolved/'
+       '/api/customer/service/resolved/',
+       '/api/forget-password',
+       '/api/reset-password',
+       '/api/inventory/category/all',
+       '/api/inventory/category/{id}',
+       '/api/inventory/category/details/{id}',
+       '/api/product/order/pre-confirmation/{id}',
+       '/api/product/order/confirmed/{id}',
+       '/api/product/show',
+
     ];
 }

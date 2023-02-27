@@ -26,13 +26,14 @@ class AuthController extends BaseController
             $success['token'] =  $user->createToken('BikeRepairsNepal')->plainTextToken; 
             
             $success['user_detail']= $user;
-            $vehicles=customer_vehicles::where('customer_id',$user->id)->get();
+            $vehicles=customer_vehicles::where('customer_id',$user->id)->where('v_status','active')->get();
             $success['vehicles']=$vehicles;
             $record= DB::table('service_record')
             ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
             ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
-            ->select('service_record.*', 'customer_vehicles.v_no','customer_vehicles.delivery','customer_vehicles.v_remarks','users.frst_name','users.last_name','users.mobile_no')
+            ->select('service_record.*', 'customer_vehicles.v_no','customer_vehicles.distance','customer_vehicles.delivery','customer_vehicles.v_remarks','users.frst_name','users.last_name','users.mobile_no')
             ->where('customer_vehicles.customer_id',$user->id)
+            ->where('customer_vehicles.v_status','active')
             ->get();
             $success['resolved_service']=$record;
 

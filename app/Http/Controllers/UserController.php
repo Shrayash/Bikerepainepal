@@ -26,6 +26,11 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
+    // public function getMobileForPasswordReset()
+    // {
+    //     return $this->mobile;
+    // }
+
     public function create()
     {
     return view('customer.register_cust');

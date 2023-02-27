@@ -28,6 +28,7 @@
                                 
                                 <a href="{{ route('admin.index') }}"><button type="button" class="btn btn-primary btn-fw">Back to
                                         Dashboard</button></a>
+                                       
                                         <form  method="POST" class="form-sample" action="{{ route('book.cancel',$vehicles->id) }}" >
                                             @csrf
                                             <button name="preinfo"  class="btn btn-box btn-danger" onclick="return confirm('Are you sure you want to cancel this booking?')" type="submit" value="idle">Booking Cancel</button></form>

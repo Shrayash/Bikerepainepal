@@ -8,7 +8,8 @@ use Illuminate\Support\Str;
 use Validator;
 use DB;
 use App\User;
-
+use App\Inventory;
+use App\Order;
 use App\customer_vehicles;
 use App\book_customer;
 use App\service_record;
@@ -28,6 +29,21 @@ class UserController extends BaseController
     {
         $this->middleware('auth');
     }
+
+    // public function ongoing(Request $request)
+    // {
+    //   $services = DB::table('service_activities')
+    //   ->join('customer_vehicles', 'service_activities.vehicle_id', '=', 'customer_vehicles.id')
+    //   ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
+    //   ->where('customer_vehicles.v_status','active')
+    //   ->where('service_activities.work_status','ongoing')
+    //   ->where('customer_vehicles.customer_id',auth()->user()->id)
+    //   ->select('service_activities.*', 'customer_vehicles.customer_id','customer_vehicles.v_no','users.frst_name','users.last_name','users.mobile_no')
+    //   ->get();
+      
+    //   return $this->sendResponse($services, 'Retrieved ongoing services success.');
+
+    // }
     public function ongoing(Request $request)
     {
    
@@ -50,6 +66,7 @@ class UserController extends BaseController
         ->join('customer_vehicles', 'service_record.vehicle_id', '=', 'customer_vehicles.id')
         ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
         ->select('service_record.*', 'customer_vehicles.customer_id','customer_vehicles.v_no','customer_vehicles.delivery','customer_vehicles.v_remarks','users.frst_name','users.last_name','users.mobile_no')
+        ->where('customer_vehicles.v_status','active')
         ->where('customer_vehicles.customer_id',auth()->user()->id)
         ->latest()->get();
 
@@ -94,6 +111,35 @@ class UserController extends BaseController
     return $this->sendResponse($records, 'Personal User Data Updated successfully.');
   }
 
+  
+  public function hide_vehicle(Request $request,$id)
+  {
+    
+  $customer_vehicle = [];
+  $customer_vehicle['v_status'] = 'inactive';
+  DB::table('customer_vehicles')->where('id',$id)->update($customer_vehicle);
+
+  $user_details=DB::table('customer_vehicles')->where('id',$id)->first();
+  // $records = DB::table('customer_vehicles')
+  // ->where('id',$id)
+  // ->get();
+ 
+      $records = DB::table('customer_vehicles')
+  ->join('users', 'customer_vehicles.customer_id', '=', 'users.id')
+  ->where('customer_vehicles.customer_id',$user_details->customer_id)
+  ->where('customer_vehicles.v_status','active')
+  ->select('customer_vehicles.*','users.frst_name','users.last_name','users.mobile_no','users.address')
+  ->get();
+
+// $records = DB::table('users')
+// ->join('customer_vehicles', 'customer_vehicles.customer_id', '=', 'users.id')
+// // ->where('customer_vehicles.customer_id',auth()->user()->id)
+// ->where('customer_vehicles.v_status','active')
+// ->select('customer_vehicles.*','users.frst_name','users.last_name','users.mobile_no','users.address')
+// ->get();
+
+  return $this->sendResponse($records, 'Vehicle Removed successfully.');
+}
 
 
   public function update_vehicle(Request $request,$id)
@@ -133,6 +179,8 @@ class UserController extends BaseController
     $customer_vehicle['v_remarks'] = $request->get('v_remarks');
     $customer_vehicle['v_status'] = 'active';
     $info='reg';
+
+    
 
       $maxcount=count( $customer_vehicle['v_no']);
       // $customer_id = DB::table('customer_vehicles')->where('customer_id',auth()->user()->id)->select('id')->get();
@@ -222,5 +270,80 @@ $booked = DB::table('book_customer_vehicles')->where('book_customer_id',)->get()
 return $this->sendResponse($booked, 'Booking Request Sent Successfully.');
  
 // return view('booking.new_booking');
+}
+
+public function order_index(Request $request, $id)
+{
+    $product_details =[];
+    $product_details['inventory'] = Inventory::findOrfail($id);
+    $product_details['customer'] = User::findOrfail(auth()->user()->id);
+    $product_details['quantity'] = $request->get('quantity');
+    $product_details['total_price'] = $product_details['quantity'] * $product_details['inventory']->price;
+    return $this->sendResponse($product_details, 'Retrieved product detail success.');
+}
+
+public function order_store(Request $request, $id){
+
+    $order = new Order();
+    $order->item_id=$id;
+    $order->slug = Str::slug($order->item_id);
+    $order->customer_id=auth()->user()->id;
+    $order->quantity=$request->get('quantity');
+    $order->total_price=$request->get('total_price');
+    $order->status="1";
+    $order->save();
+    $order_status = [];
+
+    $order_status['pending'] = DB::table('order_items')
+           ->join('inventories', 'order_items.item_id', '=', 'inventories.id')
+            ->join('users', 'order_items.customer_id', '=', 'users.id')
+            ->where('users.id', '=', auth()->user()->id)
+            ->where('order_items.status_id', '=', '1')
+            ->select('order_items.quantity','order_items.total_price','order_items.created_at','inventories.item_code','inventories.description','inventories.item_name','inventories.price','inventories.file')
+            ->latest()->get();
+    $order_status['completed'] = DB::table('order_items')
+            ->join('inventories', 'order_items.item_id', '=', 'inventories.id')
+             ->join('users', 'order_items.customer_id', '=', 'users.id')
+             ->where('users.id', '=', auth()->user()->id)
+             ->where('order_items.status_id', '=', '2')
+             ->select('order_items.quantity','order_items.total_price','order_items.created_at','inventories.item_code','inventories.description','inventories.item_name','inventories.price','inventories.file')
+             ->latest()->get();
+    $order_status['cancelled'] = DB::table('order_items')
+             ->join('inventories', 'order_items.item_id', '=', 'inventories.id')
+              ->join('users', 'order_items.customer_id', '=', 'users.id')
+              ->where('users.id', '=', auth()->user()->id)
+              ->where('order_items.status_id', '=', '3')
+              ->select('order_items.quantity','order_items.total_price','order_items.created_at','inventories.item_code','inventories.description','inventories.item_name','inventories.price','inventories.file')
+              ->latest()->get();
+    return $this->sendResponse($order_status, 'Retrieved product detail success.');
+    
+}
+
+public function orders_show(){
+
+    $order_status = [];
+
+    $order_status['pending'] = DB::table('order_items')
+           ->join('inventories', 'order_items.item_id', '=', 'inventories.id')
+            ->join('users', 'order_items.customer_id', '=', 'users.id')
+            ->where('users.id', '=', auth()->user()->id)
+            ->where('order_items.status_id', '=', '1')
+            ->select('order_items.quantity','order_items.total_price','order_items.created_at','inventories.description','inventories.item_code','inventories.item_name','inventories.price','inventories.file')
+            ->latest()->get();
+    $order_status['completed'] = DB::table('order_items')
+            ->join('inventories', 'order_items.item_id', '=', 'inventories.id')
+             ->join('users', 'order_items.customer_id', '=', 'users.id')
+             ->where('users.id', '=', auth()->user()->id)
+             ->where('order_items.status_id', '=', '2')
+             ->select('order_items.quantity','order_items.total_price','order_items.created_at','inventories.description','inventories.item_code','inventories.item_name','inventories.price','inventories.file')
+             ->latest()->get();
+    $order_status['cancelled'] = DB::table('order_items')
+             ->join('inventories', 'order_items.item_id', '=', 'inventories.id')
+              ->join('users', 'order_items.customer_id', '=', 'users.id')
+              ->where('users.id', '=', auth()->user()->id)
+              ->where('order_items.status_id', '=', '3')
+              ->select('order_items.quantity','order_items.total_price','order_items.created_at','inventories.description','inventories.item_code','inventories.item_name','inventories.price','inventories.file')
+              ->latest()->get();
+    return $this->sendResponse($order_status, 'Retrieved product detail success.');
 }
 }

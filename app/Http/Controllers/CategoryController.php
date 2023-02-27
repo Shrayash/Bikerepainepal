@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\videos;
-use App\video_contents;
+// use App\videos;
+// use App\video_contents;
 use App\category;
+use Validator;
 use DB;
 use Illuminate\Support\Str;
 
@@ -56,66 +57,87 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function category($id)
-    {
-        try{
-            $category = category::findOrFail($id);
-            $name=$category->id;
-            $videos= videos::where('department',$name)->where('status',1)->get(); 
-            $videocontents = video_contents::all();
-            $categories = category::all();
-        } catch(\Exception $exception) { 
-            throw new NotFoundException();
-        }
-        return view('category.main')->with('videos',$videos)->with('videocontents',$videocontents)->with('category',$category)->with('categories',$categories);
 
-       
+    public function create()
+    {
+        $category = category::all();
+        return view('category.create')->with('category',$category);
     }
 
-    public function allname()
+    public function store(Request $request)
     {
-      
-                $videos=videos::orderBy('video_lecture', 'asc')->where('status',1)->get();
-                $groups = $videos->reduce(function ($carry, $videos) {
-                // get first letter
-                $first_letter = $videos['video_lecture'][0];
-                
-                if ( !isset($carry[$first_letter]) ) {
-                    $carry[$first_letter] = [];
-                }
-                $carry[$first_letter][] = $videos;
-                return $carry;
 
-            }, []);
-      
-        return view('allnames.allnames')->with('groups',$groups);
+        $values = array(
+            'category_name' => 'required',
+            'description' => 'required'
+          );
+          $error = Validator::make($request->all(), $values);
+          if($error->fails())
+          {
+            // return Redirect::to('register')->withErrors($error);
+          return response()->json([
+            'error'  => $error->errors()->all()
+          ]);
+          }
+
+
+          $category = new category();
+          $category->category_name = $request->get('category_name');
+          $category->slug = Str::slug($category->category_name);
+          $category->description = $request->get('description');
+          $category->save();
+
+          return redirect()->route('category.create')->with(['message'=> 'Category Added Sucessfully! View table below for details.']);
+
     }
 
-
-
-   
-    public function search(Request $request)
+    public function edit($id)
     {
-      $search_query = $request->search_query;
+      // dd('here');
+        // $category = [];
+        $category = category::findOrfail($id);
+        return view('category.edit',['category'=>$category,'id'=>$id]);
+      
+    }
 
-     if($request->ajax())
-     {
-      if($search_query != '')
-      {
-        $doc= User::where('status',1)->where('name', 'like', '%'.$search_query.'%')->get();
-        $data= videos::where('status',1)->where('video_lecture', 'like', '%'.$search_query.'%')->get();
+    public function update(Request $request, $id)
+    {
+        $values = array(
+            'category_name' => 'required',
+            'description' => 'required'
+          );
+          $error = Validator::make($request->all(), $values);
+          if($error->fails())
+          {
+            // return Redirect::to('register')->withErrors($error);
+          return response()->json([
+            'error'  => $error->errors()->all()
+          ]);
+          }
+
+
+          $category =category::find($id);
+          $category->category_name = $request->get('category_name');
+          $category->slug = Str::slug($category->category_name);
+          $category->description = $request->get('description');
+          $category->save();
+
+          return redirect()->route('category.edit',$id)->with(['message'=> 'Category Updated Sucessfully']);
+      
+    }
+
+    public function delete($id)
+    {
         
-      }
-      else
-      {
-        $data='Nothing to display';
-        $doc ='Nothing to display';
-      }
-
-      return response()->json(array('data'=>$data,'doc'=>$doc));
-     }else{
-      
-      
-     }
+                $category = category::find($id);
+                $category->delete();
+                if($category){
+                    return redirect()->route('category.create')->with(['message'=> 'Category Removed Sucessfully']);
+                    }
+                    else{
+                        return redirect()->route('category.create')->with(['error'=> 'Error while deleting!!']);
+                    }
+           
     }
+    
 }
